@@ -91,7 +91,6 @@ job_test_criterion_clang:
 job_success:
     stage: webhook
     script:
-        - make clean
         - wget https://gitlab.com/cedricfarinazzo/gitlab-ci-discord-webhook/raw/master/send.sh
         - chmod +x send.sh
         - ./send.sh success $WEBHOOK_URL
@@ -101,7 +100,6 @@ job_success:
 job_failure:
     stage: webhook
     script:
-        - make clean
         - wget https://gitlab.com/cedricfarinazzo/gitlab-ci-discord-webhook/raw/master/send.sh
         - chmod +x send.sh
         - ./send.sh failure $WEBHOOK_URL
