@@ -1,6 +1,2 @@
-#ifndef _ANN_TOOLS_H_
-#define _ANN_TOOLS_H_
+#include "tools.h"
 
-
-
-#endif /* _ANN_TOOLS_H_ */

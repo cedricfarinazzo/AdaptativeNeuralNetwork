@@ -18,3 +18,9 @@ add_custom_target(check
     COMMENT "Running test !!!"
     DEPENDS ANNTest
 )
+
+add_custom_target(run
+    COMMAND ${CMAKE_BINARY_DIR}/src/Main/ANNMain
+    COMMENT "Running Main !!!"
+    DEPENDS ANNMain
+)
