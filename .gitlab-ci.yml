@@ -1,0 +1,106 @@
+image: cedricfarinazzo/archlinux-criterion-c:latest
+
+stages:
+  - build
+  - test
+  - webhook
+  
+before_script:
+  - pacman -Syyu --noconfirm
+
+
+##################
+# BUILD STAGE
+job_build_gcc:
+  stage: build
+  artifacts:
+    untracked: true
+  variables:
+      CC: gcc
+  script:
+    - mkdir build
+    - cd build
+    - cmake ..
+    - make CC=${CC}
+
+job_build_clang:
+  stage: build
+  artifacts:
+    untracked: true
+  variables:
+      CC: clang
+  script:
+    - mkdir build
+    - cd build
+    - cmake ..
+    - make CC=${CC}
+
+job_build_scan-build_gcc:
+  stage: build
+  artifacts:
+    paths:
+      - report/*
+  variables:
+      CC: gcc
+  script:
+    - mkdir build
+    - cd build
+    - cmake ..
+    - scan-build -analyze-headers -stats -maxloop 8 -o report make -j4 CC=${CC}
+    
+
+################
+# TEST STAGE 
+# GCC
+job_test_main_gcc:
+  stage: test
+  dependencies: 
+    - job_build_gcc
+  script:
+    - make run
+  allow_failure: true
+
+job_test_criterion_gcc:
+  stage: test
+  dependencies: 
+    - job_build_gcc
+  script:
+    - make check
+
+# CLANG
+job_test_main_clang:
+  stage: test
+  dependencies: 
+    - job_build_clang
+  script:
+    - make run
+  allow_failure: true
+
+job_test_criterion_clang:
+  stage: test
+  dependencies: 
+    - job_build_clang
+  script:
+    - make check
+
+
+#############
+# WEBHOOK STAGE
+job_success:
+    stage: webhook
+    script:
+        - make clean
+        - wget https://gitlab.com/cedricfarinazzo/gitlab-ci-discord-webhook/raw/master/send.sh
+        - chmod +x send.sh
+        - ./send.sh success $WEBHOOK_URL
+    when: on_success
+
+
+job_failure:
+    stage: webhook
+    script:
+        - make clean
+        - wget https://gitlab.com/cedricfarinazzo/gitlab-ci-discord-webhook/raw/master/send.sh
+        - chmod +x send.sh
+        - ./send.sh failure $WEBHOOK_URL
+    when: on_failure
