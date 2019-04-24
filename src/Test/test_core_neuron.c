@@ -117,3 +117,11 @@ Test(NEURON, Clone_all)
     NEURON_free(b);
 }
 
+Test(NEURON, AllocFail)
+{
+    size_t s = 3141592653589793238;
+    struct NEURON *n = NEURON_new(s, f_init, f_act);
+    cr_expect_null(n);
+    NEURON_free(n);
+}
+
