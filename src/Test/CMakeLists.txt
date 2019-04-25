@@ -1,4 +1,4 @@
-FILE(GLOB TSTFILES *.c)
+FILE(GLOB_RECURSE TSTFILES *.c)
 
 add_executable(ANNTest ${TSTFILES})
 target_link_libraries(ANNTest m) #math.h

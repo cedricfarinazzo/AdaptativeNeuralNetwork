@@ -5,7 +5,7 @@ set (ANN_VERSION_MINOR 1)
 
 add_compile_options(-Wall -Wextra -pedantic -Wformat=2 -std=c99)
 
-set (CMAKE_C_FLAGS_DEBUG "-g")
+set (CMAKE_C_FLAGS_DEBUG "-fsanitize=address -g3")
 
 cmake_policy(SET CMP0079 NEW)
 

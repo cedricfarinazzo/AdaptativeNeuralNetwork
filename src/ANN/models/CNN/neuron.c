@@ -3,11 +3,11 @@
 #include "neuron.h"
 
 
-struct NEURON *NEURON_new(size_t size, double(*f_init)(), double(*f_act)(double))
+struct CNN_NEURON *CNN_NEURON_new(size_t size, double(*f_init)(), double(*f_act)(double))
 {
     if (size == 0 || f_init == NULL)
         return NULL;
-    struct NEURON *n = malloc(sizeof(struct NEURON));
+    struct CNN_NEURON *n = malloc(sizeof(struct CNN_NEURON));
     if (n == NULL)
         return NULL;
     n->weights = malloc(sizeof(double) * size);
@@ -23,14 +23,14 @@ struct NEURON *NEURON_new(size_t size, double(*f_init)(), double(*f_act)(double)
 }
 
 
-void NEURON_clear(struct NEURON *n)
+void CNN_NEURON_clear(struct CNN_NEURON *n)
 {
     if (n != NULL)
         n->output = n->activation = n->delta = 0;
 }
 
 
-void NEURON_free(struct NEURON *n)
+void CNN_NEURON_free(struct CNN_NEURON *n)
 {
     if (n != NULL)
     {
@@ -40,7 +40,7 @@ void NEURON_free(struct NEURON *n)
 }
 
 
-double NEURON_feedforward(struct NEURON *n, double *inputs, double(*f_act)(double))
+double CNN_NEURON_feedforward(struct CNN_NEURON *n, double *inputs, double(*f_act)(double))
 {
     if (n == NULL || inputs == NULL)
         return 0;
@@ -56,17 +56,17 @@ double NEURON_feedforward(struct NEURON *n, double *inputs, double(*f_act)(doubl
 }
 
 
-struct NEURON *NEURON_clone_stat(struct NEURON *n)
+struct CNN_NEURON *CNN_NEURON_clone_stat(struct CNN_NEURON *n)
 {
     if (n == NULL) return NULL;
-    return NEURON_new(n->size, n->f_init, n->f_act);
+    return CNN_NEURON_new(n->size, n->f_init, n->f_act);
 }
 
 
-struct NEURON *NEURON_clone_all(struct NEURON *n)
+struct CNN_NEURON *CNN_NEURON_clone_all(struct CNN_NEURON *n)
 {
     if (n == NULL) return NULL;
-    struct NEURON *b = malloc(sizeof(struct NEURON));
+    struct CNN_NEURON *b = malloc(sizeof(struct CNN_NEURON));
     if (b == NULL)
         return NULL;
     b->weights = malloc(sizeof(double) * n->size);
