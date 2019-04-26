@@ -98,3 +98,33 @@ Test(CNN_LAYER, Builder2)
     CNN_LAYER_free(l3);   
     CNN_LAYER_free(l4);   
 }
+
+Test(CNN_LAYER, FeedForward)
+{
+    struct CNN_LAYER *l1 = CNN_LAYER_new_input(2, f_act_input);
+    struct CNN_LAYER *l2 = CNN_LAYER_new(NULL, NULL);
+    struct CNN_LAYER *l3 = CNN_LAYER_new(NULL, NULL);
+    
+    cr_expect_eq(CNN_LAYER_connect(l1, l2, 2, 2, 0, 0, f_init_rand_norm, f_act_sigmoid), 0);
+    cr_expect_eq(CNN_LAYER_connect(l2, l3, 2, 1, 0, 0, f_init_rand_norm, f_act_sigmoid), 0);
+    
+    cr_expect_eq(CNN_LAYER_build(l1), 0);
+    cr_expect_eq(CNN_LAYER_build(l2), 0);
+    cr_expect_eq(CNN_LAYER_build(l3), 0);
+
+    CNN_LAYER_clear(l1);
+    CNN_LAYER_clear(l2);
+    CNN_LAYER_clear(l3);
+    
+    double inputs[] = {1, 0.1};
+    CNN_LAYER_feedforward_input(l1, inputs);
+    CNN_LAYER_feedforward(l2);
+    CNN_LAYER_feedforward(l3);
+    
+    cr_expect_neq(l3->neurons[l3->size - 1]->output, 0);
+    
+    CNN_LAYER_free(l1);
+    CNN_LAYER_free(l2);
+    CNN_LAYER_free(l3);   
+
+}

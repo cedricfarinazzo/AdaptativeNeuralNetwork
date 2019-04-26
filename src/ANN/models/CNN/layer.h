@@ -54,4 +54,13 @@ int CNN_LAYER_connect(struct CNN_LAYER *from, struct CNN_LAYER *to,
 
 int CNN_LAYER_build(struct CNN_LAYER *l);
 
+
+void CNN_LAYER_feedforward_input(struct CNN_LAYER *l, double *inputs);
+
+
+void CNN_LAYER_feedforward(struct CNN_LAYER *l);
+
+
+void CNN_LAYER_clear(struct CNN_LAYER *l);
+
 #endif /* _ANN_MODELS_CNN_LAYER_H_ */
