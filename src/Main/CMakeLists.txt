@@ -1,3 +1,3 @@
-FILE(GLOB TSTFILES *.c)
+FILE(GLOB EXEFILES *.c)
 
-add_executable(ANNMain ${TSTFILES})
+add_executable(ANNMain ${EXEFILES})

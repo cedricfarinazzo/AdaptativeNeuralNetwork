@@ -5,7 +5,7 @@
 
 struct CNN_NEURON *CNN_NEURON_new(size_t size, double(*f_init)(), double(*f_act)(double))
 {
-    if (size == 0 || f_init == NULL)
+    if (f_init == NULL)
         return NULL;
     struct CNN_NEURON *n = malloc(sizeof(struct CNN_NEURON));
     if (n == NULL)

@@ -42,7 +42,7 @@ Test(CNN_NEURON, Init)
 Test(CNN_NEURON, WrongInit)
 {
     size_t s = 0;
-    struct CNN_NEURON *n = CNN_NEURON_new(s, f_init, NULL);
+    struct CNN_NEURON *n = CNN_NEURON_new(s, NULL, NULL);
     cr_expect_null(n);
     CNN_NEURON_free(n);
 }
