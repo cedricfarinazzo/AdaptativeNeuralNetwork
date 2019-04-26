@@ -40,6 +40,17 @@ void CNN_NEURON_free(struct CNN_NEURON *n)
 }
 
 
+void CNN_NEURON_addinputs(struct CNN_NEURON *n, size_t inputs)
+{
+    if (n == NULL || inputs <= 0) return;
+    size_t i = n->size;
+    n->size += inputs;
+    n->weights = realloc(n->weights, sizeof(double) * n->size);
+    for (; i < n->size; ++i)
+        n->weights[i] = n->f_init();
+}
+
+
 double CNN_NEURON_feedforward(struct CNN_NEURON *n, double *inputs, double(*f_act)(double))
 {
     if (n == NULL || inputs == NULL)

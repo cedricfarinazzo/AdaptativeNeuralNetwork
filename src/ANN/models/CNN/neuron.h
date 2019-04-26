@@ -11,7 +11,7 @@ struct CNN_NEURON {
     double activation, delta;
     double(*f_init)();
     double(*f_act)(double);
-} CNN_NEURON;
+};
 
 
 struct CNN_NEURON *CNN_NEURON_new(size_t size, double(*f_init)(), double(*f_act)(double));
@@ -21,6 +21,9 @@ void CNN_NEURON_clear(struct CNN_NEURON *n);
 
 
 void CNN_NEURON_free(struct CNN_NEURON *n);
+
+
+void CNN_NEURON_addinputs(struct CNN_NEURON *n, size_t inputs);
 
 
 double CNN_NEURON_feedforward(struct CNN_NEURON *n, double *inputs, double(*f_act)(double));

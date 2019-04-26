@@ -48,7 +48,7 @@ void CNN_LAYER_free(struct CNN_LAYER *l)
 
 int CNN_LAYER_addn(struct CNN_LAYER *l, size_t size, size_t inputs, double(*f_init)(), double(*f_act)(double))
 {
-    if (size == 0 && inputs == 0) return 1;
+    if (size <= 0 && inputs == 0) return 1;
     if (f_init == NULL && l->f_init != NULL)
         f_init = l->f_init;
     if (f_init == NULL) return 1;
@@ -71,27 +71,28 @@ struct CNN_LAYER *CNN_NEURON_new_input(size_t size, double(*f_init)(), double(*f
     if (l == NULL) return NULL;
     if (CNN_LAYER_addn(l, size, 1, f_init, f_act) != 0)
     {   CNN_LAYER_free(l); return NULL; }
-    l->isInput = 1;
+    l->type = CNN_LAYER_INPUT;
     return l;
 }
 
 
-int CNN_LAYER_connect(struct CNN_LAYER *from, struct CNN_LAYER *to, 
-                       size_t size_from, size_t size_to, size_t offset_from, 
+int CNN_LAYER_connect(struct CNN_LAYER *from, struct CNN_LAYER *to,
+                       size_t size_from, size_t size_to,
+                       size_t offset_from, size_t offset_to,
                        double(*f_init_to)(), double(*f_act_to)(double))
 {
     if (from == NULL || to == NULL) return 1;
     size_t ifrom = from->nblinks;
     size_t ito = to->nblinks;
     
-    struct CNN_LAYER_link *link = malloc(sizeof(struct CNN_LAYER_link))
+    struct CNN_LAYER_LINK *link = malloc(sizeof(struct CNN_LAYER_LINK))
     ;
     if (link == NULL) return -1;
     
     ++from->nblinks; ++to->nblinks;
-    from->links = realloc(from->links, sizeof(struct CNN_LAYER_link) * from->nblinks);
+    from->links = realloc(from->links, sizeof(struct CNN_LAYER_LINK*) * from->nblinks);
     if (from->links == NULL) { free(link); return -1; }
-    to->links = realloc(to->links, sizeof(struct CNN_LAYER_link) * to->nblinks);
+    to->links = realloc(to->links, sizeof(struct CNN_LAYER_LINK*) * to->nblinks);
     if (to->links == NULL) { free(link); return -1; }
     
     link->from = from;
@@ -106,7 +107,7 @@ int CNN_LAYER_connect(struct CNN_LAYER *from, struct CNN_LAYER *to,
     link->f_act_to = f_act_to;
     
     link->in_from = offset_from;
-    link->in_to = 0;
+    link->in_to = offset_to;
     link->isInitFrom = link->isInitTo = 0;
     
     from->links[ifrom] = from->links[ito] = link;
@@ -117,25 +118,36 @@ int CNN_LAYER_connect(struct CNN_LAYER *from, struct CNN_LAYER *to,
 
 int CNN_LAYER_build(struct CNN_LAYER *l)
 {
+    size_t nbfromlinks = 0; size_t nbtolinks = 0;
     if (l == NULL) return 1;
     for(size_t k = 0; k < l->nblinks; ++k)
     {
-        struct CNN_LAYER_link *link = l->links[k];
+        struct CNN_LAYER_LINK *link = l->links[k];
         if (link == NULL) continue;
-
         if (link->from == l && link->isInitFrom == 0) {
             size_t t = link->in_from + link->size_from;
-            if (t >= l->size)
-                return -1;            
-            link->isInitFrom = 1;
+            if (t >= l->size) return -1;
+            link->isInitFrom = 1; ++nbfromlinks;
         }
         if (link->to == l && link->isInitTo == 0) {
-            link->in_to = l->size;
-            if (CNN_LAYER_addn(l, link->size_to, link->size_from, link->f_init_to, link->f_act_to))
+            if (link->in_to > l->size) return 1;
+            for(size_t i = link->in_to; i < l->size; ++i) {
+                CNN_NEURON_addinputs(l->neurons[i], 
+                    link->size_from > l->neurons[i]->size ? link->size_from - l->neurons[i]->size : 0);
+            }
+            if (CNN_LAYER_addn(l,
+                    link->size_to > link->in_to ? link->size_to - link->in_to : 0
+                    , link->size_from, link->f_init_to, link->f_act_to))
                 return -1;
-            link->isInitTo = 1;
+            link->isInitTo = 1; ++nbtolinks;
         }
     }
+    if (nbfromlinks == 0)
+        l->type = CNN_LAYER_OUTPUT;
+    else if (nbtolinks == 0)
+        l->type = CNN_LAYER_INPUT;
+    else
+        l->type = CNN_LAYER_HIDDEN;
     return 0;
 }
 
