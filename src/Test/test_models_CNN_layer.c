@@ -23,7 +23,7 @@ Test(CNN_LAYER, Init)
 
 Test(CNN_LAYER, InitInput)
 {
-    struct CNN_LAYER *l = CNN_LAYER_new_input(42, f_init_input, f_act_input);
+    struct CNN_LAYER *l = CNN_LAYER_new_input(42, f_act_input);
     cr_expect_eq(l->size, 42);
     cr_expect_eq(l->nblinks, 0);
     
@@ -39,7 +39,7 @@ Test(CNN_LAYER, InitInput)
 
 Test(CNN_LAYER, Connect)
 {
-    struct CNN_LAYER *l1 = CNN_LAYER_new_input(10, f_init_input, f_act_input);
+    struct CNN_LAYER *l1 = CNN_LAYER_new_input(10, f_act_input);
     struct CNN_LAYER *l2 = CNN_LAYER_new(NULL, NULL);
     
     cr_expect_eq(CNN_LAYER_connect(l1, l2, 10, 25, 0, 0, f_init_rand_norm, f_act_sigmoid), 0);
@@ -50,7 +50,7 @@ Test(CNN_LAYER, Connect)
 
 Test(CNN_LAYER, Builder)
 {
-    struct CNN_LAYER *l1 = CNN_LAYER_new_input(2, f_init_input, f_act_input);
+    struct CNN_LAYER *l1 = CNN_LAYER_new_input(2, f_act_input);
     struct CNN_LAYER *l2 = CNN_LAYER_new(NULL, NULL);
     struct CNN_LAYER *l3 = CNN_LAYER_new(NULL, NULL);
     
@@ -72,7 +72,7 @@ Test(CNN_LAYER, Builder)
 
 Test(CNN_LAYER, Builder2)
 {
-    struct CNN_LAYER *l1 = CNN_LAYER_new_input(2, f_init_input, f_act_input);
+    struct CNN_LAYER *l1 = CNN_LAYER_new_input(2, f_act_input);
     struct CNN_LAYER *l2 = CNN_LAYER_new(NULL, NULL);
     struct CNN_LAYER *l3 = CNN_LAYER_new(NULL, NULL);
     struct CNN_LAYER *l4 = CNN_LAYER_new(NULL, NULL);

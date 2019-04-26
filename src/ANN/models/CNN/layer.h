@@ -2,6 +2,7 @@
 #define _ANN_MODELS_CNN_LAYER_H_
 
 #include <stdlib.h>
+#include "../../tools.h"
 #include "neuron.h"
 
 enum CNN_LAYER_TYPE {
@@ -42,7 +43,7 @@ void CNN_LAYER_free(struct CNN_LAYER *l);
 int CNN_LAYER_addn(struct CNN_LAYER *l, size_t size, size_t inputs, double(*f_init)(), double(*f_act)(double));
 
 
-struct CNN_LAYER *CNN_LAYER_new_input(size_t size, double(*f_init)(), double(*f_act)(double));
+struct CNN_LAYER *CNN_LAYER_new_input(size_t size, double(*f_act)(double));
 
 
 int CNN_LAYER_connect(struct CNN_LAYER *from, struct CNN_LAYER *to,

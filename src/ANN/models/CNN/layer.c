@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "neuron.h"
+#include "../../tools.h"
 
 #include "layer.h"
 
@@ -68,11 +69,11 @@ int CNN_LAYER_addn(struct CNN_LAYER *l, size_t size, size_t inputs, double(*f_in
 }
 
 
-struct CNN_LAYER *CNN_LAYER_new_input(size_t size, double(*f_init)(), double(*f_act)(double))
+struct CNN_LAYER *CNN_LAYER_new_input(size_t size, double(*f_act)(double))
 {
-    struct CNN_LAYER *l = CNN_LAYER_new(f_init, f_act);
+    struct CNN_LAYER *l = CNN_LAYER_new(f_init_input, f_act);
     if (l == NULL) return NULL;
-    if (CNN_LAYER_addn(l, size, 1, f_init, f_act) != 0)
+    if (CNN_LAYER_addn(l, size, 1, f_init_input, f_act) != 0)
     {   CNN_LAYER_free(l); return NULL; }
     l->type = CNN_LAYER_INPUT;
     return l;

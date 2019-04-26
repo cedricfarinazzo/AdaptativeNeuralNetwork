@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
     srand(time(NULL));
 
     //Creation of 1 input layer, 2 hidden layers and 1 ouput layer
-    struct CNN_LAYER *i = CNN_LAYER_new_input(2, f_init_input, f_act_input);
+    struct CNN_LAYER *i = CNN_LAYER_new_input(2, f_act_input);
     struct CNN_LAYER *h1 = CNN_LAYER_new(NULL, NULL);
     struct CNN_LAYER *h2 = CNN_LAYER_new(NULL, NULL);
     struct CNN_LAYER *o = CNN_LAYER_new(NULL, NULL);
