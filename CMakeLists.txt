@@ -16,13 +16,19 @@ cmake_policy(SET CMP0079 NEW)
 add_subdirectory(src/)
 
 add_custom_target(check
-    COMMAND ${CMAKE_BINARY_DIR}/src/Test/ANNTest
+    COMMAND ASAN_OPTIONS=allocator_may_return_null=1 ${CMAKE_BINARY_DIR}/src/Test/ANNTest -j0
     COMMENT "Running test !!!"
     DEPENDS ANNTest
 )
 
 add_custom_target(run
-    COMMAND ${CMAKE_BINARY_DIR}/src/Main/ANNMain -j0
+    COMMAND ${CMAKE_BINARY_DIR}/src/Main/ANNMain
+    COMMENT "Running Main !!!"
+    DEPENDS ANNMain
+)
+
+add_custom_target(gdb
+    COMMAND gdb ${CMAKE_BINARY_DIR}/src/Main/ANNMain
     COMMENT "Running Main !!!"
     DEPENDS ANNMain
 )
