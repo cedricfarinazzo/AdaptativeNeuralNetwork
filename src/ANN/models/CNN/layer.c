@@ -60,12 +60,15 @@ int CNN_LAYER_addn(struct CNN_LAYER *l, size_t size, size_t inputs, double(*f_in
     l->neurons = realloc(l->neurons, sizeof(struct CNN_NEURON*) * l->size);
     if (l->neurons == NULL) return -1;
     for(size_t i = l->size - size; i < l->size; ++i)
+    {
         l->neurons[i] = CNN_NEURON_new(inputs, f_init, f_act);
+        if (l->neurons[i] == NULL) return -1;
+    }
     return 0;
 }
 
 
-struct CNN_LAYER *CNN_NEURON_new_input(size_t size, double(*f_init)(), double(*f_act)(double))
+struct CNN_LAYER *CNN_LAYER_new_input(size_t size, double(*f_init)(), double(*f_act)(double))
 {
     struct CNN_LAYER *l = CNN_LAYER_new(f_init, f_act);
     if (l == NULL) return NULL;

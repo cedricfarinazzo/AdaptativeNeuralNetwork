@@ -1,35 +1,18 @@
 /*
- * test_core_neuron.c
+ * test_models_CNN_neuron.c
  *
  */
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#include <time.h>
 
 #include <criterion/criterion.h>
 
 #include "../ANN/models/CNN/neuron.h"
+#include "../ANN/tools.h"
 
-void setup() {
-    srand(time(NULL));
-}
-
-double f_init()
-{
-    return (((double)rand())/RAND_MAX*2.0-1.0)/2.0;
-}
-
-double f_act(double n)
-{
-    return 1/(1+exp(-n));
-}
 
 Test(CNN_NEURON, Init)
 {
     size_t s = 2;
-    struct CNN_NEURON *n = CNN_NEURON_new(s, f_init, f_act);
+    struct CNN_NEURON *n = CNN_NEURON_new(s, f_init_rand_norm, f_act_sigmoid);
     cr_expect_not_null(n);
     cr_expect_eq(n->size, s);
     cr_expect_eq(n->output, 0);
@@ -50,10 +33,10 @@ Test(CNN_NEURON, WrongInit)
 Test(CNN_NEURON, feedforward)
 {
     size_t s = 2;
-    struct CNN_NEURON *n = CNN_NEURON_new(s, f_init, NULL);
+    struct CNN_NEURON *n = CNN_NEURON_new(s, f_init_rand_norm, NULL);
     
     double inputs[] = {2.5, 3.14159};
-    cr_expect_neq(CNN_NEURON_feedforward(n, inputs, f_act), 0);
+    cr_expect_neq(CNN_NEURON_feedforward(n, inputs, f_act_sigmoid), 0);
     CNN_NEURON_clear(n);
     cr_expect_eq(n->output, 0);
     cr_expect_eq(n->activation, 0);
@@ -65,7 +48,7 @@ Test(CNN_NEURON, feedforward)
 Test(CNN_NEURON, feedforward2)
 {
     size_t s = 2;
-    struct CNN_NEURON *n = CNN_NEURON_new(s, f_init, f_act);
+    struct CNN_NEURON *n = CNN_NEURON_new(s, f_init_rand_norm, f_act_sigmoid);
     
     double inputs[] = {2.5, 3.14159};
     cr_expect_neq(CNN_NEURON_feedforward(n, inputs, NULL), 0);
@@ -80,7 +63,7 @@ Test(CNN_NEURON, feedforward2)
 Test(CNN_NEURON, Clone_stat)
 {
     size_t s = 3;
-    struct CNN_NEURON *n = CNN_NEURON_new(s, f_init, NULL);
+    struct CNN_NEURON *n = CNN_NEURON_new(s, f_init_rand_norm, NULL);
     
     struct CNN_NEURON *b = CNN_NEURON_clone_stat(n);
     cr_expect_not_null(b);
@@ -97,7 +80,7 @@ Test(CNN_NEURON, Clone_stat)
 Test(CNN_NEURON, Clone_all)
 {
     size_t s = 42;
-    struct CNN_NEURON *n = CNN_NEURON_new(s, f_init, f_act);
+    struct CNN_NEURON *n = CNN_NEURON_new(s, f_init_rand_norm, f_act_sigmoid);
     
     struct CNN_NEURON *b = CNN_NEURON_clone_all(n);
     cr_expect_not_null(b);
@@ -120,7 +103,7 @@ Test(CNN_NEURON, Clone_all)
 Test(CNN_NEURON, AllocFail)
 {
     size_t s = 3141592653589793238;
-    struct CNN_NEURON *n = CNN_NEURON_new(s, f_init, f_act);
+    struct CNN_NEURON *n = CNN_NEURON_new(s, f_init_rand_norm, f_act_sigmoid);
     cr_expect_null(n);
     CNN_NEURON_free(n);
 }
