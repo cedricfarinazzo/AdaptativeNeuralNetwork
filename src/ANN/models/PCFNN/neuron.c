@@ -3,11 +3,11 @@
 #include "neuron.h"
 
 
-struct CNN_NEURON *CNN_NEURON_new(size_t size, double(*f_init)(), double(*f_act)(double))
+struct PCFNN_NEURON *PCFNN_NEURON_new(size_t size, double(*f_init)(), double(*f_act)(double))
 {
     if (f_init == NULL)
         return NULL;
-    struct CNN_NEURON *n = malloc(sizeof(struct CNN_NEURON));
+    struct PCFNN_NEURON *n = malloc(sizeof(struct PCFNN_NEURON));
     if (n == NULL)
         return NULL;
     n->weights = malloc(sizeof(double) * size);
@@ -23,14 +23,14 @@ struct CNN_NEURON *CNN_NEURON_new(size_t size, double(*f_init)(), double(*f_act)
 }
 
 
-void CNN_NEURON_clear(struct CNN_NEURON *n)
+void PCFNN_NEURON_clear(struct PCFNN_NEURON *n)
 {
     if (n != NULL)
         n->output = n->activation = n->delta = 0;
 }
 
 
-void CNN_NEURON_free(struct CNN_NEURON *n)
+void PCFNN_NEURON_free(struct PCFNN_NEURON *n)
 {
     if (n != NULL)
     {
@@ -40,7 +40,7 @@ void CNN_NEURON_free(struct CNN_NEURON *n)
 }
 
 
-void CNN_NEURON_addinputs(struct CNN_NEURON *n, size_t inputs)
+void PCFNN_NEURON_addinputs(struct PCFNN_NEURON *n, size_t inputs)
 {
     if (n == NULL || inputs <= 0) return;
     size_t i = n->size;
@@ -51,7 +51,7 @@ void CNN_NEURON_addinputs(struct CNN_NEURON *n, size_t inputs)
 }
 
 
-double CNN_NEURON_feedforward(struct CNN_NEURON *n, double *inputs, double(*f_act)(double))
+double PCFNN_NEURON_feedforward(struct PCFNN_NEURON *n, double *inputs, double(*f_act)(double))
 {
     if (n == NULL || inputs == NULL)
         return 0;
@@ -67,17 +67,17 @@ double CNN_NEURON_feedforward(struct CNN_NEURON *n, double *inputs, double(*f_ac
 }
 
 
-struct CNN_NEURON *CNN_NEURON_clone_stat(struct CNN_NEURON *n)
+struct PCFNN_NEURON *PCFNN_NEURON_clone_stat(struct PCFNN_NEURON *n)
 {
     if (n == NULL) return NULL;
-    return CNN_NEURON_new(n->size, n->f_init, n->f_act);
+    return PCFNN_NEURON_new(n->size, n->f_init, n->f_act);
 }
 
 
-struct CNN_NEURON *CNN_NEURON_clone_all(struct CNN_NEURON *n)
+struct PCFNN_NEURON *PCFNN_NEURON_clone_all(struct PCFNN_NEURON *n)
 {
     if (n == NULL) return NULL;
-    struct CNN_NEURON *b = malloc(sizeof(struct CNN_NEURON));
+    struct PCFNN_NEURON *b = malloc(sizeof(struct PCFNN_NEURON));
     if (b == NULL)
         return NULL;
     b->weights = malloc(sizeof(double) * n->size);
