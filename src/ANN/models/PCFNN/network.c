@@ -21,6 +21,7 @@ void PCFNN_NETWORK_free(struct PCFNN_NETWORK *net)
     if (net == NULL) return;
     for(size_t i = 0; i < net->size; ++i)
         PCFNN_LAYER_free(net->layers[i]);
+    free(net->layers);
     free(net);
 }
 
@@ -35,7 +36,7 @@ void PCFNN_NETWORK_clear(struct PCFNN_NETWORK *net)
 
 int PCFNN_NETWORK_addl(struct PCFNN_NETWORK *net, struct PCFNN_LAYER *l)
 {
-    if (net == NULL) return 1;
+    if (net == NULL || l == NULL) return 1;
     ++net->size;
     net->layers = realloc(net->layers, sizeof(struct PCFNN_LAYER*) * net->size);
     if (net->layers == NULL) return -1;
@@ -64,6 +65,7 @@ void PCFNN_NETWORK_build(struct PCFNN_NETWORK *net)
 
 void PCFNN_NETWORK_feedforward(struct PCFNN_NETWORK *net, double *inputs)
 {
+    if (net == NULL) return;
     PCFNN_LAYER_feedforward_input(net->inputl, inputs);
     for(size_t i = 0; i < net->size; ++i)
     {
@@ -75,6 +77,7 @@ void PCFNN_NETWORK_feedforward(struct PCFNN_NETWORK *net, double *inputs)
 
 double *PCFNN_NETWORK_get_output(struct PCFNN_NETWORK *net)
 {
+    if (net == NULL) return NULL;
     double *output = malloc(sizeof(double) * net->outputl->size);
     for(size_t i = 0; i < net->outputl->size; ++i)
         output[i] = net->outputl->neurons[i]->output;
