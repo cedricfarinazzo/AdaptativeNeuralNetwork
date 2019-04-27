@@ -12,7 +12,7 @@
 Test(PCFNN_NEURON, Init)
 {
     size_t s = 2;
-    struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, f_init_rand_norm, f_act_sigmoid);
+    struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
     cr_expect_not_null(n);
     cr_expect_eq(n->size, s);
     cr_expect_eq(n->output, 0);
@@ -22,21 +22,23 @@ Test(PCFNN_NEURON, Init)
     PCFNN_NEURON_free(n);
 }
 
+
 Test(PCFNN_NEURON, WrongInit)
 {
     size_t s = 0;
-    struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, NULL, NULL);
+    struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, NULL, NULL, NULL);
     cr_expect_null(n);
     PCFNN_NEURON_free(n);
 }
 
+
 Test(PCFNN_NEURON, feedforward)
 {
     size_t s = 2;
-    struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, f_init_rand_norm, NULL);
+    struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, f_init_rand_norm, NULL, NULL);
     
     double inputs[] = {2.5, 3.14159};
-    cr_expect_neq(PCFNN_NEURON_feedforward(n, inputs, f_act_sigmoid), 0);
+    cr_expect_neq(PCFNN_NEURON_feedforward(n, inputs, f_act_sigmoid, f_act_sigmoid_de), 0);
     PCFNN_NEURON_clear(n);
     cr_expect_eq(n->output, 0);
     cr_expect_eq(n->activation, 0);
@@ -44,14 +46,15 @@ Test(PCFNN_NEURON, feedforward)
 
     PCFNN_NEURON_free(n);
 }
+
 
 Test(PCFNN_NEURON, feedforward2)
 {
     size_t s = 2;
-    struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, f_init_rand_norm, f_act_sigmoid);
+    struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
     
     double inputs[] = {2.5, 3.14159};
-    cr_expect_neq(PCFNN_NEURON_feedforward(n, inputs, NULL), 0);
+    cr_expect_neq(PCFNN_NEURON_feedforward(n, inputs, NULL, NULL), 0);
     PCFNN_NEURON_clear(n);
     cr_expect_eq(n->output, 0);
     cr_expect_eq(n->activation, 0);
@@ -60,10 +63,11 @@ Test(PCFNN_NEURON, feedforward2)
     PCFNN_NEURON_free(n);
 }
 
+
 Test(PCFNN_NEURON, Clone_stat)
 {
     size_t s = 3;
-    struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, f_init_rand_norm, NULL);
+    struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, f_init_rand_norm, NULL, NULL);
     
     struct PCFNN_NEURON *b = PCFNN_NEURON_clone_stat(n);
     cr_expect_not_null(b);
@@ -77,10 +81,11 @@ Test(PCFNN_NEURON, Clone_stat)
     PCFNN_NEURON_free(b);
 }
 
+
 Test(PCFNN_NEURON, Clone_all)
 {
     size_t s = 42;
-    struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, f_init_rand_norm, f_act_sigmoid);
+    struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
     
     struct PCFNN_NEURON *b = PCFNN_NEURON_clone_all(n);
     cr_expect_not_null(b);
@@ -100,11 +105,11 @@ Test(PCFNN_NEURON, Clone_all)
     PCFNN_NEURON_free(b);
 }
 
+
 Test(PCFNN_NEURON, AllocFail)
 {
     size_t s = 3141592653589793238;
-    struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, f_init_rand_norm, f_act_sigmoid);
+    struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
     cr_expect_null(n);
     PCFNN_NEURON_free(n);
 }
-

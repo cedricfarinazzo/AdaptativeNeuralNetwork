@@ -3,7 +3,7 @@
 #include "neuron.h"
 
 
-struct PCFNN_NEURON *PCFNN_NEURON_new(size_t size, double(*f_init)(), double(*f_act)(double))
+struct PCFNN_NEURON *PCFNN_NEURON_new(size_t size, double(*f_init)(), double(*f_act)(double), double(*f_act_de)(double))
 {
     if (f_init == NULL)
         return NULL;
@@ -19,6 +19,7 @@ struct PCFNN_NEURON *PCFNN_NEURON_new(size_t size, double(*f_init)(), double(*f_
         n->weights[i] = f_init();
     n->f_init = f_init;
     n->f_act = f_act;
+    n->f_act_de = f_act_de;
     return n;
 }
 
@@ -51,13 +52,17 @@ void PCFNN_NEURON_addinputs(struct PCFNN_NEURON *n, size_t inputs)
 }
 
 
-double PCFNN_NEURON_feedforward(struct PCFNN_NEURON *n, double *inputs, double(*f_act)(double))
+double PCFNN_NEURON_feedforward(struct PCFNN_NEURON *n, double *inputs, double(*f_act)(double), double(*f_act_de)(double))
 {
     if (n == NULL || inputs == NULL)
         return 0;
     if (f_act != NULL)
         n->f_act = f_act;
     if (n->f_act == NULL)
+        return 0;
+    if (f_act_de != NULL)
+        n->f_act_de = f_act_de;
+    if (n->f_act_de == NULL)
         return 0;
     n->activation = n->bias;
     for (size_t i = 0; i < n->size; ++i)
@@ -70,7 +75,7 @@ double PCFNN_NEURON_feedforward(struct PCFNN_NEURON *n, double *inputs, double(*
 struct PCFNN_NEURON *PCFNN_NEURON_clone_stat(struct PCFNN_NEURON *n)
 {
     if (n == NULL) return NULL;
-    return PCFNN_NEURON_new(n->size, n->f_init, n->f_act);
+    return PCFNN_NEURON_new(n->size, n->f_init, n->f_act, n->f_act_de);
 }
 
 
@@ -84,7 +89,7 @@ struct PCFNN_NEURON *PCFNN_NEURON_clone_all(struct PCFNN_NEURON *n)
     if (b->weights == NULL)
     { free(b); return NULL; }
     b->bias = n->bias; b->output = n->output; b->activation = n->activation;
-    b->delta = n->delta; b->f_init = n->f_init; b->f_act = n->f_act; b->size = n->size;
+    b->delta = n->delta; b->f_init = n->f_init; b->f_act = n->f_act; b->f_act_de = n->f_act_de; b->size = n->size;
     for(size_t i = 0; i < b->size; ++i)
         b->weights[i] = n->weights[i];
     return b;

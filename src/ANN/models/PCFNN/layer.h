@@ -19,6 +19,7 @@ struct PCFNN_LAYER_LINK {
     size_t size_from, size_to;
     double(*f_init_to)(); 
     double(*f_act_to)(double);
+    double(*f_act_de_to)(double);
     int isInitFrom, isInitTo;
     size_t in_from, in_to;
 };
@@ -30,26 +31,27 @@ struct PCFNN_LAYER {
     struct PCFNN_LAYER_LINK **links;
     double(*f_init)();
     double(*f_act)(double);
+    double(*f_act_de)(double);
     enum PCFNN_LAYER_TYPE type;
 };
 
 
-struct PCFNN_LAYER *PCFNN_LAYER_new(double(*f_init)(), double(*f_act)(double));
+struct PCFNN_LAYER *PCFNN_LAYER_new(double(*f_init)(), double(*f_act)(double), double(*f_act_de)(double));
 
 
 void PCFNN_LAYER_free(struct PCFNN_LAYER *l);
 
 
-int PCFNN_LAYER_addn(struct PCFNN_LAYER *l, size_t size, size_t inputs, double(*f_init)(), double(*f_act)(double));
+int PCFNN_LAYER_addn(struct PCFNN_LAYER *l, size_t size, size_t inputs, double(*f_init)(), double(*f_act)(double), double(*f_act_de)(double));
 
 
-struct PCFNN_LAYER *PCFNN_LAYER_new_input(size_t size, double(*f_act)(double));
+struct PCFNN_LAYER *PCFNN_LAYER_new_input(size_t size, double(*f_act)(double), double(*f_act_de)(double));
 
 
 int PCFNN_LAYER_connect(struct PCFNN_LAYER *from, struct PCFNN_LAYER *to,
                        size_t size_from, size_t size_to,
                        size_t offset_from, size_t offset_to,
-                       double(*f_init_to)(), double(*f_act_to)(double));
+                       double(*f_init_to)(), double(*f_act_to)(double), double(*f_act_de_to)(double));
 
 
 int PCFNN_LAYER_build(struct PCFNN_LAYER *l);

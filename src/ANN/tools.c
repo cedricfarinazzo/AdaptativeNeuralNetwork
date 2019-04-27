@@ -18,7 +18,17 @@ double f_act_sigmoid(double n)
     return 1/(1+exp(-n));
 }
 
+double f_act_sigmoid_de(double n)
+{
+    return f_act_sigmoid(n) * (1 - f_act_sigmoid(n));;
+}
+
 double f_act_input(double n)
 {
     return n;
+}
+
+double f_act_input_de(double n __attribute__((unused)))
+{
+    return 1;
 }

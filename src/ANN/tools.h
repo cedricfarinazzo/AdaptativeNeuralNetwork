@@ -12,6 +12,10 @@ double f_init_input();
 
 double f_act_sigmoid(double n);
 
+double f_act_sigmoid_de(double n);
+
 double f_act_input(double n);
+
+double f_act_input_de(double n);
 
 #endif /* _ANN_TOOLS_H_ */
