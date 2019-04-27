@@ -79,6 +79,7 @@ double *PCFNN_NETWORK_get_output(struct PCFNN_NETWORK *net)
 {
     if (net == NULL) return NULL;
     double *output = malloc(sizeof(double) * net->outputl->size);
+    if (output == NULL) return NULL;
     for(size_t i = 0; i < net->outputl->size; ++i)
         output[i] = net->outputl->neurons[i]->output;
     return output;

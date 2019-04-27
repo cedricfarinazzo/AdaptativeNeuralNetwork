@@ -169,7 +169,7 @@ Test(PCFNN_NETWORK, FeedForward2)
     double *out = PCFNN_NETWORK_get_output(net);
     cr_expect_not_null(out);
     
-    for(size_t i = 0; net->outputl->size; ++i)
+    for(size_t i = 0; i < net->outputl->size; ++i)
         cr_expect_neq(out[i], 0);
 
     if (out != NULL)

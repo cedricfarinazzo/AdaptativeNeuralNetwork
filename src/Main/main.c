@@ -5,13 +5,14 @@
 #include <time.h>
 #include "../ANN/models/PCFNN/neuron.h"
 #include "../ANN/models/PCFNN/layer.h"
+#include "../ANN/models/PCFNN/network.h"
 #include "../ANN/tools.h"
 
 
 int main(int argc, char *argv[])
 {
     srand(time(NULL));
-
+if (0) {
     //Creation of 1 input layer, 2 hidden layers and 1 ouput layer
     struct PCFNN_LAYER *i = PCFNN_LAYER_new_input(2, f_act_input);
     struct PCFNN_LAYER *h1 = PCFNN_LAYER_new(NULL, NULL);
@@ -55,6 +56,44 @@ int main(int argc, char *argv[])
     PCFNN_LAYER_free(h1);
     PCFNN_LAYER_free(h2);
     PCFNN_LAYER_free(o);
+}
+    
+    struct PCFNN_NETWORK *net = PCFNN_NETWORK_new();
+    struct PCFNN_LAYER *l1 = PCFNN_LAYER_new_input(784, f_act_input);
+    struct PCFNN_LAYER *l2 = PCFNN_LAYER_new(NULL, NULL);
+    struct PCFNN_LAYER *l3 = PCFNN_LAYER_new(NULL, NULL);
+    struct PCFNN_LAYER *l4 = PCFNN_LAYER_new(NULL, NULL);
+    PCFNN_NETWORK_addl(net, l1);
+    PCFNN_NETWORK_addl(net, l2);
+    PCFNN_NETWORK_addl(net, l3);
+    PCFNN_NETWORK_addl(net, l4);
+    
+    PCFNN_LAYER_connect(l1, l2, 784, 250, 0, 0, f_init_rand_norm, f_act_sigmoid);
+    PCFNN_LAYER_connect(l1, l3, 784, 350, 0, 0, f_init_rand_norm, f_act_sigmoid);
+    
+    PCFNN_LAYER_connect(l2, l4, 250, 10, 0, 0, f_init_rand_norm, f_act_sigmoid);
+    PCFNN_LAYER_connect(l3, l4, 350, 42, 0, 9, f_init_rand_norm, f_act_sigmoid);
+    
+    PCFNN_NETWORK_build(net);
+
+    double *inputs = malloc(sizeof(double) * 784);
+    for (size_t i = 0; i < 784; ++i)
+        inputs[i] = f_init_rand_norm();
+
+    PCFNN_NETWORK_feedforward(net, inputs);
+    free(inputs);
+
+    double *out = PCFNN_NETWORK_get_output(net);
+    if (out == NULL)
+        return EXIT_FAILURE;
+    for(size_t i = 0; i < net->outputl->size; ++i)
+        printf("%f ", out[i]);
+
+    if (out != NULL)
+        free(out);
+    
+
+    PCFNN_NETWORK_free(net);
 
     return EXIT_SUCCESS;
 }
