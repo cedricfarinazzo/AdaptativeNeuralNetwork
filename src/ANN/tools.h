@@ -18,4 +18,16 @@ double f_act_input(double n);
 
 double f_act_input_de(double n);
 
+double f_act_relu(double n);
+
+double f_act_relu_de(double n);
+
+double f_act_softplus(double n);
+
+double f_act_softplus_de(double n);
+
+double f_act_elu(double n);
+
+double f_act_elu_de(double n);
+
 #endif /* _ANN_TOOLS_H_ */
