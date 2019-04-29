@@ -49,7 +49,7 @@ void PCFNN_NETWORK_build(struct PCFNN_NETWORK *net)
 {
     if (net == NULL) return;
         for(size_t i = 0; i < net->size; ++i)
-            PCFNN_LAYER_build(net->layers[i]);
+        { PCFNN_LAYER_build(net->layers[i]); net->layers[i]->index = i; }
     for(size_t i = 0; i < net->size; ++i)
     {
         if (net->layers[i]->type == PCFNN_LAYER_INPUT)

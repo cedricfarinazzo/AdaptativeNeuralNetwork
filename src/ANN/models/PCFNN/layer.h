@@ -25,6 +25,7 @@ struct PCFNN_LAYER_LINK {
 };
 
 struct PCFNN_LAYER {
+    size_t index;
     size_t size;
     struct PCFNN_NEURON **neurons;
     size_t nblinks;

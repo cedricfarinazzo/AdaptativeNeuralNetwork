@@ -30,4 +30,6 @@ double f_act_elu(double n);
 
 double f_act_elu_de(double n);
 
+double f_cost_quadratic_loss_de(double o, double t);
+
 #endif /* _ANN_TOOLS_H_ */

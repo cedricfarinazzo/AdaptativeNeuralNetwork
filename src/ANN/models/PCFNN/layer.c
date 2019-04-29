@@ -9,7 +9,7 @@ struct PCFNN_LAYER *PCFNN_LAYER_new(double(*f_init)(), double(*f_act)(double), d
 {
     struct PCFNN_LAYER *l = malloc(sizeof(struct PCFNN_LAYER));
     if (l == NULL) return NULL;
-    l->size = l->nblinks = 0;
+    l->size = l->nblinks = l->index = 0;
     l->neurons = malloc(sizeof(struct PCFNN_NEURON*) * l->size);
     if (l->neurons == NULL)
     { free(l); return NULL; }
@@ -186,12 +186,12 @@ void PCFNN_LAYER_feedforward(struct PCFNN_LAYER *l)
         if (link == NULL) continue;
         if (link->to == l && link->isInitTo)
         {
-            for(size_t i = link->in_to; i < link->size_to; ++i)
+            for(size_t i = link->in_to; i < link->size_to + link->in_to; ++i)
             {
                 double *inp = inputs[i];
                 size_t w = 0;
                 while(w < l->neurons[i]->size && inp[w] != 0) ++w;
-                for(size_t j = link->in_from; j < link->size_from && w < l->neurons[i]->size; ++j, ++w)
+                for(size_t j = link->in_from; j < link->size_from + link->in_from && w < l->neurons[i]->size; ++j, ++w)
                     inp[w] = link->from->neurons[j]->output;
             }
         }

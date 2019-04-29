@@ -65,3 +65,8 @@ double f_act_elu_de(double n)
 {
     return n >= 0 ? 1 : f_act_elu(n) + F_ACT_ELU_ALPHA;
 }
+
+double f_cost_quadratic_loss_de(double o, double t)
+{
+    return o - t;
+}
