@@ -22,7 +22,9 @@ void PCFNN_LAYER_backward_hidden(struct PCFNN_LAYER *l, size_t **mark)
                 for(size_t j = link->in_from; j < link->size_from + link->in_from; ++j)
                 {
                     sums[j] += to->neurons[i]->delta 
-                        * to->neurons[i]->weights[markl[i]];
+                        * to->neurons[i]->weights[
+                        markl[i]
+                        ];
                     ++markl[i];
                 }
             }
@@ -50,14 +52,14 @@ void PCFNN_NETWORK_backward(struct PCFNN_NETWORK *net, double *target, double(*f
 {
     PCFNN_LAYER_backward_output(net->outputl, target, f_cost);
     size_t **mark = malloc(sizeof(size_t*) * net->size);
-    for(size_t i = 0; i < net->size; --i)
+    for(size_t i = 0; i < net->size; ++i)
         mark[i] = calloc(net->layers[i]->size, sizeof(size_t)); 
     for(size_t i = net->size - 1; i > 0; --i)
     {
         if (net->layers[i]->type == PCFNN_LAYER_HIDDEN)
             PCFNN_LAYER_backward_hidden(net->layers[i], mark);
     }
-    for(size_t i = 0; i < net->size; --i)
+    for(size_t i = 0; i < net->size; ++i)
         free(mark[i]);
     free(mark);
 }
