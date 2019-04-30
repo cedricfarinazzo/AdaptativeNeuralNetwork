@@ -8,19 +8,16 @@
 
 double PCFNN_NEURON_feedforward(struct PCFNN_NEURON *n, double *inputs, double(*f_act)(double), double(*f_act_de)(double))
 {
-    if (n == NULL || inputs == NULL)
-        return 0;
-    if (f_act != NULL)
-        n->f_act = f_act;
-    if (n->f_act == NULL)
-        return 0;
-    if (f_act_de != NULL)
-        n->f_act_de = f_act_de;
-    if (n->f_act_de == NULL)
-        return 0;
+    if (n == NULL) return 0;
+    if (f_act != NULL) n->f_act = f_act;
+    if (n->f_act == NULL) return 0;
+    if (f_act_de != NULL) n->f_act_de = f_act_de;
+    if (n->f_act_de == NULL) return 0;
     n->activation = n->bias;
+    double *in = inputs;
+    if (in == NULL) in = n->inputs;
     for (size_t i = 0; i < n->size; ++i)
-        n->activation += n->weights[i] * inputs[i];
+        n->activation += n->weights[i] * in[i];
     n->output = n->f_act(n->activation);
     return n->output;
 }
@@ -40,11 +37,8 @@ void PCFNN_LAYER_feedforward_input(struct PCFNN_LAYER *l, double *inputs)
 void PCFNN_LAYER_feedforward(struct PCFNN_LAYER *l)
 {
     if (l == NULL || l->type == PCFNN_LAYER_INPUT) return;
-    
-    double **inputs = malloc(sizeof(double*) * l->size);
-    for(size_t i = 0; i < l->size; ++i)
-        inputs[i] = calloc(l->neurons[i]->size, sizeof(double));
-    
+    size_t w[l->size];
+    for(size_t i = 0; i < l->size; ++i) w[i] = 0;
     for(size_t k = 0; k < l->nblinks; ++k)
     {
         struct PCFNN_LAYER_LINK *link = l->links[k];
@@ -53,21 +47,13 @@ void PCFNN_LAYER_feedforward(struct PCFNN_LAYER *l)
         {
             for(size_t i = link->in_to; i < link->size_to + link->in_to; ++i)
             {
-                double *inp = inputs[i];
-                size_t w = 0;
-                while(w < l->neurons[i]->size && inp[w] != 0) ++w;
-                for(size_t j = link->in_from; j < link->size_from + link->in_from && w < l->neurons[i]->size; ++j, ++w)
-                    inp[w] = link->from->neurons[j]->output;
+                for(size_t j = link->in_from; j < link->size_from + link->in_from && w[i] < l->neurons[i]->size; ++j, ++w[i])
+                    l->neurons[i]->inputs[w[i]] = link->from->neurons[j]->output;
             }
         }
     } 
-    
     for(size_t i = 0; i < l->size; ++i)
-        PCFNN_NEURON_feedforward(l->neurons[i], inputs[i], NULL, NULL);
-    
-    for(size_t i = 0; i < l->size; ++i)
-        free(inputs[i]);
-    free(inputs);
+        PCFNN_NEURON_feedforward(l->neurons[i], NULL, NULL, NULL);
 }
 
 
