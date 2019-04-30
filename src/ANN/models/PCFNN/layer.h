@@ -43,6 +43,9 @@ struct PCFNN_LAYER *PCFNN_LAYER_new(double(*f_init)(), double(*f_act)(double), d
 void PCFNN_LAYER_free(struct PCFNN_LAYER *l);
 
 
+void PCFNN_LAYER_clear(struct PCFNN_LAYER *l);
+
+
 int PCFNN_LAYER_addn(struct PCFNN_LAYER *l, size_t size, size_t inputs, double(*f_init)(), double(*f_act)(double), double(*f_act_de)(double));
 
 
@@ -57,13 +60,5 @@ int PCFNN_LAYER_connect(struct PCFNN_LAYER *from, struct PCFNN_LAYER *to,
 
 int PCFNN_LAYER_build(struct PCFNN_LAYER *l);
 
-
-void PCFNN_LAYER_feedforward_input(struct PCFNN_LAYER *l, double *inputs);
-
-
-void PCFNN_LAYER_feedforward(struct PCFNN_LAYER *l);
-
-
-void PCFNN_LAYER_clear(struct PCFNN_LAYER *l);
 
 #endif /* _ANN_MODELS_PCFNN_LAYER_H_ */

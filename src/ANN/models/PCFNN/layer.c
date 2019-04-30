@@ -23,6 +23,14 @@ struct PCFNN_LAYER *PCFNN_LAYER_new(double(*f_init)(), double(*f_act)(double), d
 }
 
 
+void PCFNN_LAYER_clear(struct PCFNN_LAYER *l)
+{
+    if (l == NULL) return; 
+    for(size_t i = 0; i < l->size; ++i)
+        PCFNN_NEURON_clear(l->neurons[i]);
+}
+
+
 void PCFNN_LAYER_free(struct PCFNN_LAYER *l)
 {
     if (l != NULL)
@@ -158,57 +166,4 @@ int PCFNN_LAYER_build(struct PCFNN_LAYER *l)
     else
         l->type = PCFNN_LAYER_HIDDEN;
     return 0;
-}
-
-
-void PCFNN_LAYER_feedforward_input(struct PCFNN_LAYER *l, double *inputs)
-{
-    if (l == NULL || l->type != PCFNN_LAYER_INPUT) return;
-    for (size_t i = 0; i < l->size; ++i)
-    {    
-        l->neurons[i]->activation = inputs[i];
-        l->neurons[i]->output = l->neurons[i]->f_act(l->neurons[i]->activation);
-    }
-}
-
-
-void PCFNN_LAYER_feedforward(struct PCFNN_LAYER *l)
-{
-    if (l == NULL || l->type == PCFNN_LAYER_INPUT) return;
-    
-    double **inputs = malloc(sizeof(double*) * l->size);
-    for(size_t i = 0; i < l->size; ++i)
-        inputs[i] = calloc(l->neurons[i]->size, sizeof(double));
-    
-    for(size_t k = 0; k < l->nblinks; ++k)
-    {
-        struct PCFNN_LAYER_LINK *link = l->links[k];
-        if (link == NULL) continue;
-        if (link->to == l && link->isInitTo)
-        {
-            for(size_t i = link->in_to; i < link->size_to + link->in_to; ++i)
-            {
-                double *inp = inputs[i];
-                size_t w = 0;
-                while(w < l->neurons[i]->size && inp[w] != 0) ++w;
-                for(size_t j = link->in_from; j < link->size_from + link->in_from && w < l->neurons[i]->size; ++j, ++w)
-                    inp[w] = link->from->neurons[j]->output;
-            }
-        }
-    } 
-    
-    for(size_t i = 0; i < l->size; ++i)
-        PCFNN_NEURON_feedforward(l->neurons[i], inputs[i], NULL, NULL);
-    
-    for(size_t i = 0; i < l->size; ++i)
-        free(inputs[i]);
-    free(inputs);
-}
-
-
-void PCFNN_LAYER_clear(struct PCFNN_LAYER *l)
-{
-    if (l == NULL) return; 
-    for(size_t i = 0; i < l->size; ++i)
-        PCFNN_NEURON_clear(l->neurons[i]);
 }

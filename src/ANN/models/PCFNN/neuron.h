@@ -27,9 +27,6 @@ void PCFNN_NEURON_free(struct PCFNN_NEURON *n);
 void PCFNN_NEURON_addinputs(struct PCFNN_NEURON *n, size_t inputs);
 
 
-double PCFNN_NEURON_feedforward(struct PCFNN_NEURON *n, double *inputs, double(*f_act)(double), double(*f_act_de)(double));
-
-
 struct PCFNN_NEURON *PCFNN_NEURON_clone_stat(struct PCFNN_NEURON *n);
 
 

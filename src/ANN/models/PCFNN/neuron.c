@@ -52,26 +52,6 @@ void PCFNN_NEURON_addinputs(struct PCFNN_NEURON *n, size_t inputs)
 }
 
 
-double PCFNN_NEURON_feedforward(struct PCFNN_NEURON *n, double *inputs, double(*f_act)(double), double(*f_act_de)(double))
-{
-    if (n == NULL || inputs == NULL)
-        return 0;
-    if (f_act != NULL)
-        n->f_act = f_act;
-    if (n->f_act == NULL)
-        return 0;
-    if (f_act_de != NULL)
-        n->f_act_de = f_act_de;
-    if (n->f_act_de == NULL)
-        return 0;
-    n->activation = n->bias;
-    for (size_t i = 0; i < n->size; ++i)
-        n->activation += n->weights[i] * inputs[i];
-    n->output = n->f_act(n->activation);
-    return n->output;
-}
-
-
 struct PCFNN_NEURON *PCFNN_NEURON_clone_stat(struct PCFNN_NEURON *n)
 {
     if (n == NULL) return NULL;

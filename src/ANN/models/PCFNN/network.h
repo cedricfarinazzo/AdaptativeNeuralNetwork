@@ -26,9 +26,6 @@ int PCFNN_NETWORK_addl(struct PCFNN_NETWORK *net, struct PCFNN_LAYER *l);
 void PCFNN_NETWORK_build(struct PCFNN_NETWORK *net);
 
 
-void PCFNN_NETWORK_feedforward(struct PCFNN_NETWORK *net, double *inputs);
-
-
 double *PCFNN_NETWORK_get_output(struct PCFNN_NETWORK *net);
 
 #endif /* _ANN_MODELS_PCFNN_NETWORK_H_ */

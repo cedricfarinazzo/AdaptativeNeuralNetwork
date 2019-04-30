@@ -9,6 +9,7 @@
 #include "../ANN/models/PCFNN/neuron.h"
 #include "../ANN/models/PCFNN/layer.h"
 #include "../ANN/models/PCFNN/network.h"
+#include "../ANN/models/PCFNN/feedforward.h"
 #include "../ANN/tools.h"
 
 

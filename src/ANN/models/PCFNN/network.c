@@ -61,27 +61,3 @@ void PCFNN_NETWORK_build(struct PCFNN_NETWORK *net)
         { net->outputl = net->layers[i]; break; }
     }
 }
-
-
-void PCFNN_NETWORK_feedforward(struct PCFNN_NETWORK *net, double *inputs)
-{
-    if (net == NULL) return;
-    PCFNN_LAYER_feedforward_input(net->inputl, inputs);
-    for(size_t i = 0; i < net->size; ++i)
-    {
-        if (net->layers[i]->type != PCFNN_LAYER_INPUT)
-            PCFNN_LAYER_feedforward(net->layers[i]);
-    }
-}
-
-
-double *PCFNN_NETWORK_get_output(struct PCFNN_NETWORK *net)
-{
-    if (net == NULL) return NULL;
-    double *output = malloc(sizeof(double) * net->outputl->size);
-    if (output == NULL) return NULL;
-    for(size_t i = 0; i < net->outputl->size; ++i)
-        output[i] = net->outputl->neurons[i]->output;
-    return output;
-}
-
