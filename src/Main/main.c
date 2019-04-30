@@ -7,6 +7,7 @@
 #include "../ANN/models/PCFNN/layer.h"
 #include "../ANN/models/PCFNN/network.h"
 #include "../ANN/models/PCFNN/feedforward.h"
+#include "../ANN/models/PCFNN/backprop.h"
 #include "../ANN/tools.h"
 
 
@@ -58,7 +59,8 @@ if (0) {
     PCFNN_LAYER_free(h2);
     PCFNN_LAYER_free(o);
 }
-    
+
+if (0) {
     struct PCFNN_NETWORK *net = PCFNN_NETWORK_new();
     struct PCFNN_LAYER *l1 = PCFNN_LAYER_new_input(784, f_act_input, f_act_input_de);
     struct PCFNN_LAYER *l2 = PCFNN_LAYER_new(NULL, NULL, NULL);
@@ -95,6 +97,36 @@ if (0) {
     
 
     PCFNN_NETWORK_free(net);
+}
+
+
+    struct PCFNN_NETWORK *net = PCFNN_NETWORK_new();
+    struct PCFNN_LAYER *l1 = PCFNN_LAYER_new_input(2, f_act_input, f_act_input_de);
+    struct PCFNN_LAYER *l2 = PCFNN_LAYER_new(NULL, NULL, NULL);
+    struct PCFNN_LAYER *l3 = PCFNN_LAYER_new(NULL, NULL, NULL);
+    PCFNN_NETWORK_addl(net, l1); PCFNN_NETWORK_addl(net, l2); PCFNN_NETWORK_addl(net, l3);
+
+    PCFNN_LAYER_connect(l1, l2, 2, 2, 0, 0, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
+    PCFNN_LAYER_connect(l2, l3, 2, 1, 0, 0, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
+
+    PCFNN_NETWORK_build(net);
+
+    double input[] = {0, 1};
+    double target[] = {1};
+
+    PCFNN_NETWORK_feedforward(net, input);
+    double *out1 = PCFNN_NETWORK_get_output(net);
+    double before = out1[0];
+    free(out1);
+
+    for(size_t i = 0; i < 500; ++i)
+    {
+        PCFNN_NETWORK_feedforward(net, input);
+        PCFNN_NETWORK_backprop(net, target, 0.1, f_cost_quadratic_loss_de);
+    }
+
+    PCFNN_NETWORK_free(net);
+
 
     return EXIT_SUCCESS;
 }

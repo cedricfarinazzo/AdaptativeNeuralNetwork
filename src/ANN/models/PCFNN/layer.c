@@ -159,6 +159,8 @@ int PCFNN_LAYER_build(struct PCFNN_LAYER *l)
             link->isInitTo = 1; ++nbtolinks;
         }
     }
+    for(size_t i = 0; i < l->size; ++i)
+        PCFNN_NEURON_build(l->neurons[i]);
     if (nbfromlinks == 0)
         l->type = PCFNN_LAYER_OUTPUT;
     else if (nbtolinks == 0)

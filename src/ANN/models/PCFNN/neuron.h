@@ -9,6 +9,7 @@ struct PCFNN_NEURON {
     double bias, output; 
     // INTERNAL
     double activation, delta;
+    double *inputs;
     double(*f_init)();
     double(*f_act)(double);
     double(*f_act_de)(double);
@@ -25,6 +26,9 @@ void PCFNN_NEURON_free(struct PCFNN_NEURON *n);
 
 
 void PCFNN_NEURON_addinputs(struct PCFNN_NEURON *n, size_t inputs);
+
+
+void PCFNN_NEURON_build(struct PCFNN_NEURON *n);
 
 
 struct PCFNN_NEURON *PCFNN_NEURON_clone_stat(struct PCFNN_NEURON *n);
