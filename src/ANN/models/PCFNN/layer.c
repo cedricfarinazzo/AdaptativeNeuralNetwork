@@ -101,8 +101,8 @@ int PCFNN_LAYER_connect(struct PCFNN_LAYER *from, struct PCFNN_LAYER *to,
     size_t ifrom = from->nblinks;
     size_t ito = to->nblinks;
     
-    struct PCFNN_LAYER_LINK *link = malloc(sizeof(struct PCFNN_LAYER_LINK))
-    ;
+    struct PCFNN_LAYER_LINK *link = malloc(sizeof(struct PCFNN_LAYER_LINK));
+
     if (link == NULL) return -1;
     
     ++from->nblinks; ++to->nblinks;
