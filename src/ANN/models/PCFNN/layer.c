@@ -77,7 +77,7 @@ struct PCFNN_LAYER *PCFNN_LAYER_new_input(size_t size, double(*f_act)(double), d
 {
     struct PCFNN_LAYER *l = PCFNN_LAYER_new(f_init_input, f_act, f_act_de);
     if (l == NULL) return NULL;
-    if (PCFNN_LAYER_addn(l, size, 1, f_init_input, f_act, f_act_de) != 0)
+    if (PCFNN_LAYER_addn(l, size, 0, f_init_input, f_act, f_act_de) != 0)
     {   PCFNN_LAYER_free(l); return NULL; }
     l->type = PCFNN_LAYER_INPUT;
     return l;

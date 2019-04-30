@@ -25,6 +25,7 @@ Test(PCFNN_LAYER, Init)
 Test(PCFNN_LAYER, InitInput)
 {
     struct PCFNN_LAYER *l = PCFNN_LAYER_new_input(42, f_act_input, f_act_input_de);
+    cr_expect_not_null(l);
     cr_expect_eq(l->size, 42);
     cr_expect_eq(l->nblinks, 0);
     
@@ -32,7 +33,7 @@ Test(PCFNN_LAYER, InitInput)
     for(size_t i = 0; i < 42; ++i)
     {
         cr_assert_not_null(l->neurons[i]);
-        cr_expect_eq(l->neurons[i]->size, 1);
+        cr_expect_eq(l->neurons[i]->size, 0);
     }
     
     PCFNN_LAYER_free(l);
