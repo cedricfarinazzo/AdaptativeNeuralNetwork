@@ -66,41 +66,20 @@ void PCFNN_NETWORK_backward(struct PCFNN_NETWORK *net, double *target, double(*f
 
 void PCFNN_NEURON_update(struct PCFNN_NEURON *n, double *inputs, double eta)
 {
-    if (n == NULL || inputs == NULL) return;
+    if (n == NULL) return;
+    if (inputs == NULL) inputs = n->inputs;
     for(size_t i = 0; i < n->size; ++i)
     {
-        n->weights[i] -= eta * n->delta * inputs[i];
+        n->wdelta[i] -= eta * n->delta * inputs[i];
     }
-    n->bias -= eta * n->delta;
+    n->bdelta -= eta * n->delta;
 }
 
 void PCFNN_LAYER_update(struct PCFNN_LAYER *l, double eta)
 {
     if (l == NULL) return;
-    double **inputs = malloc(sizeof(double*) * l->size);
     for(size_t i = 0; i < l->size; ++i)
-        inputs[i] = calloc(l->neurons[i]->size, sizeof(double));
-    
-    for(size_t k = 0; k < l->nblinks; ++k)
-    {
-        struct PCFNN_LAYER_LINK *link = l->links[k];
-        if (link == NULL) continue;
-        if (link->to == l && link->isInitTo)
-        {
-            for(size_t i = link->in_to; i < link->size_to + link->in_to; ++i)
-            {
-                double *inp = inputs[i];
-                size_t w = 0;
-                while(w < l->neurons[i]->size && inp[w] != 0) ++w;
-                for(size_t j = link->in_from; j < link->size_from + link->in_from && w < l->neurons[i]->size; ++j, ++w)
-                    inp[w] = link->from->neurons[j]->output;
-            }
-        }
-    } 
-    
-    for(size_t i = 0; i < l->size; ++i)
-    { PCFNN_NEURON_update(l->neurons[i], inputs[i], eta); free(inputs[i]); }
-    free(inputs);
+        PCFNN_NEURON_update(l->neurons[i], NULL, eta);
 }
 
 
@@ -110,9 +89,32 @@ void PCFNN_NETWORK_update(struct PCFNN_NETWORK *net, double eta)
         PCFNN_LAYER_update(net->layers[i], eta);
 }
 
+
 void PCFNN_NETWORK_backprop(struct PCFNN_NETWORK *net, double *target, double eta, double(*f_cost)(double, double))
 {
+    if (net == NULL || target == NULL || f_cost == NULL) return;
     PCFNN_NETWORK_backward(net, target, f_cost);
     PCFNN_NETWORK_update(net, eta);
+}
+
+
+void PCFNN_LAYER_apply_delta(struct PCFNN_LAYER *l)
+{
+    if (l == NULL) return;
+    for (size_t i = 0; i < l->size; ++i)
+    {
+        l->neurons[i]->bias += l->neurons[i]->bdelta;
+        for(size_t j = 0; j < l->neurons[i]->size; ++j)
+            l->neurons[i]->weights[j] += l->neurons[i]->wdelta[j];
+    }
+}
+
+
+void PCFNN_NETWORK_apply_delta(struct PCFNN_NETWORK *net)
+{
+    if (net == NULL) return;
+    for(size_t i = net->size - 1; i > 0; --i)
+        PCFNN_LAYER_apply_delta(net->layers[i]);
     PCFNN_NETWORK_clear(net);
 }
+

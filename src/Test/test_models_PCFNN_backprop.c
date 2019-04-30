@@ -11,6 +11,7 @@
 #include "../ANN/models/PCFNN/layer.h"
 #include "../ANN/models/PCFNN/network.h"
 #include "../ANN/models/PCFNN/feedforward.h"
+#include "../ANN/models/PCFNN/batch.h"
 #include "../ANN/models/PCFNN/backprop.h"
 #include "../ANN/tools.h"
 
@@ -27,16 +28,19 @@ Test(PCFNN_BACKPROP, XorSimple)
     PCFNN_LAYER_connect(l2, l3, 2, 1, 0, 0, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
 
     PCFNN_NETWORK_build(net);
+    PCFNN_NETWORK_init_batch(net);
 
     double input[] = {0, 1};
     double target[] = {1};
 
+    
     PCFNN_NETWORK_feedforward(net, input);
     double *out1 = PCFNN_NETWORK_get_output(net);
     double before = out1[0];
     free(out1);
 
     PCFNN_NETWORK_backprop(net, target, 0.1, f_cost_quadratic_loss_de);
+    PCFNN_NETWORK_apply_delta(net);
 
     PCFNN_NETWORK_feedforward(net, input);
     double *out2 = PCFNN_NETWORK_get_output(net);
@@ -45,6 +49,7 @@ Test(PCFNN_BACKPROP, XorSimple)
   
     cr_expect_gt(after, before);
     
+    PCFNN_NETWORK_free_batch(net);
     PCFNN_NETWORK_free(net);
 }
 
@@ -60,6 +65,7 @@ Test(PCFNN_BACKPROP, XorSimple2)
     PCFNN_LAYER_connect(l2, l3, 2, 1, 0, 0, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
 
     PCFNN_NETWORK_build(net);
+    PCFNN_NETWORK_init_batch(net);
 
     double input[] = {0, 1};
     double target[] = {1};
@@ -68,14 +74,15 @@ Test(PCFNN_BACKPROP, XorSimple2)
     {
         PCFNN_NETWORK_feedforward(net, input);
         PCFNN_NETWORK_backprop(net, target, 0.1, f_cost_quadratic_loss_de);
+        PCFNN_NETWORK_apply_delta(net);
+        PCFNN_NETWORK_clear_batch(net);
     }
-
+    PCFNN_NETWORK_free_batch(net);
+    
     PCFNN_NETWORK_feedforward(net, input);
     double *out = PCFNN_NETWORK_get_output(net);
-    double v = out[0];
+    cr_expect_gt(out[0], 0.75);
     free(out);
-  
-    cr_expect_gt(v, 0.75);
     
     PCFNN_NETWORK_free(net);
 }
@@ -92,6 +99,7 @@ Test(PCFNN_BACKPROP, XorTrain)
     PCFNN_LAYER_connect(l2, l3, 2, 1, 0, 0, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
 
     PCFNN_NETWORK_build(net);
+    PCFNN_NETWORK_init_batch(net);
 
     double i1[] = {0, 0};
     double i2[] = {1, 0};
@@ -100,13 +108,15 @@ Test(PCFNN_BACKPROP, XorTrain)
     double *inputs[] = {i1, i2, i3, i4};
     double target[] = {0, 1, 1, 0};
 
-    for(size_t i = 0; i < 50000; ++i)
+    for(size_t i = 0; i < 25000; ++i)
     {
         for(size_t j = 0; j < 4; ++j) 
         {
             PCFNN_NETWORK_feedforward(net, inputs[j]);
             double t[] = {target[j]};
             PCFNN_NETWORK_backprop(net, t, 0.5, f_cost_quadratic_loss_de);
+            PCFNN_NETWORK_apply_delta(net);
+            PCFNN_NETWORK_clear_batch(net);
         }
     }
 
@@ -114,15 +124,12 @@ Test(PCFNN_BACKPROP, XorTrain)
     {
         PCFNN_NETWORK_feedforward(net, inputs[j]);
         double *out = PCFNN_NETWORK_get_output(net);
-        double v = out[0];
-        free(out);
-        //printf("\n\n\ntarget: %f   |   %f\n\n\n", target[j], v);
         if (target[j] == 1)
-            cr_expect_gt(v, 0.75);
+            cr_expect_gt(out[0], 0.75);
         else
-            cr_expect_lt(v, 0.25);
+            cr_expect_lt(out[0], 0.25);
+        free(out);
     }
-    
+    PCFNN_NETWORK_free_batch(net);
     PCFNN_NETWORK_free(net);
 }
-

@@ -14,10 +14,9 @@ double PCFNN_NEURON_feedforward(struct PCFNN_NEURON *n, double *inputs, double(*
     if (f_act_de != NULL) n->f_act_de = f_act_de;
     if (n->f_act_de == NULL) return 0;
     n->activation = n->bias;
-    double *in = inputs;
-    if (in == NULL) in = n->inputs;
+    if (inputs == NULL) inputs = n->inputs;
     for (size_t i = 0; i < n->size; ++i)
-        n->activation += n->weights[i] * in[i];
+        n->activation += n->weights[i] * inputs[i];
     n->output = n->f_act(n->activation);
     return n->output;
 }

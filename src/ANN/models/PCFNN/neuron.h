@@ -8,8 +8,8 @@ struct PCFNN_NEURON {
     double *weights;
     double bias, output; 
     // INTERNAL
-    double activation, delta;
-    double *inputs;
+    double activation, delta, bdelta;
+    double *inputs, *wdelta;
     double(*f_init)();
     double(*f_act)(double);
     double(*f_act_de)(double);
