@@ -6,10 +6,10 @@
 
 #include <criterion/criterion.h>
 
-#include "../ANN/models/PCFNN/neuron.h"
-#include "../ANN/models/PCFNN/layer.h"
-#include "../ANN/models/PCFNN/feedforward.h"
-#include "../ANN/tools.h"
+#include "ANN/models/PCFNN/neuron.h"
+#include "ANN/models/PCFNN/layer.h"
+#include "ANN/models/PCFNN/feedforward.h"
+#include "ANN/tools.h"
 
 
 Test(PCFNN_LAYER, Init)

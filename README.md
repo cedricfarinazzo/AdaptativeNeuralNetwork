@@ -1,4 +1,4 @@
-# AdaptativeNeuralNetwork
+# AdaptativeNeuralNetwork ANN
 
 ### Build status
 
@@ -30,7 +30,7 @@ make check
 
 ## AdaptativeNeuralNetwork
 
-A library containing multiple neural network models written in C
+A static library containing multiple neural network models written in C
 
 
 ## Contribute

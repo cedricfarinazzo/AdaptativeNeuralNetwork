@@ -7,10 +7,10 @@
 
 #include <criterion/criterion.h>
 
-#include "../ANN/models/PCFNN/neuron.h"
-#include "../ANN/models/PCFNN/layer.h"
-#include "../ANN/models/PCFNN/network.h"
-#include "../ANN/models/PCFNN/file.h"
+#include "ANN/models/PCFNN/neuron.h"
+#include "ANN/models/PCFNN/layer.h"
+#include "ANN/models/PCFNN/network.h"
+#include "ANN/models/PCFNN/file.h"
 
 
 void __PCFNN_NETWORK_cmp(struct PCFNN_NETWORK *a, struct PCFNN_NETWORK *b)

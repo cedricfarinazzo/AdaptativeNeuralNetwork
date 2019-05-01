@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "neuron.h"
+#include "ANN/models/PCFNN/neuron.h"
 
 
 struct PCFNN_NEURON *PCFNN_NEURON_new(size_t size, double(*f_init)(), double(*f_act)(double), double(*f_act_de)(double))

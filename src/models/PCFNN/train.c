@@ -1,13 +1,13 @@
 #include <stdlib.h>
 #include <math.h>
-#include "neuron.h"
-#include "layer.h"
-#include "network.h"
-#include "feedforward.h"
-#include "backprop.h"
-#include "batch.h"
+#include "ANN/models/PCFNN/neuron.h"
+#include "ANN/models/PCFNN/layer.h"
+#include "ANN/models/PCFNN/network.h"
+#include "ANN/models/PCFNN/feedforward.h"
+#include "ANN/models/PCFNN/backprop.h"
+#include "ANN/models/PCFNN/batch.h"
 
-#include "train.h"
+#include "ANN/models/PCFNN/train.h"
 
 
 void __PCFNN_BATCH_shuffle(size_t *array, size_t n)

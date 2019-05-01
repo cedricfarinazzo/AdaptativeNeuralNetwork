@@ -7,10 +7,10 @@
 
 #include <criterion/criterion.h>
 
-#include "../ANN/models/PCFNN/neuron.h"
-#include "../ANN/models/PCFNN/layer.h"
-#include "../ANN/models/PCFNN/network.h"
-#include "../ANN/models/PCFNN/batch.h"
+#include "ANN/models/PCFNN/neuron.h"
+#include "ANN/models/PCFNN/layer.h"
+#include "ANN/models/PCFNN/network.h"
+#include "ANN/models/PCFNN/batch.h"
 
 
 Test(PCFNN_BATCH, InitFree)

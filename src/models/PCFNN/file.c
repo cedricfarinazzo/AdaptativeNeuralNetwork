@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "neuron.h"
-#include "layer.h"
-#include "network.h"
+#include "ANN/models/PCFNN/neuron.h"
+#include "ANN/models/PCFNN/layer.h"
+#include "ANN/models/PCFNN/network.h"
 
-#include "file.h"
+#include "ANN/models/PCFNN/file.h"
 
 
 int PCFNN_NETWORK_save_conf(struct PCFNN_NETWORK *net, FILE *fout)

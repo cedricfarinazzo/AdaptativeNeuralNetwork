@@ -1,9 +1,9 @@
 #include <stdlib.h>
-#include "neuron.h"
-#include "layer.h"
-#include "network.h"
+#include "ANN/models/PCFNN/neuron.h"
+#include "ANN/models/PCFNN/layer.h"
+#include "ANN/models/PCFNN/network.h"
 
-#include "feedforward.h"
+#include "ANN/models/PCFNN/feedforward.h"
 
 
 double PCFNN_NEURON_feedforward(struct PCFNN_NEURON *n, double *inputs, double(*f_act)(double), double(*f_act_de)(double))

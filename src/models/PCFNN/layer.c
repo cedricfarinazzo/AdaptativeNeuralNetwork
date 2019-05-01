@@ -1,8 +1,8 @@
 #include <stdlib.h>
-#include "neuron.h"
-#include "../../tools.h"
+#include "ANN/models/PCFNN/neuron.h"
+#include "ANN/tools.h"
 
-#include "layer.h"
+#include "ANN/models/PCFNN/layer.h"
 
 
 struct PCFNN_LAYER *PCFNN_LAYER_new(double(*f_init)(), double(*f_act)(double), double(*f_act_de)(double))

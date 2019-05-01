@@ -1,7 +1,7 @@
 #include <stdlib.h>
-#include "layer.h"
+#include "ANN/models/PCFNN/layer.h"
 
-#include "network.h"
+#include "ANN/models/PCFNN/network.h"
 
 
 struct PCFNN_NETWORK *PCFNN_NETWORK_new()

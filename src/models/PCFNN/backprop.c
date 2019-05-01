@@ -1,9 +1,9 @@
 #include <stdlib.h>
-#include "neuron.h"
-#include "layer.h"
-#include "network.h"
+#include "ANN/models/PCFNN/neuron.h"
+#include "ANN/models/PCFNN/layer.h"
+#include "ANN/models/PCFNN/network.h"
 
-#include "backprop.h"
+#include "ANN/models/PCFNN/backprop.h"
 
 void PCFNN_LAYER_backward_hidden(struct PCFNN_LAYER *l, size_t **mark)
 {

@@ -1,9 +1,9 @@
 #include <stdlib.h>
-#include "neuron.h"
-#include "layer.h"
-#include "network.h"
+#include "ANN/models/PCFNN/neuron.h"
+#include "ANN/models/PCFNN/layer.h"
+#include "ANN/models/PCFNN/network.h"
 
-#include "batch.h"
+#include "ANN/models/PCFNN/batch.h"
 
 
 void PCFNN_NETWORK_init_batch(struct PCFNN_NETWORK *net)

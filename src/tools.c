@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <time.h>
-#include "tools.h"
+#include "ANN/tools.h"
 
 double f_init_rand_norm()
 {
