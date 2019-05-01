@@ -2,11 +2,12 @@ image: cedricfarinazzo/archlinux-criterion-c:latest
 
 stages:
   - build
+  - coverage
   - test
   - webhook
   
-before_script:
-  - pacman -Syyu --noconfirm
+#before_script:
+#  - pacman -Syyu --noconfirm
 
 
 ##################
@@ -41,13 +42,27 @@ job_build_scan-build:
     paths:
       - report/*
   variables:
-      CCC_CC: clang
+      CC: clang
   script:
     - mkdir build
     - cd build
     - scan-build cmake -DCMAKE_C_COMPILER=clang ..
     - scan-build -analyze-headers -stats -maxloop 8 -o ../report make -j4
-    
+
+
+################
+# COVERAGE STAGE 
+# GCOV
+job_coverage_gcov:
+  stage: coverage
+  dependencies: 
+    - job_build_gcc
+  artifacts:
+    untracked: true
+  script:
+    - cd build
+    - make coverage
+  allow_failure: true
 
 ################
 # TEST STAGE 
@@ -95,6 +110,7 @@ job_success:
         - chmod +x send.sh
         - ./send.sh success $WEBHOOK_URL
     when: on_success
+    allow_failure: true
 
 
 job_failure:
@@ -104,3 +120,4 @@ job_failure:
         - chmod +x send.sh
         - ./send.sh failure $WEBHOOK_URL
     when: on_failure
+    allow_failure: true
