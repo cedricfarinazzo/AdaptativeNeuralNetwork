@@ -57,6 +57,8 @@ job_coverage_gcov:
   stage: coverage
   dependencies: 
     - job_build_gcc
+  artifacts:
+    untracked: true
   script:
     - cd build
     - make coverage
