@@ -1,4 +1,4 @@
-# AdaptativeNeuralNetwork ANN
+# AdaptativeNeuralNetwork ANN (0.1.1.0)
 
 ### Build status
 
