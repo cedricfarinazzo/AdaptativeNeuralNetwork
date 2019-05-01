@@ -6,8 +6,8 @@ stages:
   - test
   - webhook
   
-before_script:
-  - pacman -Syyu --noconfirm
+#before_script:
+#  - pacman -Syyu --noconfirm
 
 
 ##################
@@ -42,7 +42,7 @@ job_build_scan-build:
     paths:
       - report/*
   variables:
-      CCC_CC: clang
+      CC: clang
   script:
     - mkdir build
     - cd build
