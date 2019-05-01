@@ -60,7 +60,7 @@ add_custom_target(run
 
 add_custom_target(gdb
     COMMAND gdb ${CMAKE_BINARY_DIR}/Main/ANNMain
-    COMMENT "Running Main !!!"
+    COMMENT "Running Main on gdb !!!"
     DEPENDS ANNMain
 )
 
@@ -72,3 +72,5 @@ SETUP_TARGET_FOR_COVERAGE(
     coverage  # Name of output directory.
     ANNMain  # dependency
 )
+
+install(TARGETS ANN DESTINATION lib/ANN)
