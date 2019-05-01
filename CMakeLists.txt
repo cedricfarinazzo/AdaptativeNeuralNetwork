@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project(ANN LANGUAGES C)
-
-set (ANN_VERSION_MAJOR 0)
-set (ANN_VERSION_MINOR 1)
+project(ANN LANGUAGES C VERSION 0.1.1.0)
 
 cmake_policy(SET CMP0079 NEW)
 
@@ -16,13 +13,20 @@ INCLUDE(CodeCoverage)
 ### FLAGS 
 add_definitions(-Wall -Wextra -pedantic -Wformat=2 -std=c99)
 
-set (CMAKE_C_FLAGS_DEBUG "-fsanitize=address  -fsanitize=leak -g3 -Og -fprofile-arcs -ftest-coverage")
+set (CMAKE_C_FLAGS_DEBUG "-fsanitize=address  -fsanitize=leak -g3 -Og -fprofile-arcs -ftest-coverage -DDEBUG=1")
 set (CMAKE_EXE_LINKER_FLAGS_DEBUG "-fsanitize=address  -fsanitize=leak")
 set (CMAKE_MODULE_LINKER_FLAGS_DEBUG "-fsanitize=address  -fsanitize=leak")
 
 set (CMAKE_C_FLAGS_RELEASE "-Ofast")
 set (CMAKE_EXE_LINKER_FLAGS_RELEASE "-Ofast")
 set (CMAKE_MODULE_LINKER_FLAGS_RELEASE "-Ofast")
+
+
+### CONFIGURE FILE
+configure_file (
+    "${PROJECT_SOURCE_DIR}/include/ANN/version.h.in"
+    "${PROJECT_BINARY_DIR}/include/ANN/version.h"
+)
 
 
 ### STATIC LIBRARY BUILDING RULES
