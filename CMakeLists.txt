@@ -28,6 +28,13 @@ configure_file (
     "${PROJECT_BINARY_DIR}/include/ANN/version.h"
 )
 
+set(DEST_DIR "${CMAKE_INSTALL_PREFIX}")
+set(PRIVATE_LIBS "-lm")
+configure_file (
+    "${PROJECT_SOURCE_DIR}/pkgconf/ANN.pc.in"
+    "${PROJECT_BINARY_DIR}/pkgconf/ANN.pc"
+    @ONLY
+)
 
 ### STATIC LIBRARY BUILDING RULES
 FILE(GLOB_RECURSE SRCFILES src/*.c)
@@ -73,8 +80,7 @@ SETUP_TARGET_FOR_COVERAGE(
     ANNMain  # dependency
 )
 
-include(GNUInstallDirs)
-
+### INSTALL
 install(
     TARGETS
       ANN
@@ -91,3 +97,5 @@ install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/
 install(DIRECTORY ${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/
 )
+
+install(DIRECTORY "${PROJECT_BINARY_DIR}/pkgconf/" DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig/")

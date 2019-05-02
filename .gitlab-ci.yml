@@ -4,6 +4,7 @@ stages:
   - build
   - coverage
   - test
+  - install
   - webhook
   
 #before_script:
@@ -99,6 +100,17 @@ job_test_criterion_clang:
   script:
     - cd build
     - make check
+
+
+#############
+# WEBHOOK STAGE
+job_install_gcc:
+  stage: install
+  dependencies: 
+    - job_build_gcc
+  script:
+    - cd build
+    - sudo make install
 
 
 #############
