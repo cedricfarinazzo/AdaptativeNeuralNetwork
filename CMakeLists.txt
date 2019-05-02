@@ -12,7 +12,7 @@ INCLUDE(BuildType)
 ### FLAGS 
 add_definitions(-Wall -Wextra -pedantic -Wformat=2 -std=c99)
 
-set (CMAKE_C_FLAGS_DEBUG "-fsanitize=address  -fsanitize=leak -g3 -Og -fprofile-arcs -ftest-coverage -DDEBUG=1")
+set (CMAKE_C_FLAGS_DEBUG "-fsanitize=address  -fsanitize=leak -g3 -Og -DDEBUG=1")
 set (CMAKE_EXE_LINKER_FLAGS_DEBUG "-fsanitize=address  -fsanitize=leak")
 set (CMAKE_MODULE_LINKER_FLAGS_DEBUG "-fsanitize=address  -fsanitize=leak")
 
@@ -71,6 +71,7 @@ add_custom_target(gdb
 )
 
 if ( "${CMAKE_BUILD_TYPE}" MATCHES "Debug") 
+    set (CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -fprofile-arcs -ftest-coverage")
     INCLUDE(CodeCoverage)
     SETUP_TARGET_FOR_COVERAGE(
         coverage  # Name for custom target.
@@ -94,12 +95,14 @@ install(
 )
 
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
     PATTERN "*.h.in" EXCLUDE
 )
 
 install(DIRECTORY ${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}/
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
 )
 
-install(DIRECTORY "${PROJECT_BINARY_DIR}/pkgconf/" DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig/")
+install(DIRECTORY "${PROJECT_BINARY_DIR}/pkgconf/" 
+    DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig"
+)
