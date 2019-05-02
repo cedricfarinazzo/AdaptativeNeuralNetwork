@@ -7,7 +7,6 @@ cmake_policy(SET CMP0079 NEW)
 ### CMAKE MODULE
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/.cmake" ${CMAKE_MODULE_PATH})
 INCLUDE(BuildType)
-INCLUDE(CodeCoverage)
 
 
 ### FLAGS 
@@ -71,14 +70,17 @@ add_custom_target(gdb
     DEPENDS ANNMain
 )
 
-SETUP_TARGET_FOR_COVERAGE(
-    coverage  # Name for custom target.
-    ${CMAKE_BINARY_DIR}/Main/ANNMain   # Name of the test driver executable that runs the tests.
-    # NOTE! This should always have a ZERO as exit code
-    # otherwise the coverage generation will not complete.
-    coverage  # Name of output directory.
-    ANNMain  # dependency
-)
+if ( "${CMAKE_BUILD_TYPE}" MATCHES "Debug") 
+    INCLUDE(CodeCoverage)
+    SETUP_TARGET_FOR_COVERAGE(
+        coverage  # Name for custom target.
+        ${CMAKE_BINARY_DIR}/Main/ANNMain   # Name of the test driver executable that runs the tests.
+        # NOTE! This should always have a ZERO as exit code
+        # otherwise the coverage generation will not complete.
+        coverage  # Name of output directory.
+        ANNMain  # dependency
+    )
+endif()
 
 include(GNUInstallDirs)
 

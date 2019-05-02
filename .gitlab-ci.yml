@@ -103,12 +103,16 @@ job_test_criterion_clang:
 
 
 #############
-# WEBHOOK STAGE
+# INSTALL STAGE
 job_install_gcc:
   stage: install
-  dependencies: 
-    - job_build_gcc
+  variables:
+      CC: gcc
   script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_BUILD_TYPE=RELWITHDEBINFO ..
+    - make CC=${CC}
     - cd build
     - sudo make install
 
