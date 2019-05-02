@@ -44,6 +44,11 @@ make check
 make coverage
 ```
 
+## Installation
+```
+sudo make install
+```
+
 ## AdaptativeNeuralNetwork
 
 A static library containing multiple neural network models written in C
