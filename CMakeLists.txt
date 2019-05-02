@@ -80,6 +80,8 @@ SETUP_TARGET_FOR_COVERAGE(
     ANNMain  # dependency
 )
 
+include(GNUInstallDirs)
+
 ### INSTALL
 install(
     TARGETS
