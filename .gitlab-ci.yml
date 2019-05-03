@@ -113,7 +113,6 @@ job_install_gcc:
     - cd build
     - cmake -DCMAKE_BUILD_TYPE=RELWITHDEBINFO ..
     - make CC=${CC}
-    - cd build
     - sudo make install
 
 
