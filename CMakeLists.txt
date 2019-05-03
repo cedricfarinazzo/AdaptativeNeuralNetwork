@@ -7,6 +7,7 @@ cmake_policy(SET CMP0079 NEW)
 ### CMAKE MODULE
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/.cmake" ${CMAKE_MODULE_PATH})
 INCLUDE(BuildType)
+include(GNUInstallDirs)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage")
     INCLUDE(CodeCoverage)
 endif()
@@ -32,7 +33,7 @@ configure_file (
 )
 
 set(DEST_DIR "${CMAKE_INSTALL_PREFIX}")
-set(PRIVATE_LIBS "-lm")
+set(PRIVATE_LIBS "-lANN")
 configure_file (
     "${PROJECT_SOURCE_DIR}/pkgconf/ANN.pc.in"
     "${PROJECT_BINARY_DIR}/pkgconf/ANN.pc"
@@ -85,7 +86,6 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage")
     )
 endif()
 
-include(GNUInstallDirs)
 
 ### INSTALL
 install(
