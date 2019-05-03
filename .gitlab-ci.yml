@@ -109,7 +109,7 @@ job_install_gcc:
   variables:
       CC: gcc
   script:
-    - mkdir build
+    - mkdir -p build
     - cd build
     - cmake -DCMAKE_BUILD_TYPE=RELWITHDEBINFO ..
     - make CC=${CC}
