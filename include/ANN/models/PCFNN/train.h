@@ -14,6 +14,6 @@
 int PCFNN_NETWORK_train(struct PCFNN_NETWORK *net, double **data, double **target,
                          size_t size, double validation_split, int(*f_val)(double, double),
                          int shuffle, unsigned long batch_size, size_t epochs, double eta, 
-                         double(*f_cost)(double, double));
+                         double(*f_cost)(double, double), double *status);
 
 #endif /* _ANN_MODELS_PCFNN_TRAIN_H */

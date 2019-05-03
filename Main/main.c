@@ -35,7 +35,7 @@ int main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
     double *target[] = {t1, t2, t3, t4};
 
     PCFNN_NETWORK_train(net, inputs, target,
-                         4, 0.0, NULL, 1, 2, 50000, 0.6, f_cost_quadratic_loss_de);
+                         4, 0.0, NULL, 1, 2, 50000, 0.6, f_cost_quadratic_loss_de, NULL);
 
     for(size_t j = 0; j < 4; ++j) 
     {

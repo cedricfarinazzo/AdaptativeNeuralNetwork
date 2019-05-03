@@ -37,7 +37,7 @@ Test(PCFNN_TRAIN, TrainXORStochastic)
     double *target[] = {t1, t2, t3, t4};
 
     cr_expect_eq(PCFNN_NETWORK_train(net, inputs, target,
-                         4, 0.0, NULL, 1, 1, 50000, 0.6, f_cost_quadratic_loss_de)
+                         4, 0.0, NULL, 1, 1, 50000, 0.6, f_cost_quadratic_loss_de, NULL)
                  , 1);
 
     for(size_t j = 0; j < 4; ++j) 
@@ -73,9 +73,11 @@ Test(PCFNN_TRAIN, TrainXORMiniBatch)
     double *inputs[] = {i1, i2, i3, i4};
     double *target[] = {t1, t2, t3, t4};
 
+    double status;
     cr_expect_eq(PCFNN_NETWORK_train(net, inputs, target,
-                         4, 0.0, NULL, 1, 2, 50000, 0.6, f_cost_quadratic_loss_de)
+                         4, 0.0, NULL, 1, 2, 50000, 0.6, f_cost_quadratic_loss_de, &status)
                  , 1);
+    cr_expect_eq(status, 100.0);
 
     for(size_t j = 0; j < 4; ++j) 
     {

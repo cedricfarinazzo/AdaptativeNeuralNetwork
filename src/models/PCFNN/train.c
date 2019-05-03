@@ -24,7 +24,8 @@ void __PCFNN_BATCH_shuffle(size_t *array, size_t n)
 
 int PCFNN_NETWORK_train(struct PCFNN_NETWORK *net, double **data, double **target,
                          size_t size, double validation_split, int(*f_val)(double, double),
-                         int shuffle, unsigned long batch_size, size_t epochs, double eta, double(*f_cost)(double, double))
+                         int shuffle, unsigned long batch_size, size_t epochs, double eta, 
+                         double(*f_cost)(double, double), double *status)
 {
     if (net == NULL || data == NULL || target == NULL || batch_size <= 0 || epochs == 0
         || validation_split < 0 || validation_split > 1 || f_cost == NULL 
@@ -32,6 +33,10 @@ int PCFNN_NETWORK_train(struct PCFNN_NETWORK *net, double **data, double **targe
         return -1;
     size_t validationsize = (size_t)floor(size * validation_split);
     size_t trainingsize = size - validationsize;
+    
+    double __status; if (status == NULL) status = &__status;
+    double stepstatus = 1/(double)(epochs * trainingsize);
+    *status = 0;
 
     size_t trainingorder[trainingsize];
     for(size_t i = 0; i < trainingsize; ++i)
@@ -45,7 +50,7 @@ int PCFNN_NETWORK_train(struct PCFNN_NETWORK *net, double **data, double **targe
             __PCFNN_BATCH_shuffle(trainingorder, trainingsize);
         for(size_t i = 0; i < trainingsize; i+=batch_size)
         {
-            for(size_t j = 0; j < batch_size && i+j < trainingsize; ++j)
+            for(size_t j = 0; j < batch_size && i+j < trainingsize; ++j, (*status) += stepstatus)
             {
                 PCFNN_NETWORK_feedforward(net, data[trainingorder[i+j]]);
                 PCFNN_NETWORK_backprop(net, target[trainingorder[i+j]], eta, f_cost);
@@ -56,6 +61,7 @@ int PCFNN_NETWORK_train(struct PCFNN_NETWORK *net, double **data, double **targe
     }
     
     PCFNN_NETWORK_free_batch(net);
+    *status = 100.0;
 
     int ok = 1; 
     for (size_t i = trainingsize; ok && i < size; ++i)
