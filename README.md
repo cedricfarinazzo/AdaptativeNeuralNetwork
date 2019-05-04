@@ -53,6 +53,10 @@ sudo make install
 
 A static library containing multiple neural network models written in C
 
+## Examples
+
+See some examples [here](https://github.com/cedricfarinazzo/ANNExample)
+
 
 ## Contribute
 
