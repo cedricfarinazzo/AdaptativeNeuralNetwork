@@ -39,7 +39,7 @@ Test(PCFNN_BACKPROP, XorSimple)
     double before = out1[0];
     free(out1);
 
-    PCFNN_NETWORK_backprop(net, target, 0.1, f_cost_quadratic_loss_de);
+    PCFNN_NETWORK_backprop(net, target, 0.25, 0.9, f_cost_quadratic_loss_de);
     PCFNN_NETWORK_apply_delta(net);
 
     PCFNN_NETWORK_feedforward(net, input);
@@ -73,7 +73,7 @@ Test(PCFNN_BACKPROP, XorSimple2)
     for(size_t i = 0; i < 500; ++i)
     {
         PCFNN_NETWORK_feedforward(net, input);
-        PCFNN_NETWORK_backprop(net, target, 0.1, f_cost_quadratic_loss_de);
+        PCFNN_NETWORK_backprop(net, target, 0.25, 0.9, f_cost_quadratic_loss_de);
         PCFNN_NETWORK_apply_delta(net);
         PCFNN_NETWORK_clear_batch(net);
     }
@@ -114,7 +114,7 @@ Test(PCFNN_BACKPROP, XorTrain)
         {
             PCFNN_NETWORK_feedforward(net, inputs[j]);
             double t[] = {target[j]};
-            PCFNN_NETWORK_backprop(net, t, 0.5, f_cost_quadratic_loss_de);
+            PCFNN_NETWORK_backprop(net, t, 0.25, 0.9, f_cost_quadratic_loss_de);
             PCFNN_NETWORK_apply_delta(net);
             PCFNN_NETWORK_clear_batch(net);
         }

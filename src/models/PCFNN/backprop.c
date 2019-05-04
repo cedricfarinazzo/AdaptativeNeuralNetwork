@@ -64,37 +64,39 @@ void PCFNN_NETWORK_backward(struct PCFNN_NETWORK *net, double *target, double(*f
     free(mark);
 }
 
-void PCFNN_NEURON_update(struct PCFNN_NEURON *n, double *inputs, double eta)
+void PCFNN_NEURON_update(struct PCFNN_NEURON *n, double *inputs, double eta, double alpha)
 {
     if (n == NULL) return;
     if (inputs == NULL) inputs = n->inputs;
     for(size_t i = 0; i < n->size; ++i)
     {
-        n->wdelta[i] -= eta * n->delta * inputs[i];
+        double dw = - eta * n->delta * inputs[i] + alpha * n->lastdw[i];
+        n->lastdw[i] = dw;
+        n->wdelta[i] += dw;
     }
     n->bdelta -= eta * n->delta;
 }
 
-void PCFNN_LAYER_update(struct PCFNN_LAYER *l, double eta)
+void PCFNN_LAYER_update(struct PCFNN_LAYER *l, double eta, double alpha)
 {
     if (l == NULL) return;
     for(size_t i = 0; i < l->size; ++i)
-        PCFNN_NEURON_update(l->neurons[i], NULL, eta);
+        PCFNN_NEURON_update(l->neurons[i], NULL, eta, alpha);
 }
 
 
-void PCFNN_NETWORK_update(struct PCFNN_NETWORK *net, double eta)
+void PCFNN_NETWORK_update(struct PCFNN_NETWORK *net, double eta, double alpha)
 {
     for(size_t i = net->size - 1; i > 0; --i)
-        PCFNN_LAYER_update(net->layers[i], eta);
+        PCFNN_LAYER_update(net->layers[i], eta, alpha);
 }
 
 
-void PCFNN_NETWORK_backprop(struct PCFNN_NETWORK *net, double *target, double eta, double(*f_cost)(double, double))
+void PCFNN_NETWORK_backprop(struct PCFNN_NETWORK *net, double *target, double eta, double alpha, double(*f_cost)(double, double))
 {
     if (net == NULL || target == NULL || f_cost == NULL) return;
     PCFNN_NETWORK_backward(net, target, f_cost);
-    PCFNN_NETWORK_update(net, eta);
+    PCFNN_NETWORK_update(net, eta, alpha);
 }
 
 

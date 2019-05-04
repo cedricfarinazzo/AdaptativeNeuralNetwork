@@ -7,7 +7,7 @@
 #include "network.h"
 
 
-void PCFNN_NETWORK_backprop(struct PCFNN_NETWORK *net, double *target, double eta, double(*f_cost)(double, double));
+void PCFNN_NETWORK_backprop(struct PCFNN_NETWORK *net, double *target, double eta, double alpha, double(*f_cost)(double, double));
 
 
 void PCFNN_NETWORK_apply_delta(struct PCFNN_NETWORK *net);
