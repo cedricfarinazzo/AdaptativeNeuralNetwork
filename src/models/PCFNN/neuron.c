@@ -17,7 +17,7 @@ struct PCFNN_NEURON *PCFNN_NEURON_new(size_t size, double(*f_init)(), double(*f_
     n->bias = f_init();
     for (size_t i = 0; i < size; ++i)
         n->weights[i] = f_init();
-    n->inputs = n->wdelta = NULL;
+    n->inputs = n->wdelta = n->lastdw = NULL;
     n->bdelta = 0;
     n->f_init = f_init;
     n->f_act = f_act;
@@ -85,7 +85,7 @@ struct PCFNN_NEURON *PCFNN_NEURON_clone_all(struct PCFNN_NEURON *n)
     { free(b); return NULL; }
     b->bias = n->bias; b->output = n->output; b->activation = n->activation;
     b->delta = n->delta; b->f_init = n->f_init; b->f_act = n->f_act; b->f_act_de = n->f_act_de; b->size = n->size;
-    b->wdelta = NULL; b->bdelta = 0;
+    b->wdelta = b->lastdw = NULL; b->bdelta = 0;
     for(size_t i = 0; i < b->size; ++i)
         b->weights[i] = n->weights[i];
     b->inputs = calloc(n->size, sizeof(double));
