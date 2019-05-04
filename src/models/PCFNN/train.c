@@ -35,7 +35,7 @@ int PCFNN_NETWORK_train(struct PCFNN_NETWORK *net, double **data, double **targe
     size_t trainingsize = size - validationsize;
     
     double __status; if (status == NULL) status = &__status;
-    double stepstatus = 1/(double)(epochs * trainingsize);
+    double stepstatus = (1/(double)(epochs * trainingsize)) * 100;
     *status = 0;
 
     size_t trainingorder[trainingsize];
