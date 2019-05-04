@@ -15,4 +15,7 @@ void PCFNN_NETWORK_free_batch(struct PCFNN_NETWORK *net);
 
 void PCFNN_NETWORK_clear_batch(struct PCFNN_NETWORK *net);
 
+
+void PCFNN_NETWORK_clear_batch_all(struct PCFNN_NETWORK *net);
+
 #endif /* _ANN_MODELS_PCFNN_BATCH_H */

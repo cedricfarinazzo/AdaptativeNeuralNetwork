@@ -83,7 +83,6 @@ Test(PCFNN_TRAIN, TrainXORMiniBatch)
     {
         PCFNN_NETWORK_feedforward(net, inputs[j]);
         double *out = PCFNN_NETWORK_get_output(net);
-        printf("\n\n\n %f      %f \n\n\n", target[j][0], out[0]);
         if (target[j][0] == 1)
             cr_expect_gt(out[0], 0.75);
         else

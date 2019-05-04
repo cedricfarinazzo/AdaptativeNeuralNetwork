@@ -46,6 +46,23 @@ void PCFNN_NETWORK_clear_batch(struct PCFNN_NETWORK *net)
                 {
                     net->layers[l]->neurons[n]->wdelta[i] = 0;
                 }
+            }
+            net->layers[l]->neurons[n]->bdelta = 0;
+        }
+}
+
+void PCFNN_NETWORK_clear_batch_all(struct PCFNN_NETWORK *net)
+{
+    if (net == NULL) return;
+    for(size_t l = 0; l < net->size; ++l)
+        for(size_t n = 0; n < net->layers[l]->size; ++n)
+        {
+            for(size_t i = 0; i < net->layers[l]->neurons[n]->size; ++i)
+            {
+                if (net->layers[l]->neurons[n]->wdelta != NULL)
+                {
+                    net->layers[l]->neurons[n]->wdelta[i] = 0;
+                }
                 if (net->layers[l]->neurons[n]->lastdw != NULL)
                 {
                     net->layers[l]->neurons[n]->lastdw[i] = 0;
