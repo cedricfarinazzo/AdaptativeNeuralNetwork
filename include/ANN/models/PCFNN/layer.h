@@ -107,7 +107,6 @@ int PCFNN_LAYER_addn(struct PCFNN_LAYER *l, size_t size, size_t inputs, double(*
  * \fn PCFNN_LAYER_new_input(size_t size, double(*f_act)(double), double(*f_act_de)(double))
  * \brief Initialize a PCFNN_LAYER as an input layer
  * \param[in] size (size_t) number of neuron in this layer
- * \param[in] f_init (double(*f_init)()) a pointer on an weights/bias initialisation functon or NULL
  * \param[in] f_act (double(*f_act)(double)) a pointer on activation functon or NULL
  * \param[in] f_act_de (double(*f_act_de)(double)) a pointer on derivative activation functon who is the derivate of the f_act function pointer or NULL
  * \return PCFNN_LAYER structure pointer or NULL if an error occured
@@ -121,8 +120,8 @@ struct PCFNN_LAYER *PCFNN_LAYER_new_input(size_t size, double(*f_act)(double), d
                        size_t offset_from, size_t offset_to,
                        double(*f_init_to)(), double(*f_act_to)(double), double(*f_act_de_to)(double))
  * \brief Connect two PCFNN_LAYER. It will create a link between from and to
- * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
- * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
+ * \param[in] from (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
+ * \param[in] to (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
  * \param[in] size_from (size_t) number of neuron of from to connect
  * \param[in] size_to (size_t) number of neuron of to to connect (It will create size_to neurons in to if necessary)
  * \param[in] offset_from (size_t) offset of offset_from where you want to start the connection for the from layer

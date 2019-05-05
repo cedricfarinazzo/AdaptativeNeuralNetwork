@@ -1,0 +1,12 @@
+FIND_PACKAGE(Doxygen REQUIRED dot OPTIONAL_COMPONENTS mscgen dia)
+IF (DOXYGEN_FOUND)
+    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/doc)
+    ADD_CUSTOM_TARGET(doc
+	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+        COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_SOURCE_DIR}/Doxyfile;
+    )
+    ADD_CUSTOM_COMMAND(TARGET doc POST_BUILD
+        COMMAND ;
+        COMMENT "Open ./doc/html/index.html in your browser."
+    )
+ENDIF()

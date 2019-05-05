@@ -22,6 +22,7 @@
 
 ## Requirements
 - gcc or clang
+- make
 - [cmake](https://criterion.readthedocs.io/en/master/)
 - [criterion](https://cmake.org/) (test only)
 
@@ -68,4 +69,4 @@ See some examples [here](https://github.com/cedricfarinazzo/ANNExample)
 
 ## License
 
-See the [LICENSE](LICENSE) file for licensing information.
+See the [LICENSE](./LICENSE) file for licensing information.

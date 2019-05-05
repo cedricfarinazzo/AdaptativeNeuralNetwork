@@ -20,7 +20,7 @@
 /**
  * \fn PCFNN_NEURON_feedforward(struct PCFNN_NEURON *n, double *inputs, double(*f_act)(double), double(*f_act_de)(double))
  * \brief Feedforward the neuron n
- * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
+ * \param[in] n (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
  * \param[in] inputs (double*) a double array to be used to populate the neuron
  * \param[in] f_act (double(*f_act)(double)) a pointer on activation functon or NULL
  * \param[in] f_act_de (double(*f_act_de)(double)) a pointer on derivative activation functon who is the derivate of the f_act function pointer or NULL

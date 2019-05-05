@@ -8,6 +8,7 @@ cmake_policy(SET CMP0079 NEW)
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/.cmake" ${CMAKE_MODULE_PATH})
 INCLUDE(BuildType)
 include(GNUInstallDirs)
+include(Doxygen)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage")
     INCLUDE(CodeCoverage)
 endif()
@@ -58,9 +59,9 @@ target_link_libraries(ANNMain ANN)
 
 ##### TARGET
 add_custom_target(check
-    COMMAND ASAN_OPTIONS=allocator_may_return_null=1 ${CMAKE_BINARY_DIR}/Test/ANNTest -j0
-    COMMENT "Running test !!!"
-    DEPENDS ANNTest
+    command asan_options=allocator_may_return_null=1 ${cmake_binary_dir}/test/anntest -j0
+    comment "running test !!!"
+    depends anntest
 )
 
 add_custom_target(run
