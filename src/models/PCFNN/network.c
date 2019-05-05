@@ -47,7 +47,7 @@ int PCFNN_NETWORK_addl(struct PCFNN_NETWORK *net, struct PCFNN_LAYER *l)
 
 int PCFNN_NETWORK_build(struct PCFNN_NETWORK *net)
 {
-    if (net == NULL) return;
+    if (net == NULL) return 1;
     int e = 0;
     for(size_t i = 0; i < net->size && e == 0; ++i)
     { 
