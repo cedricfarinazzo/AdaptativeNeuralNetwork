@@ -18,7 +18,7 @@
 
 
 /**
- * \fn PCFNN_NEURON_feedforward
+ * \fn PCFNN_NEURON_feedforward(struct PCFNN_NEURON *n, double *inputs, double(*f_act)(double), double(*f_act_de)(double))
  * \brief Feedforward the neuron n
  * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
  * \param[in] inputs (double*) a double array to be used to populate the neuron
@@ -30,7 +30,7 @@ double PCFNN_NEURON_feedforward(struct PCFNN_NEURON *n, double *inputs, double(*
 
 
 /**
- * \fn PCFNN_LAYER_feedforward_input
+ * \fn PCFNN_LAYER_feedforward_input(struct PCFNN_LAYER *l, double *inputs)
  * \brief Feedforward the input layer l
  * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
  * \param[in] inputs (double*) a double array to be used to populate the layer
@@ -39,7 +39,7 @@ void PCFNN_LAYER_feedforward_input(struct PCFNN_LAYER *l, double *inputs);
 
 
 /**
- * \fn PCFNN_LAYER_feedforward
+ * \fn PCFNN_LAYER_feedforward(struct PCFNN_LAYER *l)
  * \brief Feedforward the hidden layer l
  * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
  */
@@ -47,7 +47,7 @@ void PCFNN_LAYER_feedforward(struct PCFNN_LAYER *l);
 
 
 /**
- * \fn PCFNN_NETWORK_feedforward
+ * \fn PCFNN_NETWORK_feedforward(struct PCFNN_NETWORK *net, double *inputs)
  * \brief Feedforward the PCFNN_NETWORK net
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
  * \param[in] inputs (double*) a double array to be used to populate the input layer
@@ -56,7 +56,7 @@ void PCFNN_NETWORK_feedforward(struct PCFNN_NETWORK *net, double *inputs);
 
 
 /**
- * \fn PCFNN_NETWORK_get_output
+ * \fn PCFNN_NETWORK_get_output(struct PCFNN_NETWORK *net)
  * \brief Return a double array which is the output of the output layer of net
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
  * \return a double array or NULL if an error occured

@@ -18,7 +18,7 @@
 
 
 /**
- * \fn PCFNN_NETWORK_backprop
+ * \fn PCFNN_NETWORK_backprop(struct PCFNN_NETWORK *net, double *target, double eta, double alpha, double(*f_cost)(double, double))
  * \brief Run the Backpropagation Algorithm on the network net
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
  * \param[in] target (double*) double array: expected output of the output layer of net
@@ -30,7 +30,7 @@ void PCFNN_NETWORK_backprop(struct PCFNN_NETWORK *net, double *target, double et
 
 
 /**
- * \fn PCFNN_NETWORK_apply_delta
+ * \fn PCFNN_NETWORK_apply_delta(struct PCFNN_NETWORK *net)
  * \brief Apply all delta calculated by PCFNN_NETWORK_backprop on the network net
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
  */

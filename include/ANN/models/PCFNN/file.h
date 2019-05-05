@@ -19,7 +19,7 @@
 
 
 /**
- * \fn PCFNN_NETWORK_save_conf
+ * \fn PCFNN_NETWORK_save_conf(struct PCFNN_NETWORK *net, FILE *fout)
  * \brief Save bias and weights of each neurons of net in fout
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
  * \param[in] fout (FILE*) stream on file with write permission
@@ -29,7 +29,7 @@ int PCFNN_NETWORK_save_conf(struct PCFNN_NETWORK *net, FILE *fout);
 
 
 /**
- * \fn PCFNN_NETWORK_load_conf
+ * \fn PCFNN_NETWORK_load_conf(struct PCFNN_NETWORK *net, FILE *fin)
  * \brief Load bias and weights of each neurons of net from fin
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
  * \param[in] fout (FILE*) stream on file with read permission

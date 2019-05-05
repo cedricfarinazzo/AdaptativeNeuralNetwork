@@ -29,7 +29,7 @@ struct PCFNN_NETWORK {
 
 
 /**
- * \fn PCFNN_NETWORK_new
+ * \fn PCFNN_NETWORK_new()
  * \brief Initialize a PCFNN_NETWORK
  * \return PCFNN_NETWORK structure pointer or NULL if an error occured
  */
@@ -37,7 +37,7 @@ struct PCFNN_NETWORK *PCFNN_NETWORK_new();
 
 
 /**
- * \fn PCFNN_NETWORK_free
+ * \fn PCFNN_NETWORK_free(struct PCFNN_NETWORK *net)
  * \brief Free all memory allocation of an PCFNN_NETWORK (It will call PCFNN_LAYER_free)
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK to free
  */
@@ -45,7 +45,7 @@ void PCFNN_NETWORK_free(struct PCFNN_NETWORK *net);
 
 
 /**
- * \fn PCFNN_NETWORK_clear
+ * \fn PCFNN_NETWORK_clear(struct PCFNN_NETWORK *net)
  * \brief Clear all layers in the PCFNN_NETWORK net (It will call PCFNN_LAYER_clear)
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK to clear
  */
@@ -53,7 +53,7 @@ void PCFNN_NETWORK_clear(struct PCFNN_NETWORK *net);
 
 
 /**
- * \fn PCFNN_NETWORK_addl
+ * \fn PCFNN_NETWORK_addl(struct PCFNN_NETWORK *net, struct PCFNN_LAYER *l)
  * \brief Add the PCFNN_LAYER l to the PCFNN_NETWORK net
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
  * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER to add
@@ -63,7 +63,7 @@ int PCFNN_NETWORK_addl(struct PCFNN_NETWORK *net, struct PCFNN_LAYER *l);
 
 
 /**
- * \fn PCFNN_NETWORK_build
+ * \fn PCFNN_NETWORK_build(struct PCFNN_NETWORK *net)
  * \brief Initialize all internal data of the PCFNN_NETWORK l and build of PCFNN_LAYER it contains
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
  * \return 0 if done, 1 if wrong arguments or -1 if an allocation failed and the network and all layers it contains are broken
@@ -72,7 +72,7 @@ int PCFNN_NETWORK_build(struct PCFNN_NETWORK *net);
 
 
 /**
- * \fn PCFNN_NETWORK_get_ram_usage
+ * \fn PCFNN_NETWORK_get_ram_usage(struct PCFNN_NETWORK *net)
  * \brief Give the number of bytes used by the PCFNN_NETWORK net and all PCFNN_LAYER it contains
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
  * \return (size_t) number of bytes if l is NULL return 0

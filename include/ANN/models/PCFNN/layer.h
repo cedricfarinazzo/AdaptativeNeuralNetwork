@@ -64,7 +64,7 @@ struct PCFNN_LAYER {
 
 /**
  * \fn PCFNN_LAYER_new
- * \brief Initialize a PCFNN_LAYER
+ * \brief Initialize a PCFNN_LAYER(double(*f_init)(), double(*f_act)(double), double(*f_act_de)(double))
  * \param[in] f_init (double(*f_init)()) a pointer on an weights/bias initialisation functon or NULL
  * \param[in] f_act (double(*f_act)(double)) a pointer on activation functon or NULL
  * \param[in] f_act_de (double(*f_act_de)(double)) a pointer on derivative activation functon who is the derivate of the f_act function pointer or NULL
@@ -74,7 +74,7 @@ struct PCFNN_LAYER *PCFNN_LAYER_new(double(*f_init)(), double(*f_act)(double), d
 
 
 /**
- * \fn PCFNN_LAYER_free
+ * \fn PCFNN_LAYER_free(struct PCFNN_LAYER *l)
  * \brief Free all memory allocation of an PCFNN_LAYER (It will call PCFNN_NEURON_free)
  * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER to free
  */
@@ -82,7 +82,7 @@ void PCFNN_LAYER_free(struct PCFNN_LAYER *l);
 
 
 /**
- * \fn PCFNN_LAYER_clear
+ * \fn PCFNN_LAYER_clear(struct PCFNN_LAYER *l)
  * \brief Clear all neurons in the layer l (It will call PCFNN_NEURON_clear)
  * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER to clear
  */
@@ -90,7 +90,7 @@ void PCFNN_LAYER_clear(struct PCFNN_LAYER *l);
 
 
 /**
- * \fn PCFNN_LAYER_addn
+ * \fn PCFNN_LAYER_addn(struct PCFNN_LAYER *l, size_t size, size_t inputs, double(*f_init)(), double(*f_act)(double), double(*f_act_de)(double))
  * \brief Add neurons in the PCFNN_LAYER l
  * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
  * \param[in] size (size_t) number of PCFNN_NEURON to Add
@@ -104,7 +104,7 @@ int PCFNN_LAYER_addn(struct PCFNN_LAYER *l, size_t size, size_t inputs, double(*
 
 
 /**
- * \fn PCFNN_LAYER_new_input
+ * \fn PCFNN_LAYER_new_input(size_t size, double(*f_act)(double), double(*f_act_de)(double))
  * \brief Initialize a PCFNN_LAYER as an input layer
  * \param[in] size (size_t) number of neuron in this layer
  * \param[in] f_init (double(*f_init)()) a pointer on an weights/bias initialisation functon or NULL
@@ -116,7 +116,10 @@ struct PCFNN_LAYER *PCFNN_LAYER_new_input(size_t size, double(*f_act)(double), d
 
 
 /**
- * \fn PCFNN_LAYER_connect
+ * \fn PCFNN_LAYER_connect(struct PCFNN_LAYER *from, struct PCFNN_LAYER *to,
+                       size_t size_from, size_t size_to,
+                       size_t offset_from, size_t offset_to,
+                       double(*f_init_to)(), double(*f_act_to)(double), double(*f_act_de_to)(double))
  * \brief Connect two PCFNN_LAYER. It will create a link between from and to
  * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
  * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
@@ -136,7 +139,7 @@ int PCFNN_LAYER_connect(struct PCFNN_LAYER *from, struct PCFNN_LAYER *to,
 
 
 /**
- * \fn PCFNN_LAYER_build
+ * \fn PCFNN_LAYER_build(struct PCFNN_LAYER *l)
  * \brief Initialize all internal data of the layer l and build of PCFNN_NEURON it contains
  * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
  * \return 0 if done, 1 if wrong arguments or -1 if an allocation failed and the layer is broken
@@ -145,7 +148,7 @@ int PCFNN_LAYER_build(struct PCFNN_LAYER *l);
 
 
 /**
- * \fn PCFNN_LAYER_get_ram_usage
+ * \fn PCFNN_LAYER_get_ram_usage(struct PCFNN_LAYER *l)
  * \brief Give the number of bytes used by the PCFNN_LAYER l and all PCFNN_NEURON it contains
  * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
  * \return (size_t) number of bytes if l is NULL return 0

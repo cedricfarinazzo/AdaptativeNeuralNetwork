@@ -35,7 +35,7 @@ struct PCFNN_NEURON {
 
 
 /**
- * \fn PCFNN_NEURON_new
+ * \fn PCFNN_NEURON_new(size_t size, double(*f_init)(), double(*f_act)(double), double(*f_act_de)(double))
  * \brief Initialize a PCFNN_NEURON
  * \param[in] size (size_t) input size
  * \param[in] f_init (double(*f_init)()) a pointer on an weights/bias initialisation functon or NULL
@@ -47,7 +47,7 @@ struct PCFNN_NEURON *PCFNN_NEURON_new(size_t size, double(*f_init)(), double(*f_
 
 
 /**
- * \fn PCFNN_NEURON_clear
+ * \fn PCFNN_NEURON_clear(struct PCFNN_NEURON *n)
  * \brief Clear a PCFNN_NEURON
  * \param[in] n (struct PCFNN_NEURON*) a pointer an a PCFNN_NEURON
  */
@@ -55,7 +55,7 @@ void PCFNN_NEURON_clear(struct PCFNN_NEURON *n);
 
 
 /**
- * \fn PCFNN_NEURON_free
+ * \fn PCFNN_NEURON_free(struct PCFNN_NEURON *n)
  * \brief Free all memory allocation of an PCFNN_NEURON
  * \param[in] n (struct PCFNN_NEURON*) a pointer an a PCFNN_NEURON to free
  */
@@ -63,7 +63,7 @@ void PCFNN_NEURON_free(struct PCFNN_NEURON *n);
 
 
 /**
- * \fn PCFNN_NEURON_addinputs
+ * \fn PCFNN_NEURON_addinputs(struct PCFNN_NEURON *n, size_t inputs)
  * \brief Increase the input size of the PCFNN_NEURON
  * \param[in] n (struct PCFNN_NEURON*) a pointer an a PCFNN_NEURON
  * \param[in] inputs (size_t) number of input to add. if 0 do nothing.
@@ -72,7 +72,7 @@ void PCFNN_NEURON_addinputs(struct PCFNN_NEURON *n, size_t inputs);
 
 
 /**
- * \fn PCFNN_NEURON_build
+ * \fn PCFNN_NEURON_build(struct PCFNN_NEURON *n)
  * \brief Initialize all internal data of a PCFNN_NEURON
  * \param[in] n (struct PCFNN_NEURON*) a pointer an a PCFNN_NEURON
  */
@@ -80,7 +80,7 @@ void PCFNN_NEURON_build(struct PCFNN_NEURON *n);
 
 
 /**
- * \fn PCFNN_NEURON_get_ram_usage
+ * \fn PCFNN_NEURON_get_ram_usage(struct PCFNN_NEURON *n)
  * \brief Give the number of bytes used by the PCFNN_NEURON n
  * \param[in] n (struct PCFNN_NEURON*) a pointer an a PCFNN_NEURON
  * \return (size_t) number of bytes
@@ -89,7 +89,7 @@ size_t PCFNN_NEURON_get_ram_usage(struct PCFNN_NEURON *n);
 
 
 /**
- * \fn PCFNN_NEURON_clone_stat
+ * \fn PCFNN_NEURON_clone_stat(struct PCFNN_NEURON *n)
  * \brief Copy the input size, initialisation function and activation function from n and create a new PCFNN_NEURON
  * \param[in] n (struct PCFNN_NEURON*) a pointer an a PCFNN_NEURON
  * \return (struct PCFNN_NEURON*) the new neuron or NULL if an error occured
@@ -98,7 +98,7 @@ struct PCFNN_NEURON *PCFNN_NEURON_clone_stat(struct PCFNN_NEURON *n);
 
 
 /**
- * \fn PCFNN_NEURON_clone_all
+ * \fn PCFNN_NEURON_clone_all(struct PCFNN_NEURON *n)
  * \brief Copy all data from n and create a new PCFNN_NEURON
  * \param[in] n (struct PCFNN_NEURON*) a pointer an a PCFNN_NEURON
  * \return (struct PCFNN_NEURON*) the new neuron or NULL if an error occured

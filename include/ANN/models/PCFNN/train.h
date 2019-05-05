@@ -22,7 +22,10 @@
 
 
 /**
- * \fn PCFNN_NETWORK_train
+ * \fn PCFNN_NETWORK_train(struct PCFNN_NETWORK *net, double **data, double **target,
+                         size_t size, double validation_split, int(*f_val)(double, double),
+                         int shuffle, unsigned long batch_size, size_t epochs, double eta, double alpha,
+                         double(*f_cost)(double, double), double *status)
  * \brief Train the network net
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
  * \param[in] data (double**) double array array: an array of input data (lenght of data is size)

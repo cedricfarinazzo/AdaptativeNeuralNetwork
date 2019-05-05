@@ -18,7 +18,7 @@
 
 
 /**
- * \fn PCFNN_NETWORK_init_batch
+ * \fn PCFNN_NETWORK_init_batch(struct PCFNN_NETWORK *net)
  * \brief Initialize batch for the network net
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
  */
@@ -26,7 +26,7 @@ void PCFNN_NETWORK_init_batch(struct PCFNN_NETWORK *net);
 
 
 /**
- * \fn PCFNN_NETWORK_free_batch
+ * \fn PCFNN_NETWORK_free_batch(struct PCFNN_NETWORK *net)
  * \brief Free all memory allocation for the batch of the network net
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
  */
@@ -34,7 +34,7 @@ void PCFNN_NETWORK_free_batch(struct PCFNN_NETWORK *net);
 
 
 /**
- * \fn PCFNN_NETWORK_clear_batch
+ * \fn PCFNN_NETWORK_clear_batch(struct PCFNN_NETWORK *net)
  * \brief Partially clear batch data of the network net
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
  */
@@ -42,7 +42,7 @@ void PCFNN_NETWORK_clear_batch(struct PCFNN_NETWORK *net);
 
 
 /**
- * \fn PCFNN_NETWORK_clear_batch
+ * \fn PCFNN_NETWORK_clear_batch(struct PCFNN_NETWORK *net)
  * \brief Clear all batch data of the network net
  * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
  */
