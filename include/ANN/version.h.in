@@ -1,3 +1,11 @@
+/**
+ * \file ANN/version.h
+ * \brief Version control file
+ * \author Cedric FARINAZZO
+ * \version @PROJECT_VERSION@
+ * \date 5 may 2019
+ */
+
 #ifndef _ANN_VERSION_H_
 #define _ANN_VERSION_H_
 

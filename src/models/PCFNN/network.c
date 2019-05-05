@@ -45,21 +45,23 @@ int PCFNN_NETWORK_addl(struct PCFNN_NETWORK *net, struct PCFNN_LAYER *l)
 }
 
 
-void PCFNN_NETWORK_build(struct PCFNN_NETWORK *net)
+int PCFNN_NETWORK_build(struct PCFNN_NETWORK *net)
 {
     if (net == NULL) return;
-        for(size_t i = 0; i < net->size; ++i)
-        { PCFNN_LAYER_build(net->layers[i]); net->layers[i]->index = i; }
-    for(size_t i = 0; i < net->size; ++i)
+    int e = 0;
+    for(size_t i = 0; i < net->size && e == 0; ++i)
+    { 
+        e = PCFNN_LAYER_build(net->layers[i]); 
+        net->layers[i]->index = i; 
+    }
+    for(size_t i = 0; e == 0 && i < net->size; ++i)
     {
         if (net->layers[i]->type == PCFNN_LAYER_INPUT)
         { net->inputl = net->layers[i]; break; }
-    }
-    for(size_t i = 0; i < net->size; ++i)
-    {
         if (net->layers[i]->type == PCFNN_LAYER_OUTPUT)
         { net->outputl = net->layers[i]; break; }
     }
+    return e;
 }
 
 
