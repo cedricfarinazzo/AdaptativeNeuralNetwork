@@ -61,3 +61,14 @@ void PCFNN_NETWORK_build(struct PCFNN_NETWORK *net)
         { net->outputl = net->layers[i]; break; }
     }
 }
+
+
+size_t PCFNN_NETWORK_get_ram_usage(struct PCFNN_NETWORK *net)
+{
+    if (net == NULL) return 0;
+    size_t usage = sizeof(struct PCFNN_NETWORK);
+    usage += sizeof(struct PCFNN_LAYER*) * net->size;
+    for (size_t i = 0; i < net->size; ++i)
+        usage += PCFNN_LAYER_get_ram_usage(net->layers[i]);
+    return usage;
+}

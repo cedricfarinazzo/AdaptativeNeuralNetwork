@@ -31,6 +31,9 @@ void PCFNN_NEURON_addinputs(struct PCFNN_NEURON *n, size_t inputs);
 void PCFNN_NEURON_build(struct PCFNN_NEURON *n);
 
 
+size_t PCFNN_NEURON_get_ram_usage(struct PCFNN_NEURON *n);
+
+
 struct PCFNN_NEURON *PCFNN_NEURON_clone_stat(struct PCFNN_NEURON *n);
 
 

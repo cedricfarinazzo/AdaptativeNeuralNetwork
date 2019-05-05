@@ -61,4 +61,6 @@ int PCFNN_LAYER_connect(struct PCFNN_LAYER *from, struct PCFNN_LAYER *to,
 int PCFNN_LAYER_build(struct PCFNN_LAYER *l);
 
 
+size_t PCFNN_LAYER_get_ram_usage(struct PCFNN_LAYER *l);
+
 #endif /* _ANN_MODELS_PCFNN_LAYER_H_ */

@@ -169,3 +169,16 @@ int PCFNN_LAYER_build(struct PCFNN_LAYER *l)
         l->type = PCFNN_LAYER_HIDDEN;
     return 0;
 }
+
+
+size_t PCFNN_LAYER_get_ram_usage(struct PCFNN_LAYER *l)
+{
+    if (l == NULL) return 0;
+    size_t usage = sizeof(struct PCFNN_LAYER);
+    usage += sizeof(struct PCFNN_NEURON*) * l->size;
+    for (size_t i = 0; i < l->size; ++i)
+        usage += PCFNN_NEURON_get_ram_usage(l->neurons[i]);
+    usage += sizeof(struct PCFNN_LAYER_LINK*) * l->nblinks;
+    usage += sizeof(struct PCFNN_LAYER_LINK) * l->nblinks;
+    return usage;
+}

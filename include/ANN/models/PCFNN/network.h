@@ -28,4 +28,7 @@ void PCFNN_NETWORK_build(struct PCFNN_NETWORK *net);
 
 double *PCFNN_NETWORK_get_output(struct PCFNN_NETWORK *net);
 
+
+size_t PCFNN_NETWORK_get_ram_usage(struct PCFNN_NETWORK *net);
+
 #endif /* _ANN_MODELS_PCFNN_NETWORK_H_ */

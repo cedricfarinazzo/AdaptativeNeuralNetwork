@@ -179,3 +179,13 @@ Test(PCFNN_NETWORK, FeedForward2)
 
     PCFNN_NETWORK_free(net);
 }
+
+
+Test(PCFNN_NETWORK, RamUsage)
+{
+    struct PCFNN_NETWORK *net = PCFNN_NETWORK_new();
+    
+    cr_expect_neq(PCFNN_NETWORK_get_ram_usage(net), 0);
+
+    PCFNN_NETWORK_free(net);
+}

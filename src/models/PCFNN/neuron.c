@@ -67,6 +67,15 @@ void PCFNN_NEURON_build(struct PCFNN_NEURON *n)
 }
 
 
+size_t PCFNN_NEURON_get_ram_usage(struct PCFNN_NEURON *n)
+{
+    if (n == NULL) return 0;
+    size_t usage = sizeof(struct PCFNN_NEURON);
+    if (n->weights != NULL) usage += sizeof(double) * n->size;
+    return usage;
+}
+
+
 struct PCFNN_NEURON *PCFNN_NEURON_clone_stat(struct PCFNN_NEURON *n)
 {
     if (n == NULL) return NULL;
