@@ -4,7 +4,7 @@
  * \author Cedric FARINAZZO
  * \version 0.1
  * \date 5 may 2019
- * 
+ *
  * network unit for PCFNN neural network
  */
 
@@ -69,15 +69,6 @@ int PCFNN_NETWORK_addl(struct PCFNN_NETWORK *net, struct PCFNN_LAYER *l);
  * \return 0 if done, 1 if wrong arguments or -1 if an allocation failed and the network and all layers it contains are broken
  */
 int PCFNN_NETWORK_build(struct PCFNN_NETWORK *net);
-
-
-/**
- * \fn PCFNN_NETWORK_get_output
- * \brief Return a double array which is the output of the output layer of net 
- * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
- * \return a double array or NULL if an error occured
- */
-double *PCFNN_NETWORK_get_output(struct PCFNN_NETWORK *net);
 
 
 /**
