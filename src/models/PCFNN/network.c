@@ -56,10 +56,10 @@ int PCFNN_NETWORK_build(struct PCFNN_NETWORK *net)
     }
     for(size_t i = 0; e == 0 && i < net->size; ++i)
     {
-        if (net->layers[i]->type == PCFNN_LAYER_INPUT)
-        { net->inputl = net->layers[i]; break; }
-        if (net->layers[i]->type == PCFNN_LAYER_OUTPUT)
-        { net->outputl = net->layers[i]; break; }
+        if (net->inputl == NULL && net->layers[i]->type == PCFNN_LAYER_INPUT)
+        { net->inputl = net->layers[i]; continue; }
+        if (net->outputl == NULL && net->layers[i]->type == PCFNN_LAYER_OUTPUT)
+        { net->outputl = net->layers[i]; continue; }
     }
     return e;
 }
