@@ -5,6 +5,7 @@ stages:
   - coverage
   - test
   - install
+  - doc
   - webhook
   
 #before_script:
@@ -63,7 +64,7 @@ job_coverage_gcov:
   script:
     - cd build
     - make coverage
-  allow_failure: true
+
 
 ################
 # TEST STAGE 
@@ -115,6 +116,18 @@ job_install_gcc:
     - make CC=${CC}
     - sudo make install
 
+#############
+# DOC STAGE
+job_doc:
+  stage: doc
+  artifacts:
+    paths:
+      - build/doc/
+  script:
+    - mkdir -p build
+    - cd build
+    - cmake ..
+    - make doc
 
 #############
 # WEBHOOK STAGE
