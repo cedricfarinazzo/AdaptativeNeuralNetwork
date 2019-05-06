@@ -59,9 +59,9 @@ target_link_libraries(ANNMain ANN)
 
 ##### TARGET
 add_custom_target(check
-    command asan_options=allocator_may_return_null=1 ${cmake_binary_dir}/test/anntest -j0
-    comment "running test !!!"
-    depends anntest
+    COMMAND ASAN_OPTIONS=allocator_may_return_null=1 ${CMAKE_BINARY_DIR}/Test/ANNTest -j0
+    COMMENT "Running test !!!"
+    DEPENDS ANNTest
 )
 
 add_custom_target(run
