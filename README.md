@@ -23,8 +23,8 @@
 ## Requirements
 - gcc or clang
 - make
-- [cmake](https://criterion.readthedocs.io/en/master/)
-- [criterion](https://cmake.org/) (test only)
+- [cmake](https://cmake.org/)
+- [criterion](https://criterion.readthedocs.io/en/master/) (test only)
 
 
 ## How to build
@@ -35,24 +35,32 @@
 mkdir build && cd build && cmake .. && make
 ```
 
+
 ## Run test
+
 ```
 make check
 ```
 
+
 ## Coverage report
+
 ```
 make coverage
 ```
 
+
 ## Installation
+
 ```
 sudo make install
 ```
 
+
 ## AdaptativeNeuralNetwork
 
 A static library containing multiple neural network models written in C
+
 
 ## Examples
 
@@ -66,6 +74,7 @@ See some examples [here](https://github.com/cedricfarinazzo/ANNExample)
 - Make your changes
 - Merge your branch to master
 - Create a pull request and explain your changes
+
 
 ## License
 
