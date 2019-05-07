@@ -15,15 +15,15 @@ IF (DOXYGEN_FOUND AND PERL_FOUND)
     ADD_CUSTOM_TARGET(doc
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/README.md ${DOXYGEN_WORK_DIR}
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/LICENSE ${DOXYGEN_WORK_DIR}
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/Doxyfile ${DOXYGEN_WORK_DIR}
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/Doxyfile ${DOXYGEN_WORK_DIR}
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/src ${DOXYGEN_WORK_DIR}/src/
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/include ${DOXYGEN_WORK_DIR}/include
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_BINARY_DIR}/include ${DOXYGEN_WORK_DIR}/include
         
         COMMAND cat ${DOXYGEN_WORK_DIR}/README.md | grep -E -o "https.*/badges/.*.svg" > "${CMAKE_BINARY_DIR}/img_svg.link"
-        COMMAND ${CMAKE_SOURCE_DIR}/.cmake/doxy-img.sh "${DOXYGEN_WORK_DIR}/img" "${DOXYGEN_WORK_DIR}/README.md"
         WORKING_DIRECTORY ${DOXYGEN_WORK_DIR}
         COMMAND ${DOXYGEN_EXECUTABLE}
+        COMMAND ${CMAKE_SOURCE_DIR}/.cmake/doxy-img.sh "${DOXYGEN_WORK_DIR}/doc/html/index.html"
     )
     
     ADD_CUSTOM_COMMAND(TARGET doc POST_BUILD

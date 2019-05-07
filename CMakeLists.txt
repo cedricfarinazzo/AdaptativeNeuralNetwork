@@ -41,6 +41,12 @@ configure_file (
     @ONLY
 )
 
+configure_file (
+    "${PROJECT_SOURCE_DIR}/Doxyfile.in"
+    "${PROJECT_BINARY_DIR}/Doxyfile"
+    @ONLY
+)
+
 ### STATIC LIBRARY BUILDING RULES
 FILE(GLOB_RECURSE SRCFILES src/*.c)
 
