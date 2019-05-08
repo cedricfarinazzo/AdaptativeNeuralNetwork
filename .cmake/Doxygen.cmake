@@ -19,6 +19,7 @@ IF (DOXYGEN_FOUND AND PERL_FOUND)
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/src ${DOXYGEN_WORK_DIR}/src/
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/include ${DOXYGEN_WORK_DIR}/include
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_BINARY_DIR}/include ${DOXYGEN_WORK_DIR}/include
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/.images ${DOXYGEN_WORK_DIR}/.images
         
         COMMAND cat ${DOXYGEN_WORK_DIR}/README.md | grep -E -o "https.*/badges/.*.svg" > "${CMAKE_BINARY_DIR}/img_svg.link"
         WORKING_DIRECTORY ${DOXYGEN_WORK_DIR}

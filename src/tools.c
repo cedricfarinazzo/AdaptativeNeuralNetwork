@@ -53,7 +53,7 @@ double f_act_softplus(double n)
 
 double f_act_softplus_de(double n)
 {
-    return f_act_sigmoid_de(n);
+    return f_act_sigmoid(n);
 }
 
 #ifndef F_ACT_ELU_ALPHA

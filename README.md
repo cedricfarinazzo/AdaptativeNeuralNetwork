@@ -1,5 +1,7 @@
 # AdaptativeNeuralNetwork ANN (0.1.1.0)
 
+![ANN logo](./.images/logo.medium.png "ANN logo")
+
 ### Build status
 
 | Branch | Status |
