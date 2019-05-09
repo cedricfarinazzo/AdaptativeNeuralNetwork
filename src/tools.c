@@ -71,7 +71,7 @@ double f_act_elu_de(double n)
 
 double f_cost_quadratic_loss(double o, double t)
 {
-    return (o - t) * (o - t) * F_COST_QUADRATIC_CONSTANT;
+    return (t - o) * (t - o) * F_COST_QUADRATIC_CONSTANT;
 }
 
 double f_cost_quadratic_loss_de(double o, double t)

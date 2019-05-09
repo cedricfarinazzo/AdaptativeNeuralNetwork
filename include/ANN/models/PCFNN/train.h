@@ -41,7 +41,7 @@
  * \param[in] f_cost (double(*f_cost)(double, double)) a cost function pointer
  * \param[in] f_cost_de (double(*f_cost_de)(double, double)) a pointer to the f_cost derivative
  * \param[out] status (double*) a pointer on a double. Can be NULL. It will contain the percentage of completion of the training. Usefull with thread
- * \return double array of net->outputl->size elements which is the current error for each output (must be free after usage) if validation_split > 0 else return NULL. NULL if wrong parameters.
+ * \return double array of net->outputl->size elements which is the current loss for each output (must be free after usage) if validation_split > 0 else return NULL. NULL if wrong parameters.
  */
 double *PCFNN_NETWORK_train(struct PCFNN_NETWORK *net, double **data, double **target,
                             size_t size, double validation_split,

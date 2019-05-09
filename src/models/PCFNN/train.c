@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include "ANN/models/PCFNN/neuron.h"
@@ -74,17 +75,14 @@ double *PCFNN_NETWORK_train(struct PCFNN_NETWORK *net, double **data, double **t
 
     if (validation_split == 0)
         return NULL;
-    double nbelm = (size - trainingsize) * net->outputl->size;
     double *err = calloc(net->outputl->size, sizeof(double));
     for(size_t i = trainingsize; i < size; ++i)
     {
         PCFNN_NETWORK_feedforward(net, data[i]);
-        double *out = PCFNN_NETWORK_get_output(net);
         for(size_t j = 0; j < net->outputl->size; ++j)
-            err[j] += f_cost(out[j], target[i][j]);
-        free(out);
+            err[j] += f_cost(net->outputl->neurons[j]->output, target[i][j]);
     }
     for(size_t i = 0; i < net->outputl->size; ++i)
-        err[i] /= nbelm;
+        err[i] /= (double)(size - trainingsize);
     return err;
 }
