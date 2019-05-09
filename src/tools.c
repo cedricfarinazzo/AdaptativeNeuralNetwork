@@ -56,10 +56,6 @@ double f_act_softplus_de(double n)
     return f_act_sigmoid(n);
 }
 
-#ifndef F_ACT_ELU_ALPHA
-#define F_ACT_ELU_ALPHA 0.01
-#endif /* F_ACT_ELU_ALPHA */
-
 double f_act_elu(double n)
 {
     return n >= 0 ? n : F_ACT_ELU_ALPHA * (exp(n) - 1);
@@ -72,7 +68,13 @@ double f_act_elu_de(double n)
 
 
 // Cost functions
+
+double f_cost_quadratic_loss(double o, double t)
+{
+    return (o - t) * (o - t) * F_COST_QUADRATIC_CONSTANT;
+}
+
 double f_cost_quadratic_loss_de(double o, double t)
 {
-    return o - t;
+    return 2 * (o - t) * F_COST_QUADRATIC_CONSTANT;
 }

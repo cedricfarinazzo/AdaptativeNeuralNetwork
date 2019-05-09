@@ -3,7 +3,7 @@
  * \brief Some useful functions
  * \author Cedric FARINAZZO
  * \version 0.1
- * \date 5 may 2019
+ * \date 9 may 2019
  *
  * Some useful functions such as activation functions, cost functions or weight/bias initialization functions
  */
@@ -99,6 +99,14 @@ double f_act_softplus(double n);
 double f_act_softplus_de(double n);
 
 /**
+  \def F_ACT_ELU_ALPHA
+  Elu function constant: default 0.01
+*/
+#ifndef F_ACT_ELU_ALPHA
+#define F_ACT_ELU_ALPHA 0.01
+#endif /* F_ACT_ELU_ALPHA */
+
+/**
  * \fn f_act_elu(double n)
  * \brief Elu activation function (for feedforward algorithm)
  * \param[in] n activation sum
@@ -118,8 +126,25 @@ double f_act_elu_de(double n);
 // Cost functions
 
 /**
+  \def F_COST_QUADRATIC_CONSTANT
+  Quadratic loss function constant: default 1/2
+*/
+#ifndef F_COST_QUADRATIC_CONSTANT
+#define F_COST_QUADRATIC_CONSTANT 1/2
+#endif /* F_COST_QUADRATIC_CONSTANT */
+
+/**
+ * \fn f_cost_quadratic_loss(double o, double t)
+ * \brief Quadratic cost function
+ * \param[in] o output
+ * \param[in] t target
+ * \return double
+ */
+double f_cost_quadratic_loss(double o, double t);
+
+/**
  * \fn f_cost_quadratic_loss_de(double o, double t)
- * \brief Quadratic cost function (for backpropagation algorithm)
+ * \brief Derivative Quadratic cost function(for backpropagation algorithm)
  * \param[in] o output
  * \param[in] t target
  * \return double
