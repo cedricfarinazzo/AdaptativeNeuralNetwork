@@ -36,7 +36,11 @@ Test(PCFNN_BATCH, InitFree)
     PCFNN_NETWORK_init_batch(net);
     for(size_t l = 0; l < net->size; ++l)
         for(size_t n = 0; n < net->layers[l]->size; ++n)
+        {
             cr_expect_not_null(net->layers[l]->neurons[n]->wdelta);
+            cr_expect_not_null(net->layers[l]->neurons[n]->lastdw);
+            cr_expect_eq(net->layers[l]->neurons[n]->bdelta, 0);
+        }
 
     PCFNN_NETWORK_free_batch(net);
 

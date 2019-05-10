@@ -71,7 +71,7 @@ Test(PCFNN_NETWORK, Build)
     PCFNN_LAYER_connect(l1, l2, 2, 2, 0, 0, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
     PCFNN_LAYER_connect(l2, l3, 2, 1, 0, 0, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
 
-    PCFNN_NETWORK_build(net);
+    cr_expect_eq(PCFNN_NETWORK_build(net), 0);
 
     cr_expect_eq(net->size, 3);
 
@@ -101,7 +101,7 @@ Test(PCFNN_NETWORK, Build2)
     cr_expect_eq(PCFNN_LAYER_connect(l2, l4, 250, 10, 0, 0, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de), 0);
     cr_expect_eq(PCFNN_LAYER_connect(l3, l4, 350, 42, 0, 9, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de), 0);
 
-    PCFNN_NETWORK_build(net);
+    cr_expect_eq(PCFNN_NETWORK_build(net), 0);
 
     cr_expect_eq(net->inputl, l1);
     cr_expect_eq(net->outputl, l4);
@@ -125,7 +125,7 @@ Test(PCFNN_NETWORK, FeedForward)
     PCFNN_LAYER_connect(l1, l2, 2, 2, 0, 0, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
     PCFNN_LAYER_connect(l2, l3, 2, 1, 0, 0, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
 
-    PCFNN_NETWORK_build(net);
+    cr_expect_eq(PCFNN_NETWORK_build(net), 0);
     PCFNN_NETWORK_clear(net);
 
     double inputs[] = {1, 0.1};
@@ -176,6 +176,16 @@ Test(PCFNN_NETWORK, FeedForward2)
 
     if (out != NULL)
         free(out);
+
+    PCFNN_NETWORK_free(net);
+}
+
+
+Test(PCFNN_NETWORK, RamUsage)
+{
+    struct PCFNN_NETWORK *net = PCFNN_NETWORK_new();
+    
+    cr_expect_neq(PCFNN_NETWORK_get_ram_usage(net), 0);
 
     PCFNN_NETWORK_free(net);
 }

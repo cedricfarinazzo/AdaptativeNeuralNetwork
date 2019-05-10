@@ -1,16 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
-
-#include <stdlib.h>
 #include <time.h>
-#include "ANN/models/PCFNN/neuron.h"
-#include "ANN/models/PCFNN/layer.h"
-#include "ANN/models/PCFNN/network.h"
-#include "ANN/models/PCFNN/feedforward.h"
-#include "ANN/models/PCFNN/batch.h"
-#include "ANN/models/PCFNN/backprop.h"
+#include "ANN/models/PCFNN/PCFNN.h"
 #include "ANN/tools.h"
-#include "ANN/models/PCFNN/train.h"
 
 int main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
 {
@@ -35,7 +27,10 @@ int main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
     double *target[] = {t1, t2, t3, t4};
 
     PCFNN_NETWORK_train(net, inputs, target,
-                         4, 0.0, NULL, 1, 2, 50000, 0.6, f_cost_quadratic_loss_de);
+                         4, 0.0, 1, 2, 50000, 0.25, 0.9, NULL, f_cost_quadratic_loss_de, NULL);
+    
+    double *outt = PCFNN_NETWORK_train(net, inputs, target,
+                         4, 1, 0, 0, 0, 0, 0, f_cost_quadratic_loss, f_cost_quadratic_loss_de, NULL);
 
     for(size_t j = 0; j < 4; ++j) 
     {
@@ -44,6 +39,9 @@ int main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
         printf("\n %f XOR %f = %f | expected: %f", inputs[j][0], inputs[j][1], out[0], target[j][0]);
         free(out);
     }
+    printf("\nLoss: %f\n", outt[0]);
+    
+    free(outt);
     printf("\n");
     PCFNN_NETWORK_free(net);
 

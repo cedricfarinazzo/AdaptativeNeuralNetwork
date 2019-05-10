@@ -114,3 +114,14 @@ Test(PCFNN_NEURON, AllocFail)
     cr_expect_null(n);
     PCFNN_NEURON_free(n);
 }
+
+
+Test(PCFNN_NEURON, RamUsage)
+{
+    size_t s = 42;
+    struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
+    
+    cr_expect_neq(PCFNN_NEURON_get_ram_usage(n), 0);
+
+    PCFNN_NEURON_free(n);
+}

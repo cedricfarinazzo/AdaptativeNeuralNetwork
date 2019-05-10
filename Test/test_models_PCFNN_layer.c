@@ -133,5 +133,14 @@ Test(PCFNN_LAYER, FeedForward)
     PCFNN_LAYER_free(l1);
     PCFNN_LAYER_free(l2);
     PCFNN_LAYER_free(l3);   
+}
 
+
+Test(PCFNN_LAYER, RamUsage)
+{
+    struct PCFNN_LAYER *l = PCFNN_LAYER_new(NULL, NULL, NULL);
+    
+    cr_expect_neq(PCFNN_LAYER_get_ram_usage(l), 0);
+
+    PCFNN_LAYER_free(l);
 }

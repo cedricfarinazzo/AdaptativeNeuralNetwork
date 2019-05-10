@@ -1,0 +1,12 @@
+prefix=@DEST_DIR@
+exec_prefix=${prefix}
+libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
+includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
+
+Name: ANN
+Description: a static neural network library
+Version: @PROJECT_VERSION@
+URL: https://github.com/cedricfarinazzo/AdaptativeNeuralNetwork
+
+Libs: -L${libdir} @PRIVATE_LIBS@
+Cflags: -I${includedir}

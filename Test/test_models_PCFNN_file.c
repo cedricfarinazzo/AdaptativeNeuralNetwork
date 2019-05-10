@@ -1,5 +1,5 @@
 /*
- * test_models_PCFNN_frile.c
+ * test_models_PCFNN_file.c
  *
  */
 

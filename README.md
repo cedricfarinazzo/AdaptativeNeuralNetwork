@@ -1,4 +1,6 @@
-# AdaptativeNeuralNetwork ANN (0.1.1.0)
+# AdaptativeNeuralNetwork ANN (0.1.1.1)
+
+![ANN logo](./.images/logo.medium.png "ANN logo")
 
 ### Build status
 
@@ -22,8 +24,9 @@
 
 ## Requirements
 - gcc or clang
-- [cmake](https://criterion.readthedocs.io/en/master/)
-- [criterion](https://cmake.org/) (test only)
+- make
+- [cmake](https://cmake.org/)
+- [criterion](https://criterion.readthedocs.io/en/master/) (test only)
 
 
 ## How to build
@@ -34,19 +37,36 @@
 mkdir build && cd build && cmake .. && make
 ```
 
+
 ## Run test
+
 ```
 make check
 ```
 
+
 ## Coverage report
+
 ```
 make coverage
 ```
 
+
+## Installation
+
+```
+sudo make install
+```
+
+
 ## AdaptativeNeuralNetwork
 
 A static library containing multiple neural network models written in C
+
+
+## Examples
+
+See some examples [here](https://github.com/cedricfarinazzo/ANNExample)
 
 
 ## Contribute
@@ -57,6 +77,7 @@ A static library containing multiple neural network models written in C
 - Merge your branch to master
 - Create a pull request and explain your changes
 
+
 ## License
 
-See the [LICENSE](LICENSE) file for licensing information.
+See the [LICENSE](./LICENSE) file for licensing information.
