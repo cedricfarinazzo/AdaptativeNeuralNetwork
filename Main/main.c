@@ -1,16 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
-
-#include <stdlib.h>
 #include <time.h>
-#include "ANN/models/PCFNN/neuron.h"
-#include "ANN/models/PCFNN/layer.h"
-#include "ANN/models/PCFNN/network.h"
-#include "ANN/models/PCFNN/feedforward.h"
-#include "ANN/models/PCFNN/batch.h"
-#include "ANN/models/PCFNN/backprop.h"
+#include "ANN/models/PCFNN/PCFNN.h"
 #include "ANN/tools.h"
-#include "ANN/models/PCFNN/train.h"
 
 int main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
 {
@@ -47,7 +39,7 @@ int main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
         printf("\n %f XOR %f = %f | expected: %f", inputs[j][0], inputs[j][1], out[0], target[j][0]);
         free(out);
     }
-    printf("\nError: %f%%\n", outt[0] * 100);
+    printf("\nLoss: %f\n", outt[0]);
     
     free(outt);
     printf("\n");

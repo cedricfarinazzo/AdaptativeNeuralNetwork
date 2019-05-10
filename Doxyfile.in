@@ -58,7 +58,7 @@ PROJECT_LOGO           = ./.images/logo.min.png
 # entered, it will be relative to the location where doxygen was started. If
 # left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = ./doc/
+OUTPUT_DIRECTORY       = ./.doc/
 
 # If the CREATE_SUBDIRS tag is set to YES then doxygen will create 4096 sub-
 # directories (in 2 levels) under the output directory of each output format and
@@ -816,6 +816,7 @@ WARN_LOGFILE           =
 INPUT                  = ./include \
                          ./src \
                          ./README.md \
+                         ./doc \
                          ./LICENSE 
 
 # This tag can be used to specify the character encoding of the source files
@@ -954,7 +955,8 @@ EXAMPLE_RECURSIVE      = NO
 # \image command).
 
 IMAGE_PATH             = ./img \
-                         ./.images
+                         ./.images \
+                         ./doc
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should
 # invoke to filter for each input file. Doxygen will invoke the filter program
