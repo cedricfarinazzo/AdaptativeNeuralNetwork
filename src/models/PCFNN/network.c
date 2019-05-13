@@ -50,9 +50,9 @@ int PCFNN_NETWORK_build(struct PCFNN_NETWORK *net)
     if (net == NULL) return 1;
     int e = 0;
     for(size_t i = 0; i < net->size && e == 0; ++i)
-    { 
-        e = PCFNN_LAYER_build(net->layers[i]); 
-        net->layers[i]->index = i; 
+    {
+        e = PCFNN_LAYER_build(net->layers[i]);
+        net->layers[i]->index = i;
     }
     for(size_t i = 0; e == 0 && i < net->size; ++i)
     {
@@ -69,7 +69,7 @@ size_t PCFNN_NETWORK_get_ram_usage(struct PCFNN_NETWORK *net)
 {
     if (net == NULL) return 0;
     size_t usage = sizeof(struct PCFNN_NETWORK);
-    usage += sizeof(struct PCFNN_LAYER*) * net->size;
+    usage += sizeof(struct PCFNN_LAYER*);
     for (size_t i = 0; i < net->size; ++i)
         usage += PCFNN_LAYER_get_ram_usage(net->layers[i]);
     return usage;

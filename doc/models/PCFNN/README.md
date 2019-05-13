@@ -26,19 +26,19 @@ So let's create a new input layer with 42 neurons.
 ```c
 struct PCFNN_LAYER *l1 = PCFNN_LAYER_new_input(42, f_act_input, f_act_input_de);
 ```
-and 1 hidden layer 
+and 1 hidden layer
 ```c
 struct PCFNN_LAYER *l2 = PCFNN_LAYER_new(NULL, NULL, NULL); // you can precise the default initialisation function, activation function and the derivative activation function
 ```
 and 1 output layer.
 ```c
-struct PCFNN_LAYER *l2 = PCFNN_LAYER_new(NULL, NULL, NULL);
+struct PCFNN_LAYER *l3 = PCFNN_LAYER_new(NULL, NULL, NULL);
 ```
 
 Then you can add those new layers to the network (add then in the order of layers bonds).
 ```c
-PCFNN_NETWORK_addl(net, l1); 
-PCFNN_NETWORK_addl(net, l2); 
+PCFNN_NETWORK_addl(net, l1);
+PCFNN_NETWORK_addl(net, l2);
 PCFNN_NETWORK_addl(net, l3);
 ```
 
@@ -75,7 +75,7 @@ Then you can use this function.
 PCFNN_NETWORK_feedforward(net, input);
 ```
 
-To get the output of the network, use this function: 
+To get the output of the network, use this function:
 ```c
 double *output = PCFNN_NETWORK_get_output(net);
 ```
@@ -131,12 +131,12 @@ This function will free the network and all layers linked to the network for you
 
 ### Input/Output
 
-If you want to save the configuration of the PCFNN, you can use the following function: 
+If you want to save the configuration of the PCFNN, you can use the following function:
 ```c
 PCFNN_NETWORK_save_conf(net, fout); //net is a struct PCFNN_NETWORK* and fout is a FILE* that is pointed to the output file
 ```
 
-If you want to load it again, initialize the network and use the following function: 
+If you want to load it again, initialize the network and use the following function:
 ```c
 PCFNN_NETWORK_load_conf(net, fin); //net is a struct PCFNN_NETWORK* and fin is a FILE* that is pointed to the input file
 ```
@@ -157,15 +157,15 @@ Read the documentation !
 
 int main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
 {
-    srand(time(NULL)); 
+    srand(time(NULL));
 
     // Configuration of the network
     struct PCFNN_NETWORK *net = PCFNN_NETWORK_new();
     struct PCFNN_LAYER *l1 = PCFNN_LAYER_new_input(2, f_act_input, f_act_input_de);
     struct PCFNN_LAYER *l2 = PCFNN_LAYER_new(NULL, NULL, NULL);
     struct PCFNN_LAYER *l3 = PCFNN_LAYER_new(NULL, NULL, NULL);
-    PCFNN_NETWORK_addl(net, l1); 
-    PCFNN_NETWORK_addl(net, l2); 
+    PCFNN_NETWORK_addl(net, l1);
+    PCFNN_NETWORK_addl(net, l2);
     PCFNN_NETWORK_addl(net, l3);
 
     PCFNN_LAYER_connect(l1, l2, 2, 2, 0, 0, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
@@ -190,10 +190,10 @@ int main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
 
     double *outt = PCFNN_NETWORK_train(net, inputs, target,
                          4, 1, 0, 0, 0, 0, 0, f_cost_quadratic_loss, f_cost_quadratic_loss_de, NULL);
-    // Get the validation 
+    // Get the validation
 
 
-    for(size_t j = 0; j < 4; ++j) 
+    for(size_t j = 0; j < 4; ++j)
     {
         PCFNN_NETWORK_feedforward(net, inputs[j]);
         double *out = PCFNN_NETWORK_get_output(net);
@@ -201,7 +201,7 @@ int main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
         free(out);
     }
     printf("\nLoss: %f%%\n", outt[0]);
-    
+
     free(outt);
     PCFNN_NETWORK_free(net); // free the network
 

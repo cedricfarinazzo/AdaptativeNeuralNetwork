@@ -29,7 +29,7 @@ double *PCFNN_NETWORK_train(struct PCFNN_NETWORK *net, double **data, double **t
                             double(*f_cost)(double, double), double(*f_cost_de)(double, double)
                             , double *status)
 {
-    if (net == NULL || data == NULL || target == NULL || size == 0 || validation_split < 0 || validation_split > 1) 
+    if (net == NULL || data == NULL || target == NULL || size == 0 || validation_split < 0 || validation_split > 1)
         return NULL;
     if (validation_split == 0) {
         if (batch_size == 0 || epochs == 0 || eta == 0 || f_cost_de == NULL)
@@ -44,25 +44,24 @@ double *PCFNN_NETWORK_train(struct PCFNN_NETWORK *net, double **data, double **t
 
     double __status; if (status == NULL) status = &__status;
     *status = 0;
+
+    size_t order[size];
+    for(size_t i = 0; i < size; ++i) order[i] = i;
+    __PCFNN_BATCH_shuffle(order, size);
     if (validation_split != 1) {
-
         double stepstatus = (1/(double)(epochs * trainingsize)) * 100;
-        size_t trainingorder[trainingsize];
-        for(size_t i = 0; i < trainingsize; ++i)
-            trainingorder[i] = i;
-
         PCFNN_NETWORK_init_batch(net);
 
         for(size_t e = 0; e < epochs; ++e)
         {
             if (shuffle)
-                __PCFNN_BATCH_shuffle(trainingorder, trainingsize);
+                __PCFNN_BATCH_shuffle(order, trainingsize);
             for(size_t i = 0; i < trainingsize; i+=batch_size)
             {
                 for(size_t j = 0; j < batch_size && i+j < trainingsize; ++j, (*status) += stepstatus)
                 {
-                    PCFNN_NETWORK_feedforward(net, data[trainingorder[i+j]]);
-                    PCFNN_NETWORK_backprop(net, target[trainingorder[i+j]], eta, alpha, f_cost_de);
+                    PCFNN_NETWORK_feedforward(net, data[order[i+j]]);
+                    PCFNN_NETWORK_backprop(net, target[order[i+j]], eta, alpha, f_cost_de);
                 }
                 PCFNN_NETWORK_apply_delta(net);
                 PCFNN_NETWORK_clear_batch(net);
@@ -78,9 +77,9 @@ double *PCFNN_NETWORK_train(struct PCFNN_NETWORK *net, double **data, double **t
     double *err = calloc(net->outputl->size, sizeof(double));
     for(size_t i = trainingsize; i < size; ++i)
     {
-        PCFNN_NETWORK_feedforward(net, data[i]);
+        PCFNN_NETWORK_feedforward(net, data[order[i]]);
         for(size_t j = 0; j < net->outputl->size; ++j)
-            err[j] += f_cost(net->outputl->neurons[j]->output, target[i][j]);
+            err[j] += f_cost(net->outputl->neurons[j]->output, target[order[i]][j]);
     }
     for(size_t i = 0; i < net->outputl->size; ++i)
         err[i] /= (double)(size - trainingsize);

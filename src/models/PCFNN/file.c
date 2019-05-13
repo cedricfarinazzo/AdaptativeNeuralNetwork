@@ -10,7 +10,7 @@
 int PCFNN_NETWORK_save_conf(struct PCFNN_NETWORK *net, FILE *fout)
 {
     if (net == NULL || fout == NULL) return -1;
-    
+
     for(size_t l = 0; l < net->size; ++l)
         for(size_t n = 0; n < net->layers[l]->size; ++n)
         {
@@ -18,7 +18,7 @@ int PCFNN_NETWORK_save_conf(struct PCFNN_NETWORK *net, FILE *fout)
             for(size_t w = 0; w < net->layers[l]->neurons[n]->size; ++w)
                 fwrite(&net->layers[l]->neurons[n]->weights[w], sizeof(double), 1, fout);
         }
-    
+
     return 1;
 }
 
@@ -33,6 +33,6 @@ int PCFNN_NETWORK_load_conf(struct PCFNN_NETWORK *net, FILE *fin)
             for(size_t w = 0; w < net->layers[l]->neurons[n]->size; ++w)
                 fread(&net->layers[l]->neurons[n]->weights[w], sizeof(double), 1, fin);
         }
-    
+
     return 1;
 }

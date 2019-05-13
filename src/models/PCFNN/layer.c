@@ -25,7 +25,7 @@ struct PCFNN_LAYER *PCFNN_LAYER_new(double(*f_init)(), double(*f_act)(double), d
 
 void PCFNN_LAYER_clear(struct PCFNN_LAYER *l)
 {
-    if (l == NULL) return; 
+    if (l == NULL) return;
     for(size_t i = 0; i < l->size; ++i)
         PCFNN_NEURON_clear(l->neurons[i]);
 }
@@ -58,17 +58,11 @@ void PCFNN_LAYER_free(struct PCFNN_LAYER *l)
 
 int PCFNN_LAYER_addn(struct PCFNN_LAYER *l, size_t size, size_t inputs, double(*f_init)(), double(*f_act)(double), double(*f_act_de)(double))
 {
-    if (size <= 0 && inputs == 0) return 1;
-    if (f_init == NULL && l->f_init != NULL)
-        f_init = l->f_init;
-    if (f_init == NULL) return 1;
-    if (f_act == NULL && l->f_act != NULL)
-        f_act = l->f_act;
-    if (f_act == NULL) return 1;
-    if (f_act_de == NULL && l->f_act_de != NULL)
-        f_act_de = l->f_act_de;
-    if (f_act_de == NULL) return 1;
-    
+    if (f_init == NULL && l->f_init != NULL) f_init = l->f_init;
+    if (f_act == NULL && l->f_act != NULL) f_act = l->f_act;
+    if (f_act_de == NULL && l->f_act_de != NULL) f_act_de = l->f_act_de;
+    if ((size <= 0 && inputs == 0) || f_act_de == NULL || f_act == NULL || f_init == NULL) return 1;
+
     l->size += size;
     l->neurons = realloc(l->neurons, sizeof(struct PCFNN_NEURON*) * l->size);
     if (l->neurons == NULL) return -1;
@@ -100,70 +94,81 @@ int PCFNN_LAYER_connect(struct PCFNN_LAYER *from, struct PCFNN_LAYER *to,
     if (from == NULL || to == NULL) return 1;
     size_t ifrom = from->nblinks;
     size_t ito = to->nblinks;
-    
+
     struct PCFNN_LAYER_LINK *link = malloc(sizeof(struct PCFNN_LAYER_LINK));
 
     if (link == NULL) return -1;
-    
+
     ++from->nblinks; ++to->nblinks;
     from->links = realloc(from->links, sizeof(struct PCFNN_LAYER_LINK*) * from->nblinks);
     if (from->links == NULL) { free(link); return -1; }
     to->links = realloc(to->links, sizeof(struct PCFNN_LAYER_LINK*) * to->nblinks);
     if (to->links == NULL) { free(link); return -1; }
-    
+
     link->from = from;
     link->to = to;
     link->index_from = ifrom;
     link->index_to = ito;
-    
+
     link->size_from = size_from;
     link->size_to = size_to;
-    
+
     link->f_init_to = f_init_to;
     link->f_act_to = f_act_to;
     link->f_act_de_to = f_act_de_to;
-    
-    link->in_from = offset_from;
-    link->in_to = offset_to;
-    link->isInitFrom = link->isInitTo = 0;
-    
+
+    link->offset_from = offset_from;
+    link->offset_to = offset_to;
+    link->isInit = 0;
+
     from->links[ifrom] = to->links[ito] = link;
-    
+
     return 0;
 }
 
 
 int PCFNN_LAYER_build(struct PCFNN_LAYER *l)
 {
-    size_t nbfromlinks = 0; size_t nbtolinks = 0;
+    size_t nblinks[2]; nblinks[0] = nblinks[1] = 0;
     if (l == NULL) return 1;
     for(size_t k = 0; k < l->nblinks; ++k)
     {
         struct PCFNN_LAYER_LINK *link = l->links[k];
         if (link == NULL) continue;
-        if (link->from == l && link->isInitFrom == 0) {
-            size_t t = link->in_from + link->size_from;
-            if (t > l->size) return -1;
-            link->isInitFrom = 1; ++nbfromlinks;
-        }
-        if (link->to == l && link->isInitTo == 0) {
-            if (link->in_to > l->size) return 1;
-            for(size_t i = link->in_to; i < l->size; ++i) {
-                PCFNN_NEURON_addinputs(l->neurons[i], 
-                    link->size_from > l->neurons[i]->size ? link->size_from - l->neurons[i]->size : 0);
-            }
-            if (PCFNN_LAYER_addn(l,
-                    link->size_to + link->in_to > l->size ? link->size_to + link->in_to - l->size : 0
-                    , link->size_from, link->f_init_to, link->f_act_to, link->f_act_de_to))
-                return -1;
-            link->isInitTo = 1; ++nbtolinks;
+        if (link->from == l)
+            ++(nblinks[0]);
+
+        if (link->to == l && !link->isInit) {
+            if (link->offset_to > l->size) return 1;
+            for(size_t i = link->offset_to; i < l->size && i < link->size_to; ++i)
+                if (link->size_from > l->neurons[i]->size)
+                    PCFNN_NEURON_addinputs(l->neurons[i], link->size_from - l->neurons[i]->size);
+            if (link->size_to + link->offset_to > l->size)
+                if (PCFNN_LAYER_addn(l, link->size_to + link->offset_to - l->size, link->size_from, link->f_init_to, link->f_act_to, link->f_act_de_to))
+                    return -1;
+
+            link->isInit = 1; ++(nblinks[1]);
         }
     }
+
+    size_t w[l->size];
     for(size_t i = 0; i < l->size; ++i)
+    {
         PCFNN_NEURON_build(l->neurons[i]);
-    if (nbfromlinks == 0)
+        w[i] = 0;
+    }
+    for(size_t k = 0; k < l->nblinks; ++k)
+    {
+        struct PCFNN_LAYER_LINK *link = l->links[k];
+        if (link != NULL && link->to == l && link->isInit)
+            for(size_t i = link->offset_to; i < link->size_to + link->offset_to; ++i)
+                for(size_t j = link->offset_from; j < link->size_from + link->offset_from && w[i] < l->neurons[i]->size; ++j, ++w[i])
+                    l->neurons[i]->inputs[w[i]] = link->from->neurons[j];
+    }
+
+    if (nblinks[0] == 0)
         l->type = PCFNN_LAYER_OUTPUT;
-    else if (nbtolinks == 0)
+    else if (nblinks[1] == 0)
         l->type = PCFNN_LAYER_INPUT;
     else
         l->type = PCFNN_LAYER_HIDDEN;
@@ -178,7 +183,6 @@ size_t PCFNN_LAYER_get_ram_usage(struct PCFNN_LAYER *l)
     usage += sizeof(struct PCFNN_NEURON*) * l->size;
     for (size_t i = 0; i < l->size; ++i)
         usage += PCFNN_NEURON_get_ram_usage(l->neurons[i]);
-    usage += sizeof(struct PCFNN_LAYER_LINK*) * l->nblinks;
-    usage += sizeof(struct PCFNN_LAYER_LINK) * l->nblinks;
+    usage += sizeof(struct PCFNN_LAYER_LINK*) + sizeof(struct PCFNN_LAYER_LINK) * l->nblinks;
     return usage;
 }

@@ -4,7 +4,7 @@
  * \author Cedric FARINAZZO
  * \version 0.1
  * \date 5 may 2019
- * 
+ *
  * Layer unit for PCFNN neural network
  */
 
@@ -36,11 +36,11 @@ struct PCFNN_LAYER_LINK {
     int index_from, index_to;
     struct PCFNN_LAYER *from, *to;
     size_t size_from, size_to;
-    double(*f_init_to)(); 
+    double(*f_init_to)();
     double(*f_act_to)(double);
     double(*f_act_de_to)(double);
-    int isInitFrom, isInitTo;
-    size_t in_from, in_to;
+    int isInit;
+    size_t offset_from, offset_to;
 };
 
 /**

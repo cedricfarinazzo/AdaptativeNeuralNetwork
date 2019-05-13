@@ -13,7 +13,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage")
     INCLUDE(CodeCoverage)
 endif()
 
-### FLAGS 
+### FLAGS
 add_definitions(-Wall -Wextra -pedantic -Wformat=2 -std=c99)
 
 set (CMAKE_C_FLAGS_DEBUG "-fsanitize=address  -fsanitize=leak -g3 -Og -DDEBUG=1")
@@ -21,7 +21,7 @@ set (CMAKE_EXE_LINKER_FLAGS_DEBUG "-fsanitize=address  -fsanitize=leak")
 set (CMAKE_MODULE_LINKER_FLAGS_DEBUG "-fsanitize=address  -fsanitize=leak")
 if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage")
     set (CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -fprofile-arcs -ftest-coverage")
-endif() 
+endif()
 
 set (CMAKE_C_FLAGS_RELEASE "-Ofast")
 set (CMAKE_EXE_LINKER_FLAGS_RELEASE "-Ofast")
@@ -55,7 +55,7 @@ target_link_libraries(ANN m) #math.h
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 
-### TEST AND MAIN 
+### TEST AND MAIN
 add_subdirectory(Test/)
 add_subdirectory(Main/)
 
@@ -65,7 +65,7 @@ target_link_libraries(ANNMain ANN)
 
 ##### TARGET
 add_custom_target(check
-    COMMAND ASAN_OPTIONS=allocator_may_return_null=1 ${CMAKE_BINARY_DIR}/Test/ANNTest -j0
+    COMMAND ASAN_OPTIONS=allocator_may_return_null=1 ${CMAKE_BINARY_DIR}/Test/ANNTest -j1
     COMMENT "Running test !!!"
     DEPENDS ANNTest
 )
@@ -112,6 +112,6 @@ install(DIRECTORY ${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
 )
 
-install(DIRECTORY "${PROJECT_BINARY_DIR}/pkgconf/" 
+install(DIRECTORY "${PROJECT_BINARY_DIR}/pkgconf/"
     DESTINATION "/usr/share/pkgconfig"
 )

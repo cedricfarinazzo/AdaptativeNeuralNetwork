@@ -27,7 +27,8 @@ struct PCFNN_NEURON {
     double bias, output; 
     // INTERNAL
     double activation, delta, bdelta;
-    double *inputs, *wdelta, *lastdw;
+    double *wdelta, *lastdw;
+    struct PCFNN_NEURON **inputs; 
     double(*f_init)();
     double(*f_act)(double);
     double(*f_act_de)(double);
