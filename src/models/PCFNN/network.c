@@ -84,7 +84,6 @@ void PCFNN_NETWORK_summary(struct PCFNN_NETWORK *net, size_t param[5])
      * 2: ram usage in bytes
      * 3: number of layer
      * 4: number of neurons
-     *
      */
     if (net == NULL || param == NULL) return;
     param[0] = param[1] = param[2] = param[4]= 0;

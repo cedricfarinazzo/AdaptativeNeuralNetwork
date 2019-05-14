@@ -81,8 +81,26 @@ int PCFNN_NETWORK_build(struct PCFNN_NETWORK *net);
 size_t PCFNN_NETWORK_get_ram_usage(struct PCFNN_NETWORK *net);
 
 
+/**
+ * \fn PCFNN_NETWORK_summary(struct PCFNN_NETWORK *net, size_t param[5])
+ * \brief Write on param network statistics
+ * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
+ * \param[out] param (size_t) network statistics\n
+ *  param[0]: number of unlocked parameters\n
+ *  param[1]: number of locked parameters\n
+ *  param[2]: ram usage in bytes\n
+ *  param[3]: number of layer\n
+ *  param[4]: number of neurons
+ */
+
 void PCFNN_NETWORK_summary(struct PCFNN_NETWORK *net, size_t param[5]);
 
+
+/**
+ * \fn PCFNN_NETWORK_print_summary(struct PCFNN_NETWORK *net)
+ * \brief Print neural network summary
+ * \param[in] net (struct PCFNN_NETWORK*) a pointer an a PCFNN_NETWORK
+ */
 
 void PCFNN_NETWORK_print_summary(struct PCFNN_NETWORK *net);
 

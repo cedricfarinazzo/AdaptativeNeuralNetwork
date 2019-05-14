@@ -166,6 +166,12 @@ size_t PCFNN_LAYER_get_ram_usage(struct PCFNN_LAYER *l);
 void PCFNN_LAYER_set_lock_state(struct PCFNN_LAYER *l, enum PCFNN_NEURON_LOCK_STATE state, size_t size, size_t offset);
 
 
+/**
+ * \fn PCFNN_LAYER_summary(struct PCFNN_LAYER *l, size_t param[2])
+ * \brief Write on param the number of unlocked parameters and locked parameters
+ * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
+ * \param[out] param (size_t) param[0] will be the number of unlocked parameters and param[1] the number of locked parameters
+ */
 void PCFNN_LAYER_summary(struct PCFNN_LAYER *l, size_t param[2]);
 
 #endif /* _ANN_MODELS_PCFNN_LAYER_H_ */

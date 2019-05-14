@@ -127,6 +127,12 @@ struct PCFNN_NEURON *PCFNN_NEURON_clone_all(struct PCFNN_NEURON *n);
 void PCFNN_NEURON_set_state_lock(struct PCFNN_NEURON *n, enum PCFNN_NEURON_LOCK_STATE state);
 
 
+/**
+ * \fn PCFNN_NEURON_summary(struct PCFNN_NEURON *n, size_t param[2])
+ * \brief Write on param the number of unlocked parameters and locked parameters
+ * \param[in] n (struct PCFNN_NEURON*) a pointer an a PCFNN_NEURON
+ * \param[out] param (size_t) param[0] will be the number of unlocked parameters and param[1] the number of locked parameters
+ */
 void PCFNN_NEURON_summary(struct PCFNN_NEURON *n, size_t param[2]);
 
 #endif /* _ANN_MODELS_PCFNN_NEURON_H_ */
