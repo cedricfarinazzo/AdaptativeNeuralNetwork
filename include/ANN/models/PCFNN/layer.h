@@ -154,4 +154,18 @@ int PCFNN_LAYER_build(struct PCFNN_LAYER *l);
  */
 size_t PCFNN_LAYER_get_ram_usage(struct PCFNN_LAYER *l);
 
+
+/**
+ * \fn PCFNN_LAYER_set_lock_state(struct PCFNN_LAYER *l, enum PCFNN_NEURON_LOCK_STATE state, size_t size, size_t offset)
+ * \brief Set lock state of size neurons of l starting by offset neuron of l
+ * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
+ * \param[in] state (enum PCFNN_NEURON_LOCK_STATE) lock state
+ * \param[in] size (size_t) number of neurons to set lock state
+ * \param[in] offset (size_t) neurons offset
+ */
+void PCFNN_LAYER_set_lock_state(struct PCFNN_LAYER *l, enum PCFNN_NEURON_LOCK_STATE state, size_t size, size_t offset);
+
+
+void PCFNN_LAYER_summary(struct PCFNN_LAYER *l, size_t param[2]);
+
 #endif /* _ANN_MODELS_PCFNN_LAYER_H_ */

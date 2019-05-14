@@ -18,6 +18,20 @@ int main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
     PCFNN_LAYER_connect(l2, l3, 2, 1, 0, 0, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
 
     PCFNN_NETWORK_build(net);
+    
+    size_t param[2]; param[0] = param[1] = 0;
+    PCFNN_LAYER_set_lock_state(l1, PCFNN_NEURON_LOCK, 2, 0);
+    PCFNN_LAYER_summary(l1, param);
+    
+    param[0] = param[1] = 0;
+    PCFNN_LAYER_set_lock_state(l2, PCFNN_NEURON_LOCK, 2, 1);
+    PCFNN_LAYER_summary(l2, param);
+    
+    param[0] = param[1] = 0;
+    PCFNN_LAYER_set_lock_state(l3, PCFNN_NEURON_LOCK, 42, 0);
+    PCFNN_LAYER_summary(l3, param);
+
+    PCFNN_NETWORK_print_summary(net);
 
     double i1[] = {0, 0}; double t1[] = {0};
     double i2[] = {1, 0}; double t2[] = {1};

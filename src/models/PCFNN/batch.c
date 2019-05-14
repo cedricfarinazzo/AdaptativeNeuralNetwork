@@ -15,6 +15,7 @@ void PCFNN_NETWORK_init_batch(struct PCFNN_NETWORK *net)
             net->layers[l]->neurons[n]->wdelta = calloc(net->layers[l]->neurons[n]->size, sizeof(double));
             net->layers[l]->neurons[n]->lastdw = calloc(net->layers[l]->neurons[n]->size, sizeof(double));
             net->layers[l]->neurons[n]->bdelta = 0;
+            net->layers[l]->neurons[n]->dsum = 0;
         }
 }
 
@@ -44,6 +45,7 @@ void PCFNN_NETWORK_clear_batch(struct PCFNN_NETWORK *net)
                 if (net->layers[l]->neurons[n]->wdelta != NULL)
                     net->layers[l]->neurons[n]->wdelta[i] = 0;
             net->layers[l]->neurons[n]->bdelta = 0;
+            net->layers[l]->neurons[n]->dsum = 0;
         }
 }
 

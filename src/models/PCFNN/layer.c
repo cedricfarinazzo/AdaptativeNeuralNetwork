@@ -186,3 +186,19 @@ size_t PCFNN_LAYER_get_ram_usage(struct PCFNN_LAYER *l)
     usage += sizeof(struct PCFNN_LAYER_LINK*) + sizeof(struct PCFNN_LAYER_LINK) * l->nblinks;
     return usage;
 }
+
+
+void PCFNN_LAYER_set_lock_state(struct PCFNN_LAYER *l, enum PCFNN_NEURON_LOCK_STATE state, size_t size, size_t offset)
+{
+    if (l == NULL || size + offset > l->size) return;
+    for (size_t i = offset; i < offset + size; ++i)
+        PCFNN_NEURON_set_state_lock(l->neurons[i], state);
+}
+
+
+void PCFNN_LAYER_summary(struct PCFNN_LAYER *l, size_t param[2])
+{
+    if (l == NULL || param == NULL) return;
+    for (size_t i = 0; i < l->size; ++i)
+        PCFNN_NEURON_summary(l->neurons[i], param);
+}

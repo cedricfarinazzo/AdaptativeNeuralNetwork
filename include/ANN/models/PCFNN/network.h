@@ -12,6 +12,7 @@
 #define _ANN_MODELS_PCFNN_NETWORK_H_
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "layer.h"
 
 
@@ -78,5 +79,11 @@ int PCFNN_NETWORK_build(struct PCFNN_NETWORK *net);
  * \return (size_t) number of bytes if l is NULL return 0
  */
 size_t PCFNN_NETWORK_get_ram_usage(struct PCFNN_NETWORK *net);
+
+
+void PCFNN_NETWORK_summary(struct PCFNN_NETWORK *net, size_t param[5]);
+
+
+void PCFNN_NETWORK_print_summary(struct PCFNN_NETWORK *net);
 
 #endif /* _ANN_MODELS_PCFNN_NETWORK_H_ */

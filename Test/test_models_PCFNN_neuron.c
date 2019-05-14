@@ -38,7 +38,7 @@ Test(PCFNN_NEURON, Clone_stat)
     size_t s = 3;
     struct PCFNN_NEURON *n = PCFNN_NEURON_new(s, f_init_rand_norm, NULL, NULL);
 
-    struct PCFNN_NEURON *b = PCFNN_NEURON_clone_stat(n);
+    struct PCFNN_NEURON *b = PCFNN_NEURON_clone(n);
     cr_expect_not_null(b);
     cr_expect_eq(b->size, n->size);
     cr_expect_eq(b->f_init, n->f_init);
