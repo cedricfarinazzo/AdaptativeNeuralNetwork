@@ -33,7 +33,7 @@ Test(PCFNN_BACKPROP, XorSimple)
     double input[] = {0, 1};
     double target[] = {1};
 
-    
+
     PCFNN_NETWORK_feedforward(net, input);
     double *out1 = PCFNN_NETWORK_get_output(net);
     double before = out1[0];
@@ -46,9 +46,9 @@ Test(PCFNN_BACKPROP, XorSimple)
     double *out2 = PCFNN_NETWORK_get_output(net);
     double after = out2[0];
     free(out2);
-  
+
     cr_expect_gt(after, before);
-    
+
     PCFNN_NETWORK_free_batch(net);
     PCFNN_NETWORK_free(net);
 }
@@ -78,12 +78,12 @@ Test(PCFNN_BACKPROP, XorSimple2)
         PCFNN_NETWORK_clear_batch(net);
     }
     PCFNN_NETWORK_free_batch(net);
-    
+
     PCFNN_NETWORK_feedforward(net, input);
     double *out = PCFNN_NETWORK_get_output(net);
     cr_expect_gt(out[0], 0.75);
     free(out);
-    
+
     PCFNN_NETWORK_free(net);
 }
 
@@ -110,7 +110,7 @@ Test(PCFNN_BACKPROP, XorTrain)
 
     for(size_t i = 0; i < 25000; ++i)
     {
-        for(size_t j = 0; j < 4; ++j) 
+        for(size_t j = 0; j < 4; ++j)
         {
             PCFNN_NETWORK_feedforward(net, inputs[j]);
             double t[] = {target[j]};
@@ -120,7 +120,7 @@ Test(PCFNN_BACKPROP, XorTrain)
         }
     }
 
-    for(size_t j = 0; j < 4; ++j) 
+    for(size_t j = 0; j < 4; ++j)
     {
         PCFNN_NETWORK_feedforward(net, inputs[j]);
         double *out = PCFNN_NETWORK_get_output(net);

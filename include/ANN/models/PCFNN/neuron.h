@@ -15,6 +15,16 @@
 
 
 /**
+ * \enum PCFNN_NEURON_LOCK_STATE
+ * \brief Lock state of a neuron
+ */
+enum PCFNN_NEURON_LOCK_STATE {
+    PCFNN_NEURON_LOCK,
+    PCFNN_NEURON_UNLOCK,
+};
+
+
+/**
  * \struct PCFNN_NEURON
  * \brief Neuron unit
  *
@@ -26,11 +36,13 @@ struct PCFNN_NEURON {
     double *weights;
     double bias, output; 
     // INTERNAL
-    double activation, delta, bdelta;
-    double *inputs, *wdelta, *lastdw;
+    double activation, delta, bdelta, dsum;
+    double *wdelta, *lastdw;
+    struct PCFNN_NEURON **inputs; 
     double(*f_init)();
     double(*f_act)(double);
     double(*f_act_de)(double);
+    enum PCFNN_NEURON_LOCK_STATE state;
 };
 
 
@@ -89,12 +101,12 @@ size_t PCFNN_NEURON_get_ram_usage(struct PCFNN_NEURON *n);
 
 
 /**
- * \fn PCFNN_NEURON_clone_stat(struct PCFNN_NEURON *n)
+ * \fn PCFNN_NEURON_clone(struct PCFNN_NEURON *n)
  * \brief Copy the input size, initialisation function and activation function from n and create a new PCFNN_NEURON
  * \param[in] n (struct PCFNN_NEURON*) a pointer an a PCFNN_NEURON
  * \return (struct PCFNN_NEURON*) the new neuron or NULL if an error occured
  */
-struct PCFNN_NEURON *PCFNN_NEURON_clone_stat(struct PCFNN_NEURON *n);
+struct PCFNN_NEURON *PCFNN_NEURON_clone(struct PCFNN_NEURON *n);
 
 
 /**
@@ -104,5 +116,23 @@ struct PCFNN_NEURON *PCFNN_NEURON_clone_stat(struct PCFNN_NEURON *n);
  * \return (struct PCFNN_NEURON*) the new neuron or NULL if an error occured
  */
 struct PCFNN_NEURON *PCFNN_NEURON_clone_all(struct PCFNN_NEURON *n);
+
+
+/**
+ * \fn PCFNN_NEURON_set_state_lock(struct PCFNN_NEURON *n, enum PCFNN_NEURON_LOCK_STATE state)
+ * \brief Set lock state of the neuron n
+ * \param[in] n (struct PCFNN_NEURON*) a pointer an a PCFNN_NEURON
+ * \param[in] state (enum PCFNN_NEURON_LOCK_STATE) lock state
+ */
+void PCFNN_NEURON_set_state_lock(struct PCFNN_NEURON *n, enum PCFNN_NEURON_LOCK_STATE state);
+
+
+/**
+ * \fn PCFNN_NEURON_summary(struct PCFNN_NEURON *n, size_t param[2])
+ * \brief Write on param the number of unlocked parameters and locked parameters
+ * \param[in] n (struct PCFNN_NEURON*) a pointer an a PCFNN_NEURON
+ * \param[out] param (size_t) param[0] will be the number of unlocked parameters and param[1] the number of locked parameters
+ */
+void PCFNN_NEURON_summary(struct PCFNN_NEURON *n, size_t param[2]);
 
 #endif /* _ANN_MODELS_PCFNN_NEURON_H_ */

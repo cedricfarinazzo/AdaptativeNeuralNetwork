@@ -4,7 +4,7 @@
  * \author Cedric FARINAZZO
  * \version 0.1
  * \date 5 may 2019
- * 
+ *
  * Layer unit for PCFNN neural network
  */
 
@@ -36,11 +36,11 @@ struct PCFNN_LAYER_LINK {
     int index_from, index_to;
     struct PCFNN_LAYER *from, *to;
     size_t size_from, size_to;
-    double(*f_init_to)(); 
+    double(*f_init_to)();
     double(*f_act_to)(double);
     double(*f_act_de_to)(double);
-    int isInitFrom, isInitTo;
-    size_t in_from, in_to;
+    int isInit;
+    size_t offset_from, offset_to;
 };
 
 /**
@@ -153,5 +153,25 @@ int PCFNN_LAYER_build(struct PCFNN_LAYER *l);
  * \return (size_t) number of bytes if l is NULL return 0
  */
 size_t PCFNN_LAYER_get_ram_usage(struct PCFNN_LAYER *l);
+
+
+/**
+ * \fn PCFNN_LAYER_set_lock_state(struct PCFNN_LAYER *l, enum PCFNN_NEURON_LOCK_STATE state, size_t size, size_t offset)
+ * \brief Set lock state of size neurons of l starting by offset neuron of l
+ * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
+ * \param[in] state (enum PCFNN_NEURON_LOCK_STATE) lock state
+ * \param[in] size (size_t) number of neurons to set lock state
+ * \param[in] offset (size_t) neurons offset
+ */
+void PCFNN_LAYER_set_lock_state(struct PCFNN_LAYER *l, enum PCFNN_NEURON_LOCK_STATE state, size_t size, size_t offset);
+
+
+/**
+ * \fn PCFNN_LAYER_summary(struct PCFNN_LAYER *l, size_t param[2])
+ * \brief Write on param the number of unlocked parameters and locked parameters
+ * \param[in] l (struct PCFNN_LAYER*) a pointer an a PCFNN_LAYER
+ * \param[out] param (size_t) param[0] will be the number of unlocked parameters and param[1] the number of locked parameters
+ */
+void PCFNN_LAYER_summary(struct PCFNN_LAYER *l, size_t param[2]);
 
 #endif /* _ANN_MODELS_PCFNN_LAYER_H_ */

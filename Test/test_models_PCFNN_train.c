@@ -39,7 +39,7 @@ Test(PCFNN_TRAIN, TrainXORStochastic)
     PCFNN_NETWORK_train(net, inputs, target,
                          4, 0.0, 1, 1, 50000, 0.6, 0.9, f_cost_quadratic_loss, f_cost_quadratic_loss_de, NULL);
 
-    for(size_t j = 0; j < 4; ++j) 
+    for(size_t j = 0; j < 4; ++j)
     {
         PCFNN_NETWORK_feedforward(net, inputs[j]);
         double *out = PCFNN_NETWORK_get_output(net);
@@ -77,7 +77,7 @@ Test(PCFNN_TRAIN, TrainXORMiniBatch)
                          4, 0.0, 1, 2, 50000, 0.7, 0.9, NULL, f_cost_quadratic_loss_de, &status);
     cr_expect_eq(status, 100.0);
 
-    for(size_t j = 0; j < 4; ++j) 
+    for(size_t j = 0; j < 4; ++j)
     {
         PCFNN_NETWORK_feedforward(net, inputs[j]);
         double *out = PCFNN_NETWORK_get_output(net);
@@ -119,7 +119,7 @@ Test(PCFNN_TRAIN, TrainValidation)
     double *out = PCFNN_NETWORK_train(net, inputs, target,
                          4, 1, 0, 0, 0, 0, 0, f_cost_quadratic_loss, f_cost_quadratic_loss_de, NULL);
     cr_expect_not_null(out);
-    
+
     for (size_t i = 0; i < net->outputl->size; ++i)
         cr_expect_neq(out[i], 0);
 

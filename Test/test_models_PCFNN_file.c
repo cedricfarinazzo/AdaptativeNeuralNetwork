@@ -16,7 +16,7 @@
 void __PCFNN_NETWORK_cmp(struct PCFNN_NETWORK *a, struct PCFNN_NETWORK *b)
 {
     cr_expect_eq(a->size, a->size);
-    
+
     for(size_t l = 0; l < a->size; ++l)
         for(size_t n = 0; n < a->layers[l]->size; ++n)
         {
@@ -45,7 +45,7 @@ Test(PCFNN_FILE, Save)
 
     FILE *f = tmpfile();
     cr_expect_eq(PCFNN_NETWORK_save_conf(net, f), 1);
-    
+
     PCFNN_NETWORK_free(net);
     fclose(f);
 }
@@ -79,7 +79,7 @@ Test(PCFNN_FILE, SaveRestore)
     struct PCFNN_LAYER *l22 = PCFNN_LAYER_new(NULL, NULL, NULL); PCFNN_NETWORK_addl(new, l22);
     struct PCFNN_LAYER *l23 = PCFNN_LAYER_new(NULL, NULL, NULL); PCFNN_NETWORK_addl(new, l23);
     struct PCFNN_LAYER *l24 = PCFNN_LAYER_new(NULL, NULL, NULL); PCFNN_NETWORK_addl(new, l24);
-    
+
     PCFNN_LAYER_connect(l21, l22, 784, 250, 0, 0, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
     PCFNN_LAYER_connect(l21, l23, 784, 350, 0, 0, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
 

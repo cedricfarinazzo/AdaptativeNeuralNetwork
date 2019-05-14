@@ -7,7 +7,7 @@ stages:
   - install
   - doc
   - webhook
-  
+
 #before_script:
 #  - pacman -Syyu --noconfirm
 
@@ -53,11 +53,11 @@ job_build_scan-build:
 
 
 ################
-# COVERAGE STAGE 
+# COVERAGE STAGE
 # GCOV
 job_coverage_gcov:
   stage: coverage
-  dependencies: 
+  dependencies:
     - job_build_gcc
   artifacts:
     untracked: true
@@ -67,11 +67,11 @@ job_coverage_gcov:
 
 
 ################
-# TEST STAGE 
+# TEST STAGE
 # GCC
 job_test_main_gcc:
   stage: test
-  dependencies: 
+  dependencies:
     - job_build_gcc
   script:
     - cd build
@@ -79,7 +79,7 @@ job_test_main_gcc:
 
 job_test_criterion_gcc:
   stage: test
-  dependencies: 
+  dependencies:
     - job_build_gcc
   script:
     - cd build
@@ -88,7 +88,7 @@ job_test_criterion_gcc:
 # CLANG
 job_test_main_clang:
   stage: test
-  dependencies: 
+  dependencies:
     - job_build_clang
   script:
     - cd build
@@ -96,7 +96,7 @@ job_test_main_clang:
 
 job_test_criterion_clang:
   stage: test
-  dependencies: 
+  dependencies:
     - job_build_clang
   script:
     - cd build

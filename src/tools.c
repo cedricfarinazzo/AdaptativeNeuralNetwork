@@ -23,7 +23,7 @@ double f_act_sigmoid(double n)
 
 double f_act_sigmoid_de(double n)
 {
-    return f_act_sigmoid(n) * (1 - f_act_sigmoid(n));;
+    return f_act_sigmoid(n) * (1 - f_act_sigmoid(n));
 }
 
 double f_act_input(double n)
