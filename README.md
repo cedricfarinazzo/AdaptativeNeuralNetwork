@@ -1,4 +1,4 @@
-# AdaptativeNeuralNetwork ANN (0.1.1.1)
+# AdaptativeNeuralNetwork ANN (0.1.1.2)
 
 ![ANN logo](./.images/logo.medium.png "ANN logo")
 

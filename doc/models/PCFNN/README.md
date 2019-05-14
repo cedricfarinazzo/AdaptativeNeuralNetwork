@@ -148,6 +148,7 @@ Read the documentation !
 
 ### Example: the XOR function
 
+- code: 
 ```c
 #include <stdlib.h>
 #include <stdio.h>
@@ -174,6 +175,8 @@ int main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
     // Building the network
     PCFNN_NETWORK_build(net);
 
+    //Print the neural network summary
+    PCFNN_NETWORK_print_summary(net);
 
     // Creation of the dataset
     double i1[] = {0, 0}; double t1[] = {0};
@@ -207,4 +210,35 @@ int main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
 
     return EXIT_SUCCESS;
 }
+```
+
+- output:
+```
+===
+   PCFNN_NETWORK: summary
+* Neural network ram usage: 1.37 Ko
+* Number of layers: 3
+* Number of neurons: 5
+--
+* Layer summary: 
+    - [I] layer: n°0    : 2 neurons
+             links: 
+                   - 0 -> 1 | (0, 2) -> (0, 2)
+    - [H] layer: n°1    : 2 neurons
+             links: 
+                   - 0 -> 1 | (0, 2) -> (0, 2)
+                   - 1 -> 2 | (0, 2) -> (0, 1)
+    - [O] layer: n°2    : 1 neurons
+             links: 
+                   - 1 -> 2 | (0, 2) -> (0, 1)
+--
+* Number of unlocked parameters: 11
+* Number of locked parameters: 0
+===
+
+ 0.000000 XOR 0.000000 = 0.007418 | expected: 0.000000
+ 1.000000 XOR 0.000000 = 0.995446 | expected: 1.000000
+ 0.000000 XOR 1.000000 = 0.995238 | expected: 1.000000
+ 1.000000 XOR 1.000000 = 0.005537 | expected: 0.000000
+Loss: 0.000016
 ```
