@@ -1,6 +1,6 @@
 /**
- * \file ANN/models/PCFNN/file.h
- * \brief PCFNN_FILE
+ * \file ANN/models/PCFNN/PCFNN.h
+ * \brief PCFNN
  * \author Cedric FARINAZZO
  * \version 0.1
  * \date 5 may 2019

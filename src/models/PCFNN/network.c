@@ -66,6 +66,31 @@ int PCFNN_NETWORK_build(struct PCFNN_NETWORK *net)
 }
 
 
+struct PCFNN_NETWORK *PCFNN_NETWORK_build_from_array(size_t *spec, size_t len, double(*f_init)(double), double(*f_act)(double), double(*f_act_de)(double))
+{
+    if (len < 1 || spec == NULL || f_act == NULL || f_act_de == NULL)
+        return NULL;
+    struct PCFNN_NETWORK *net = PCFNN_NETWORK_new();
+    if (net == NULL) return NULL;
+
+    for(size_t i = 0; i < len; ++i)
+    {
+        if (i == 0) {
+            struct PCFNN_LAYER *l = PCFNN_LAYER_new_input(spec[i], f_act, f_act_de);
+            PCFNN_NETWORK_addl(net, l);
+        } else {
+            struct PCFNN_LAYER *l = PCFNN_LAYER_new(f_init, f_act, f_act_de);
+            PCFNN_NETWORK_addl(net, l);
+            PCFNN_LAYER_connect(net->layers[i-1], l, spec[i-1], spec[i], 0, 0, f_init, f_act, f_act_de);
+        }
+    }
+    
+    PCFNN_NETWORK_build(net);
+
+    return net;
+}
+
+
 size_t PCFNN_NETWORK_get_ram_usage(struct PCFNN_NETWORK *net)
 {
     if (net == NULL) return 0;
@@ -91,7 +116,8 @@ void PCFNN_NETWORK_summary(struct PCFNN_NETWORK *net, size_t param[5])
     param[2] = PCFNN_NETWORK_get_ram_usage(net);
     for (size_t i = 0; i < net->size; ++i)
     {
-        PCFNN_LAYER_summary(net->layers[i], param);
+        if (net->layers[i]->type != PCFNN_LAYER_INPUT)
+            PCFNN_LAYER_summary(net->layers[i], param);
         param[4] += net->layers[i]->size;
     }
 }

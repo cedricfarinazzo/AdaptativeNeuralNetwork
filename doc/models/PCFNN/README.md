@@ -16,7 +16,11 @@ First include headers
 #include <ANN/tools.h> // for initialisation function, activation function, cost function
 ```
 
-Then you can create a new PCFNN
+#### Manual method
+
+With the following method, you can create complex neural networks with partial or total connections between neuron layers.
+
+So you can create a new PCFNN
 ```c
 struct PCFNN_NETWORK *net = PCFNN_NETWORK_new();
 ```
@@ -61,6 +65,25 @@ PCFNN_NETWORK_build(net);
 
 And that's all!
 
+
+#### Automatic method
+
+With the following method, you can create a fully connected neural networks from an array of integers.
+
+For example, we want 1 input layer with 2 neurons, 1 hidden layer with 2 neurons and 1 output layer with 1 neurons.
+It's a XOR neural network.
+With this information, we can build the following array.
+```c
+size_t number_of_layers = 3;
+size_t neurons_per_layers[] = {2, 2, 1};
+```
+
+We will use the sigmoid activation function and the default initializer.
+
+Call this function and your neural network is ready!
+```c
+struct PCFNN_NETWORK *net = PCFNN_NETWORK_build_from_array(neurons_per_layers, number_of_layers, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
+```
 
 ### Computing
 

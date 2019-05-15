@@ -126,3 +126,33 @@ Test(PCFNN_TRAIN, TrainValidation)
     free(out);
     PCFNN_NETWORK_free(net);
 }
+    
+Test(PCFNN_TRAIN, TrainXORfromArray)
+{
+    size_t len_conf = 3;
+    size_t conf[] = {2, 2, 1};
+    struct PCFNN_NETWORK *net = PCFNN_NETWORK_build_from_array(conf, len_conf, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
+
+    double i1[] = {0, 0}; double t1[] = {0};
+    double i2[] = {1, 0}; double t2[] = {1};
+    double i3[] = {0, 1}; double t3[] = {1};
+    double i4[] = {1, 1}; double t4[] = {0};
+    double *inputs[] = {i1, i2, i3, i4};
+    double *target[] = {t1, t2, t3, t4};
+
+    double status;
+    double *outtrain = PCFNN_NETWORK_train(net, inputs, target,
+                         4, 0.0, 1, 2, 25000, 0.7, 0.9, NULL, f_cost_quadratic_loss_de, &status);
+    cr_expect_eq(status, 100.0);
+    cr_expect_null(outtrain);
+
+    double *out = PCFNN_NETWORK_train(net, inputs, target,
+                         4, 1, 0, 0, 0, 0, 0, f_cost_quadratic_loss, f_cost_quadratic_loss_de, NULL);
+    cr_expect_not_null(out);
+
+    for (size_t i = 0; i < net->outputl->size; ++i)
+        cr_expect_neq(out[i], 0);
+
+    free(out);
+    PCFNN_NETWORK_free(net);
+}
