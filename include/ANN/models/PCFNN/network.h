@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "layer.h"
+#include "ANN/tools.h"
 
 
 /**

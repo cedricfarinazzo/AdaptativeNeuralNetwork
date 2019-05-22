@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "ANN/models/PCFNN/layer.h"
+#include "ANN/tools.h"
 
 #include "ANN/models/PCFNN/network.h"
 
@@ -76,7 +77,7 @@ struct PCFNN_NETWORK *PCFNN_NETWORK_build_from_array(size_t *spec, size_t len, d
     for(size_t i = 0; i < len; ++i)
     {
         if (i == 0) {
-            struct PCFNN_LAYER *l = PCFNN_LAYER_new_input(spec[i], f_act, f_act_de);
+            struct PCFNN_LAYER *l = PCFNN_LAYER_new_input(spec[i], f_act_input, f_act_input_de);
             PCFNN_NETWORK_addl(net, l);
         } else {
             struct PCFNN_LAYER *l = PCFNN_LAYER_new(f_init, f_act, f_act_de);

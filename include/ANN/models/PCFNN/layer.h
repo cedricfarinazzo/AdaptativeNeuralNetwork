@@ -12,7 +12,7 @@
 #define _ANN_MODELS_PCFNN_LAYER_H_
 
 #include <stdlib.h>
-#include "../../tools.h"
+#include "ANN/tools.h"
 #include "neuron.h"
 
 
