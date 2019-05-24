@@ -66,6 +66,16 @@ double f_act_elu_de(double n)
     return n >= 0 ? 1 : f_act_elu(n) + F_ACT_ELU_ALPHA;
 }
 
+double f_act_swish(double n)
+{
+    return n * f_act_sigmoid(n);
+}
+
+double f_act_swish_de(double n)
+{
+    return f_act_sigmoid(n) + (n * f_act_sigmoid_de(n));
+}
+
 
 // Cost functions
 

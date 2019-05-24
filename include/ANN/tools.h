@@ -122,6 +122,21 @@ double f_act_elu(double n);
  */
 double f_act_elu_de(double n);
 
+/**
+ * \fn f_act_swish(double n)
+ * \brief Swish activation function (for feedforward algorithm)
+ * \param[in] n activation sum
+ * \return double
+ */
+double f_act_swish(double n);
+
+/**
+ * \fn f_act_swish_de(double n)
+ * \brief Derivative Swish activation function (for backpropagation algorithm)
+ * \param[in] n activation sum
+ * \return double
+ */
+double f_act_swish_de(double n);
 
 // Cost functions
 
