@@ -19,5 +19,6 @@
 #include "batch.h"
 #include "train.h"
 #include "file.h"
+#include "graph.h"
 
 #endif /* _ANN_MODELS_PCFNN_PCFNN_H */

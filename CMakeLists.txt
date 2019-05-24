@@ -7,6 +7,7 @@ cmake_policy(SET CMP0079 NEW)
 ### CMAKE MODULE
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/.cmake" ${CMAKE_MODULE_PATH})
 INCLUDE(BuildType)
+INCLUDE(FindGraphviz)
 include(GNUInstallDirs)
 include(Doxygen)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage")
@@ -48,10 +49,7 @@ configure_file (
 )
 
 ### STATIC LIBRARY BUILDING RULES
-FILE(GLOB_RECURSE SRCFILES src/*.c)
-
-add_library(ANN STATIC ${SRCFILES})
-target_link_libraries(ANN m) #math.h
+add_subdirectory(src/)
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 
