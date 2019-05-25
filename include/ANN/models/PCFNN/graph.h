@@ -25,6 +25,15 @@
 #endif
 
 
-void PCFNN_GRAPH_create_graph_to_file(struct PCFNN_NETWORK *net, char *out, char *graph_name);
+Agraph_t *PCFNN_GRAPH_create_graph(struct PCFNN_NETWORK *net, char *graph_name);
+
+
+int PCFNN_GRAPH_create_graph_to_dot_file(struct PCFNN_NETWORK *net, char *graph_name, char *fout);
+
+
+int PCFNN_GRAPH_render_graph_to_stream(struct PCFNN_NETWORK *net, char *graph_name, char *format, FILE *fout);
+
+
+int PCFNN_GRAPH_render_graph_to_file(struct PCFNN_NETWORK *net, char *graph_name, char *format, char *fout);
 
 #endif /* _ANN_MODELS_PCFNN_GRAPH_H */

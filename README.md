@@ -26,7 +26,7 @@
 - gcc or clang
 - make
 - [cmake](https://cmake.org/)
-- graphviz
+- [graphviz](https://graphviz.gitlab.io)
 - [criterion](https://criterion.readthedocs.io/en/master/) (test only)
 
 
