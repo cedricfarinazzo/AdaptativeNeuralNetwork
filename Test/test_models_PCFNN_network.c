@@ -172,3 +172,23 @@ Test(PCFNN_NETWORK, LockState)
 
     PCFNN_NETWORK_free(net);
 }
+
+
+Test(PCFNN_NETWORK, BuildFromArray)
+{
+    size_t xorconf[3] = {2, 2, 1};
+    struct PCFNN_NETWORK *net = PCFNN_NETWORK_build_from_array(xorconf, 3, f_init_rand_norm, f_act_sigmoid, f_act_sigmoid_de);
+    
+    cr_expect_not_null(net);
+
+    size_t param[5];
+    PCFNN_NETWORK_summary(net, param);
+
+    cr_expect_eq(param[0], (2*2) + 2 +(2*1) + 1);
+    cr_expect_eq(param[1], 0);
+    cr_expect_eq(param[3], 3);
+    cr_expect_eq(param[4], 2 + 2 + 1);
+    
+
+    PCFNN_NETWORK_free(net);
+}

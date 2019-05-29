@@ -29,11 +29,11 @@ int main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
 
     PCFNN_NETWORK_train(net, inputs, target,
                          4, 0.0, 1, 2, 50000, 0.25, 0.9, NULL, f_cost_quadratic_loss_de, NULL);
-    
+
     double *outt = PCFNN_NETWORK_train(net, inputs, target,
                          4, 1, 0, 0, 0, 0, 0, f_cost_quadratic_loss, f_cost_quadratic_loss_de, NULL);
 
-    for(size_t j = 0; j < 4; ++j) 
+    for(size_t j = 0; j < 4; ++j)
     {
         PCFNN_NETWORK_feedforward(net, inputs[j]);
         double *out = PCFNN_NETWORK_get_output(net);
@@ -41,7 +41,7 @@ int main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)))
         free(out);
     }
     printf("\nLoss: %f\n", outt[0]);
-    
+
     free(outt);
     printf("\n");
     PCFNN_NETWORK_free(net);

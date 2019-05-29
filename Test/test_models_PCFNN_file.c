@@ -95,4 +95,5 @@ Test(PCFNN_FILE, SaveRestore)
     PCFNN_NETWORK_free(net);
     PCFNN_NETWORK_free(new);
     fclose(f);
+    remove(filename);
 }

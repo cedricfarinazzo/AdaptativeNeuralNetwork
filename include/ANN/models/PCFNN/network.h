@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "layer.h"
+#include "ANN/tools.h"
 
 
 /**
@@ -70,6 +71,19 @@ int PCFNN_NETWORK_addl(struct PCFNN_NETWORK *net, struct PCFNN_LAYER *l);
  * \return 0 if done, 1 if wrong arguments or -1 if an allocation failed and the network and all layers it contains are broken
  */
 int PCFNN_NETWORK_build(struct PCFNN_NETWORK *net);
+
+
+/**
+ * \fn PCFNN_NETWORK *PCFNN_NETWORK_build_from_array(size_t *spec, size_t len, double(*f_init)(double), double(*f_act)(double), double(*f_act_de)(double))
+ * \brief Initialize a new PCFNN_NETWORK from an array of number that represent the number of neurons for each layers
+ * \param[in] spec (size_t*) array of number that represent the number of neurons for each layers
+ * \param[in] len (size_t) length of spec
+ * \param[in] f_init (double(*f_init)()) a pointer on an weights/bias initialisation functon
+ * \param[in] f_act (double(*f_act)(double)) a pointer on activation functon
+ * \param[in] f_act_de (double(*f_act_de)(double)) a pointer on derivative activation functon who is the derivate of the f_act function pointer
+ * \return a new PCFNN_NETWORK or NULL if an error occured
+ */
+struct PCFNN_NETWORK *PCFNN_NETWORK_build_from_array(size_t *spec, size_t len, double(*f_init)(double), double(*f_act)(double), double(*f_act_de)(double));
 
 
 /**

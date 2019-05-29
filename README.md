@@ -1,4 +1,4 @@
-# AdaptativeNeuralNetwork ANN (0.1.1.2)
+# AdaptativeNeuralNetwork ANN (0.1.1.3)
 
 ![ANN logo](./.images/logo.medium.png "ANN logo")
 
@@ -26,8 +26,9 @@
 - gcc or clang
 - make
 - [cmake](https://cmake.org/)
+- [graphviz](https://graphviz.gitlab.io)
 - [criterion](https://criterion.readthedocs.io/en/master/) (test only)
-
+- doxygen and perl (for documentation generation)
 
 ## How to build
 
@@ -55,6 +56,7 @@ make coverage
 ## Installation
 
 ```
+cmake -DCMAKE_BUILD_TYPE=RELWITHDEBINFO ..
 sudo make install
 ```
 
@@ -74,7 +76,7 @@ See some examples [here](https://github.com/cedricfarinazzo/ANNExample)
 - Fork this project
 - Create a new branch
 - Make your changes
-- Merge your branch to master
+- Merge your branch to develop
 - Create a pull request and explain your changes
 
 

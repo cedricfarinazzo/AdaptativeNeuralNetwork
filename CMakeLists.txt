@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(ANN LANGUAGES C VERSION 0.1.1.2)
+project(ANN LANGUAGES C VERSION 0.1.1.3)
 
 cmake_policy(SET CMP0079 NEW)
 
@@ -7,6 +7,8 @@ cmake_policy(SET CMP0079 NEW)
 ### CMAKE MODULE
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/.cmake" ${CMAKE_MODULE_PATH})
 INCLUDE(BuildType)
+INCLUDE(ConfigChecks)
+INCLUDE(FindGraphviz)
 include(GNUInstallDirs)
 include(Doxygen)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage")
@@ -19,8 +21,10 @@ add_definitions(-Wall -Wextra -pedantic -Wformat=2 -std=c99)
 set (CMAKE_C_FLAGS_DEBUG "-fsanitize=address  -fsanitize=leak -g3 -Og -DDEBUG=1")
 set (CMAKE_EXE_LINKER_FLAGS_DEBUG "-fsanitize=address  -fsanitize=leak")
 set (CMAKE_MODULE_LINKER_FLAGS_DEBUG "-fsanitize=address  -fsanitize=leak")
-if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage")
-    set (CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -fprofile-arcs -ftest-coverage")
+if ((CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage") AND COVERAGE_OK)
+    set (CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} ${CMAKE_C_FLAGS_COVERAGE}")
+    set (CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} ${CMAKE_EXE_LINKER_FLAGS_COVERAGE}")
+    set (CMAKE_MODULE_LINKER_FLAGS_DEBUG "${CMAKE_MODULE_LINKER_FLAGS_DEBUG} ${CMAKE_SHARED_LINKER_FLAGS_COVERAGE}")
 endif()
 
 set (CMAKE_C_FLAGS_RELEASE "-Ofast")
@@ -48,10 +52,7 @@ configure_file (
 )
 
 ### STATIC LIBRARY BUILDING RULES
-FILE(GLOB_RECURSE SRCFILES src/*.c)
-
-add_library(ANN STATIC ${SRCFILES})
-target_link_libraries(ANN m) #math.h
+add_subdirectory(src/)
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 
@@ -63,7 +64,7 @@ target_link_libraries(ANNTest ANN)
 target_link_libraries(ANNMain ANN)
 
 
-##### TARGET
+##### TARGETS
 add_custom_target(check
     COMMAND ASAN_OPTIONS=allocator_may_return_null=1 ${CMAKE_BINARY_DIR}/Test/ANNTest -j1
     COMMENT "Running test !!!"
@@ -82,7 +83,7 @@ add_custom_target(gdb
     DEPENDS ANNMain
 )
 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage")
+if ((CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage") AND COVERAGE_OK)
     SETUP_TARGET_FOR_COVERAGE(
         coverage  # Name for custom target.
         ${CMAKE_BINARY_DIR}/Main/ANNMain   # Name of the test driver executable that runs the tests.
@@ -94,10 +95,16 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage")
 endif()
 
 
-### INSTALL
+### INSTALL TARGET
+
+# install
+set(INSTALL_MAN_DIR "${CMAKE_INSTALL_PREFIX}/share/man" CACHE PATH "Installation directory for manual pages")
+set(INSTALL_PKGCONFIG_DIR "${CMAKE_INSTALL_PREFIX}/share/pkgconfig" CACHE PATH "Installation directory for pkgconfig (.pc) files")
+set(INSTALL_LICENSE_DIR "${CMAKE_INSTALL_PREFIX}/share/licences" CACHE PATH "Installation directory for LICENSE files")
+
 install(
     TARGETS
-      ANN
+        ${PROJECT_NAME}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -106,12 +113,28 @@ install(
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
     PATTERN "*.h.in" EXCLUDE
-)
+) # headers 
 
 install(DIRECTORY ${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
-)
+) # headers (.h.in)
 
 install(DIRECTORY "${PROJECT_BINARY_DIR}/pkgconf/"
-    DESTINATION "/usr/share/pkgconfig"
-)
+    DESTINATION "${INSTALL_PKGCONFIG_DIR}"
+) # pkg config file
+
+install(FILES "${PROJECT_SOURCE_DIR}/LICENSE"
+    DESTINATION "${INSTALL_LICENSE_DIR}/ANN/"
+) # LICENSE
+
+# uninstall
+if(NOT TARGET uninstall)
+    configure_file(
+        "${CMAKE_CURRENT_SOURCE_DIR}/.cmake/cmake_uninstall.cmake.in"
+        "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+        IMMEDIATE @ONLY)
+
+    add_custom_target(uninstall
+        COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+endif()
+

@@ -112,8 +112,8 @@ job_install_gcc:
   script:
     - mkdir -p build
     - cd build
-    - cmake -DCMAKE_BUILD_TYPE=RELWITHDEBINFO ..
-    - make CC=${CC}
+    - cmake -DCMAKE_BUILD_TYPE=RELWITHDEBINFO -DCMAKE_INSTALL_PREFIX=/usr/ -DCMAKE_INSTALL_LIBDIR=lib ..
+    - make
     - sudo make install
 
 #############
