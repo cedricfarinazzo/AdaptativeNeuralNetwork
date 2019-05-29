@@ -100,7 +100,7 @@ endif()
 # install
 install(
     TARGETS
-      ANN
+        ${PROJECT_NAME}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
@@ -109,15 +109,19 @@ install(
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
     PATTERN "*.h.in" EXCLUDE
-)
+) # headers 
 
 install(DIRECTORY ${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
-)
+) # headers (.h.in)
 
 install(DIRECTORY "${PROJECT_BINARY_DIR}/pkgconf/"
     DESTINATION "/usr/share/pkgconfig"
-)
+) # pkg config file
+
+install(FILES "${PROJECT_SOURCE_DIR}/LICENSE"
+    DESTINATION "/usr/share/licences/ANN/"
+) # LICENSE
 
 # uninstall
 if(NOT TARGET uninstall)
