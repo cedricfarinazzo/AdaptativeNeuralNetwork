@@ -98,6 +98,10 @@ endif()
 ### INSTALL TARGET
 
 # install
+set(INSTALL_MAN_DIR "${CMAKE_INSTALL_PREFIX}/share/man" CACHE PATH "Installation directory for manual pages")
+set(INSTALL_PKGCONFIG_DIR "${CMAKE_INSTALL_PREFIX}/share/pkgconfig" CACHE PATH "Installation directory for pkgconfig (.pc) files")
+set(INSTALL_LICENSE_DIR "${CMAKE_INSTALL_PREFIX}/share/licences" CACHE PATH "Installation directory for LICENSE files")
+
 install(
     TARGETS
         ${PROJECT_NAME}
@@ -116,11 +120,11 @@ install(DIRECTORY ${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/
 ) # headers (.h.in)
 
 install(DIRECTORY "${PROJECT_BINARY_DIR}/pkgconf/"
-    DESTINATION "/usr/share/pkgconfig"
+    DESTINATION "${INSTALL_PKGCONFIG_DIR}"
 ) # pkg config file
 
 install(FILES "${PROJECT_SOURCE_DIR}/LICENSE"
-    DESTINATION "/usr/share/licences/ANN/"
+    DESTINATION "${INSTALL_LICENSE_DIR}/ANN/"
 ) # LICENSE
 
 # uninstall
