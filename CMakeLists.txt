@@ -7,6 +7,7 @@ cmake_policy(SET CMP0079 NEW)
 ### CMAKE MODULE
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/.cmake" ${CMAKE_MODULE_PATH})
 INCLUDE(BuildType)
+INCLUDE(ConfigChecks)
 INCLUDE(FindGraphviz)
 include(GNUInstallDirs)
 include(Doxygen)
