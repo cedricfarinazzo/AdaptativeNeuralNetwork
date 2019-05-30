@@ -11,6 +11,7 @@
 #ifndef _ANN_MODELS_PCFNN_NETWORK_H_
 #define _ANN_MODELS_PCFNN_NETWORK_H_
 
+#include "../../config.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include "layer.h"

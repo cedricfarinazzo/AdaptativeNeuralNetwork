@@ -35,10 +35,16 @@ set (CMAKE_MODULE_LINKER_FLAGS_RELEASE "-Ofast")
 configure_file (
     "${PROJECT_SOURCE_DIR}/include/ANN/version.h.in"
     "${PROJECT_BINARY_DIR}/include/ANN/version.h"
+    @ONLY
+)
+
+configure_file (
+    "${PROJECT_SOURCE_DIR}/include/ANN/config.h.in"
+    "${PROJECT_BINARY_DIR}/include/ANN/config.h"
 )
 
 set(DEST_DIR "${CMAKE_INSTALL_PREFIX}")
-set(PRIVATE_LIBS "-lANN")
+set(PRIVATE_LIBS "-l${PROJECT_NAME}")
 configure_file (
     "${PROJECT_SOURCE_DIR}/pkgconf/ANN.pc.in"
     "${PROJECT_BINARY_DIR}/pkgconf/ANN.pc"
@@ -51,9 +57,17 @@ configure_file (
     @ONLY
 )
 
+file(COPY "${PROJECT_SOURCE_DIR}/include/"
+    DESTINATION "${PROJECT_BINARY_DIR}/include/"
+    FILES_MATCHING
+        PATTERN "*.h"
+)
+
 ### STATIC LIBRARY BUILDING RULES
 add_subdirectory(src/)
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories("${PROJECT_NAME}" PUBLIC 
+    "${PROJECT_BINARY_DIR}/include/"
+)
 
 
 ### TEST AND MAIN

@@ -11,6 +11,7 @@
 #ifndef _ANN_MODELS_PCFNN_LAYER_H_
 #define _ANN_MODELS_PCFNN_LAYER_H_
 
+#include "../../config.h"
 #include <stdlib.h>
 #include "ANN/tools.h"
 #include "neuron.h"
