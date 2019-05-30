@@ -30,36 +30,6 @@
 - [criterion](https://criterion.readthedocs.io/en/master/) (test only)
 - doxygen and perl (for documentation generation)
 
-## How to build
-
-- Clone this repo
-- Run the following command
-```
-mkdir build && cd build && cmake .. && make
-```
-
-
-## Run test
-
-```
-make check
-```
-
-
-## Coverage report
-
-```
-make coverage
-```
-
-
-## Installation
-
-```
-cmake -DCMAKE_BUILD_TYPE=RELWITHDEBINFO ..
-sudo make install
-```
-
 
 ## AdaptativeNeuralNetwork
 
@@ -69,6 +39,68 @@ A static library containing multiple neural network models written in C
 ## Examples
 
 See some examples [here](https://github.com/cedricfarinazzo/ANNExample)
+
+
+## Documentation (Doxygen)
+
+View the documentation of all functions [here](https://adaptativeneuralnetwork.ml/)
+
+
+## Installation
+
+### From the Arch User Repository (AUR)
+
+- with yay
+```
+yay -S adaptativeneuralnetwork
+```
+
+- with pacman
+```
+git clone https://aur.archlinux.org/adaptativeneuralnetwork.git
+cd adaptativeneuralnetwork
+makepkg -sci
+```
+
+
+### Install from source
+
+- Clone this repo
+- Then run the following command 
+```
+mkdir -p build && cd build
+cmake -DCMAKE_BUILD_TYPE=RELEASE \
+    -DCMAKE_INSTALL_LIBDIR=lib \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    ..
+sudo make install
+```
+
+
+## Development version
+
+- clone this repo
+- checkout on develop branch
+
+- Build
+```
+mkdir -p build && cd build && cmake .. && make
+```
+
+- Run test
+```
+make check
+```
+
+- Coverage report
+```
+make coverage
+```
+
+- Generate documentation
+```
+make doc
+```
 
 
 ## Contribute
