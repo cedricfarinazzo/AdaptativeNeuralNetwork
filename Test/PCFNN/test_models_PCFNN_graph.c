@@ -75,7 +75,6 @@ Test(PCFNN_GRAPH, CreateGraphToDotFile)
     char filename[L_tmpnam];
     tmpnam(filename);
     cr_expect_eq(PCFNN_GRAPH_create_graph_to_dot_file(net, "PCFNN_NETWORK", filename), 0);
-    cr_expect_eq(PCFNN_GRAPH_create_graph_to_dot_file(net, "PCFNN_NETWORK", "graph.dot"), 0);
     PCFNN_NETWORK_free(net);
     
     FILE *f = fopen(filename, "r");
