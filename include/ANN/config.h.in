@@ -13,6 +13,16 @@
     #define _GNU_SOURCE
 #endif
 
+// COMPILER CHECK
+#if defined(__clang__)
+    #define ANN_INLINE static inline
+#elif defined(__GNUC__) || defined(__GNUG__)
+    #define ANN_INLINE inline
+#elif defined(_MSC_VER)
+    #error "msvc not supported"
+#endif
+
+
 // HEADERS CHECK
 #cmakedefine HAVE_STDLIB_H
 #cmakedefine HAVE_STDIO_H

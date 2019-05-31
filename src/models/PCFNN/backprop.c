@@ -6,7 +6,7 @@
 #include "ANN/models/PCFNN/backprop.h"
 
 
-inline void PCFNN_LAYER_backward_hidden(struct PCFNN_LAYER *l, double eta, double alpha)
+ANN_INLINE void PCFNN_LAYER_backward_hidden(struct PCFNN_LAYER *l, double eta, double alpha)
 {
     if (l == NULL) return;
     for(size_t i = 0; i < l->size; ++i)
@@ -28,7 +28,7 @@ inline void PCFNN_LAYER_backward_hidden(struct PCFNN_LAYER *l, double eta, doubl
     }
 }
 
-inline void PCFNN_LAYER_backward_output(struct PCFNN_LAYER *l, double *target, double(*f_cost)(double, double), double eta, double alpha)
+ANN_INLINE void PCFNN_LAYER_backward_output(struct PCFNN_LAYER *l, double *target, double(*f_cost)(double, double), double eta, double alpha)
 {
     if (l == NULL || target == NULL) return;
     for(size_t i = 0; i < l->size; ++i)
@@ -50,7 +50,7 @@ inline void PCFNN_LAYER_backward_output(struct PCFNN_LAYER *l, double *target, d
     }
 }
 
-inline void PCFNN_NETWORK_backward(struct PCFNN_NETWORK *net, double *target, double(*f_cost)(double, double), double eta, double alpha)
+ANN_INLINE void PCFNN_NETWORK_backward(struct PCFNN_NETWORK *net, double *target, double(*f_cost)(double, double), double eta, double alpha)
 {
     PCFNN_LAYER_backward_output(net->outputl, target, f_cost, eta, alpha);
     for(size_t i = net->size - 1; i > 0; --i)
@@ -68,7 +68,7 @@ void PCFNN_NETWORK_backprop(struct PCFNN_NETWORK *net, double *target, double et
 }
 
 
-inline void PCFNN_LAYER_apply_delta(struct PCFNN_LAYER *l)
+ANN_INLINE void PCFNN_LAYER_apply_delta(struct PCFNN_LAYER *l)
 {
     if (l == NULL) return;
     for (size_t i = 0; i < l->size; ++i)
