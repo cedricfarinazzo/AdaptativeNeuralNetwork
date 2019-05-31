@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(ANN LANGUAGES C VERSION 0.1.1.3)
+project(ANN LANGUAGES C VERSION 0.1.1.4)
 
 cmake_policy(SET CMP0079 NEW)
 
