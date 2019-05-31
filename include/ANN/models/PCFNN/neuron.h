@@ -11,6 +11,7 @@
 #ifndef _ANN_MODELS_PCFNN_NEURON_H_
 #define _ANN_MODELS_PCFNN_NEURON_H_
 
+#include "../../config.h"
 #include <stdlib.h>
 
 

@@ -11,6 +11,7 @@
 #ifndef _ANN_MODELS_PCFNN_BACKPROP_H
 #define _ANN_MODELS_PCFNN_BACKPROP_H
 
+#include "../../config.h"
 #include <stdlib.h>
 #include "neuron.h"
 #include "layer.h"

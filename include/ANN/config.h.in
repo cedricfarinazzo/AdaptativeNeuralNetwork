@@ -1,0 +1,206 @@
+/**
+ * \file ANN/config.h
+ * \brief Config control file
+ * \author Cedric FARINAZZO
+ * \version 0.1
+ * \date 30 may 2019
+ */
+
+#ifndef _ANN_CONFIG_H_
+#define _ANN_CONFIG_H_
+
+#ifndef _GNU_SOURCE
+    #define _GNU_SOURCE
+#endif
+
+// HEADERS CHECK
+#cmakedefine HAVE_STDLIB_H
+#cmakedefine HAVE_STDIO_H
+#cmakedefine HAVE_STDARG_H
+#cmakedefine HAVE_UNISTD_H
+#cmakedefine HAVE_MATH_H
+#cmakedefine HAVE_MALLOC_H
+#cmakedefine HAVE_TIME_H
+#cmakedefine HAVE_SYS_TIME_H
+#cmakedefine HAVE_SYS_TYPES_H
+#cmakedefine HAVE_STRING_H
+
+
+// FUNCTIONS CHECK
+
+#cmakedefine HAVE_SRAND
+#cmakedefine HAVE_RAND
+#cmakedefine HAVE_SRAND48
+#cmakedefine HAVE_RAND48
+#cmakedefine HAVE_PRINTF
+#cmakedefine HAVE_SPRINTF
+#cmakedefine HAVE_SNPRINTF
+#cmakedefine HAVE_VSNPRINTF
+#cmakedefine HAVE_ASPRINTF
+#cmakedefine HAVE_VASPRINTF
+#cmakedefine HAVE_GRAPHVIZ_GVC_H
+#cmakedefine HAVE_GRAPHVIZ_CGRAPH_H
+#cmakedefine HAVE_GRAPHVIZ_GRAPH_H
+
+// TYPES CHECK
+
+#cmakedefine HAVE_SSIZE_T
+#cmakedefine HAVE_SIZE_T
+
+#ifndef HAVE_SIZE_T
+    #define size_t unsigned long int
+#endif
+
+#ifndef HAVE_SIZE_T
+    #define ssize_t signed long int
+#endif
+
+
+#ifdef HAVE_STDLIB_H
+    #include <stdlib.h>
+#else
+    #error "stdlib.h not found"
+#endif
+
+#ifdef HAVE_STDIO_H
+    #include <stdio.h>
+#else
+    #error "stdio.h not found"
+#endif
+
+#ifdef HAVE_STDARG_H
+    #include <stdarg.h>
+#else
+    #warning "stdarg.h not found"
+#endif
+
+#ifdef HAVE_UNISTD_H
+    #include <unistd.h>
+#else
+    #warning "stdio.h not found"
+#endif
+
+#ifdef HAVE_MATH_H
+    #include <math.h>
+#else
+    #error "math.h not found"
+#endif
+
+#ifdef HAVE_MALLOC_H
+    #include <malloc.h>
+#else
+    #error "malloc.h not found"
+#endif
+
+#ifdef HAVE_TIME_H
+    #include <time.h>
+#elif defined HAVE_SYS_TIME_H
+    #include <sys/time.h>
+#else
+    #warning "time.h not fund"
+#endif
+
+#ifdef HAVE_SYS_TYPES_H
+    #include <sys/types.h>
+#else
+    #warning "sys/types.h not found"
+#endif
+
+#ifdef HAVE_STRING_H
+    #include <string.h>
+#else
+    #warning "string.h not found"
+    size_t strlen(char *s)
+    {
+        size_t i;
+        for(i = 0; s[i] != 0; ++i);
+        return i;
+    }
+#endif
+
+#ifdef HAVE_GRAPHVIZ_GVC_H
+    #include <graphviz/gvc.h>
+    #if WITH_CGRAPH
+        #ifdef HAVE_GRAPHVIZ_CGRAPH_H
+            #include <graphviz/cgraph.h>
+        #else
+            #error "graphviz/cgraph.h not found"
+        #endif
+    #else
+        #ifdef HAVE_GRAPHVIZ_GRAPH_H
+            #include <graphviz/graph.h>
+        #else
+            #error "graphviz/graph.h not found"
+        #endif
+    #endif
+#else
+    #error "graphviz/gvc.h not found"
+#endif
+
+
+#ifndef HAVE_SRAND
+    #ifdef HAVE_SRAND48
+        #define srand srand48
+    #else
+        #error "srand function undefined"
+    #endif
+#endif
+
+#ifndef HAVE_RAND
+    #ifdef HAVE_RAND48
+        #define rand rand48
+    #else
+        #error "rand function undefined"
+    #endif
+#endif
+
+#ifndef HAVE_PRINTF
+    #error "printf function undefined"
+#endif
+
+#ifndef HAVE_SPRINTF
+    #error "sprintf function undefined"
+#endif
+
+#ifndef HAVE_VSNPRINTF
+    #warning "vsnprintf function undefined"
+#endif
+
+#ifndef HAVE_SNPRINTF
+    #if (defined HAVE_VSNPRINTF) && (defined HAVE_STDARG_H)
+        int snprintf (char *s, size_t n, const char *format, ...)
+        {
+            int result;
+            va_list ap;
+            va_start (ap, format);
+            result = vsnprintf (s, n, format, ap);
+            va_end (ap);
+            return result;
+        }
+    #else
+        #error "snprintf function undefined"
+    #endif
+
+#endif
+
+#ifndef HAVE_VASPRINTF
+    #warning "vasprintf function undefined"
+#endif
+
+#ifndef HAVE_ASPRINTF
+    #if (defined HAVE_VASPRINTF) && (defined HAVE_STDARG_H)
+        int asprintf (char **buf, const char *fmt, ...)
+        {
+            int status;
+            va_list ap;
+            va_start (ap, fmt);
+            status = vasprintf (buf, fmt, ap);
+            va_end (ap);
+            return status;
+        }
+    #else
+        #error "asprintf function undefined"
+    #endif
+#endif
+
+#endif /* _ANN_CONFIG_H_ */

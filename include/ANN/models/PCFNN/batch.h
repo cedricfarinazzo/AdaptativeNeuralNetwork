@@ -11,6 +11,7 @@
 #ifndef _ANN_MODELS_PCFNN_BATCH_H
 #define _ANN_MODELS_PCFNN_BATCH_H
 
+#include "../../config.h"
 #include <stdlib.h>
 #include "neuron.h"
 #include "layer.h"

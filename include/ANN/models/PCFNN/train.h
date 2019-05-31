@@ -11,6 +11,7 @@
 #ifndef _ANN_MODELS_PCFNN_TRAIN_H
 #define _ANN_MODELS_PCFNN_TRAIN_H
 
+#include "../../config.h"
 #include <stdlib.h>
 #include <math.h>
 #include "neuron.h"

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(ANN LANGUAGES C VERSION 0.1.1.3)
+project(ANN LANGUAGES C VERSION 0.1.1.4)
 
 cmake_policy(SET CMP0079 NEW)
 
@@ -32,13 +32,9 @@ set (CMAKE_EXE_LINKER_FLAGS_RELEASE "-Ofast")
 set (CMAKE_MODULE_LINKER_FLAGS_RELEASE "-Ofast")
 
 ### CONFIGURE FILE
-configure_file (
-    "${PROJECT_SOURCE_DIR}/include/ANN/version.h.in"
-    "${PROJECT_BINARY_DIR}/include/ANN/version.h"
-)
 
 set(DEST_DIR "${CMAKE_INSTALL_PREFIX}")
-set(PRIVATE_LIBS "-lANN")
+set(PRIVATE_LIBS "-l${PROJECT_NAME}")
 configure_file (
     "${PROJECT_SOURCE_DIR}/pkgconf/ANN.pc.in"
     "${PROJECT_BINARY_DIR}/pkgconf/ANN.pc"
@@ -51,9 +47,13 @@ configure_file (
     @ONLY
 )
 
+
 ### STATIC LIBRARY BUILDING RULES
+add_subdirectory(include/ANN/)
 add_subdirectory(src/)
-target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories("${PROJECT_NAME}" PUBLIC
+    "${PROJECT_BINARY_DIR}/include/"
+)
 
 
 ### TEST AND MAIN
@@ -113,7 +113,7 @@ install(
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
     PATTERN "*.h.in" EXCLUDE
-) # headers 
+) # headers
 
 install(DIRECTORY ${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
