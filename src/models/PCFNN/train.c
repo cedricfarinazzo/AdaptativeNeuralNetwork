@@ -11,7 +11,7 @@
 #include "ANN/models/PCFNN/train.h"
 
 
-inline void __fisher_yates_shuffle(size_t *array, size_t n)
+ANN_INLINE void __fisher_yates_shuffle(size_t *array, size_t n)
 {
     for (size_t i = 0; i < n - 1; ++i)
     {
