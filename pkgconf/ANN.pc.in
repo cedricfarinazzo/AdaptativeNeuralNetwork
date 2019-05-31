@@ -4,7 +4,7 @@ libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
 includedir=${prefix}/@CMAKE_INSTALL_INCLUDEDIR@
 
 Name: ANN
-Description: a static neural network library
+Description: a static neural network library written in C
 Version: @PROJECT_VERSION@
 URL: https://github.com/cedricfarinazzo/AdaptativeNeuralNetwork
 

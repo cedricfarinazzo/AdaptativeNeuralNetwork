@@ -11,9 +11,9 @@
 #include "ANN/models/PCFNN/train.h"
 
 
-void __PCFNN_BATCH_shuffle(size_t *array, size_t n)
+inline void __fisher_yates_shuffle(size_t *array, size_t n)
 {
-    for (size_t i = 0; i < n - 1; i++)
+    for (size_t i = 0; i < n - 1; ++i)
     {
         size_t j = i + rand() / (RAND_MAX / (n - i) + 1);
         size_t t = array[j];
@@ -47,7 +47,7 @@ double *PCFNN_NETWORK_train(struct PCFNN_NETWORK *net, double **data, double **t
 
     size_t order[size];
     for(size_t i = 0; i < size; ++i) order[i] = i;
-    __PCFNN_BATCH_shuffle(order, size);
+    __fisher_yates_shuffle(order, size);
     if (validation_split != 1) {
         double stepstatus = (1/(double)(epochs * trainingsize)) * 100;
         PCFNN_NETWORK_init_batch(net);
@@ -55,7 +55,7 @@ double *PCFNN_NETWORK_train(struct PCFNN_NETWORK *net, double **data, double **t
         for(size_t e = 0; e < epochs; ++e)
         {
             if (shuffle)
-                __PCFNN_BATCH_shuffle(order, trainingsize);
+                __fisher_yates_shuffle(order, trainingsize);
             for(size_t i = 0; i < trainingsize; i+=batch_size)
             {
                 for(size_t j = 0; j < batch_size && i+j < trainingsize; ++j, (*status) += stepstatus)

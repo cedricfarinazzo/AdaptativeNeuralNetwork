@@ -32,16 +32,6 @@ set (CMAKE_EXE_LINKER_FLAGS_RELEASE "-Ofast")
 set (CMAKE_MODULE_LINKER_FLAGS_RELEASE "-Ofast")
 
 ### CONFIGURE FILE
-configure_file (
-    "${PROJECT_SOURCE_DIR}/include/ANN/version.h.in"
-    "${PROJECT_BINARY_DIR}/include/ANN/version.h"
-    @ONLY
-)
-
-configure_file (
-    "${PROJECT_SOURCE_DIR}/include/ANN/config.h.in"
-    "${PROJECT_BINARY_DIR}/include/ANN/config.h"
-)
 
 set(DEST_DIR "${CMAKE_INSTALL_PREFIX}")
 set(PRIVATE_LIBS "-l${PROJECT_NAME}")
@@ -57,15 +47,11 @@ configure_file (
     @ONLY
 )
 
-file(COPY "${PROJECT_SOURCE_DIR}/include/"
-    DESTINATION "${PROJECT_BINARY_DIR}/include/"
-    FILES_MATCHING
-        PATTERN "*.h"
-)
 
 ### STATIC LIBRARY BUILDING RULES
+add_subdirectory(include/ANN/)
 add_subdirectory(src/)
-target_include_directories("${PROJECT_NAME}" PUBLIC 
+target_include_directories("${PROJECT_NAME}" PUBLIC
     "${PROJECT_BINARY_DIR}/include/"
 )
 
@@ -127,7 +113,7 @@ install(
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
     PATTERN "*.h.in" EXCLUDE
-) # headers 
+) # headers
 
 install(DIRECTORY ${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
