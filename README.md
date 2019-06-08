@@ -2,24 +2,14 @@
 
 ![ANN logo](./.images/logo.medium.png "ANN logo")
 
-### Build status
+### Build status And Code coverage report
 
-| Branch | Status |
-|--------|--------|
-|        |        |
-| Master | [![pipeline status](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/master/pipeline.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/master)       |
-|        |        |
-| Develop| [![pipeline status](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/develop/pipeline.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/develop)       |
-
-
-### Coverage report
-
-| Branch | Status |
-|--------|--------|
-|        |        |
-| Master | [![coverage report](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/master/coverage.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/master)       |
-|        |        |
-| Develop| [![coverage report](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/develop/coverage.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/develop)       |
+| Branch | Build Status | Code Coverage |
+|--------|--------------|---------------|
+|        |              |               |
+| Master |  [![pipeline status](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/master/pipeline.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/master)  |  [![coverage report](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/master/coverage.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/master)  |
+|        |              |               |
+| Develop|  [![pipeline status](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/develop/pipeline.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/develop)  |  [![coverage report](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/develop/coverage.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/develop)  |
 
 
 ## Requirements
