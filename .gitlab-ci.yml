@@ -60,7 +60,8 @@ job_coverage_gcov:
   dependencies:
     - job_build_gcc
   artifacts:
-    untracked: true
+    paths:
+      - build/coverage/
   script:
     - cd build
     - make coverage
