@@ -137,7 +137,7 @@ job_doc:
 job_deploy_doc:
   stage: deploy
   only:
-    - develop
+    - master
   dependencies:
     - job_doc
   before_script:
