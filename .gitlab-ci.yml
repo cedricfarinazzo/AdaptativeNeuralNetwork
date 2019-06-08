@@ -6,6 +6,7 @@ stages:
   - test
   - install
   - doc
+  - deploy
   - webhook
 
 #before_script:
@@ -117,6 +118,7 @@ job_install_gcc:
     - make
     - sudo make install
 
+
 #############
 # DOC STAGE
 job_doc:
@@ -131,6 +133,20 @@ job_doc:
     - make doc
 
 #############
+# DOC STAGE
+job_deploy_doc:
+  stage: deploy
+  only:
+    - develop
+  dependencies:
+    - job_doc
+  before_script:
+    - pacman -S openssh --noconfirm
+  script:
+    - ./.gitlab-ci/deploy_doc.sh &>/dev/null
+
+
+#############
 # WEBHOOK STAGE
 job_success:
     stage: webhook
@@ -140,7 +156,6 @@ job_success:
         - ./send.sh success $WEBHOOK_URL
     when: on_success
     allow_failure: true
-
 
 job_failure:
     stage: webhook
