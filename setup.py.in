@@ -1,0 +1,29 @@
+from distutils.core import setup, Extension
+
+src = "@PYTHON_MODULE_SOURCE@"
+src_list = src.split(";")
+
+
+module1 = Extension('@PROJECT_NAME@',
+                    define_macros=[
+                        ('MAJOR_VERSION', '@PROJECT_VERSION_MAJOR@'),
+                        ('MINOR_VERSION', '@PROJECT_VERSION_MINOR@'),
+                        ('PATCH_VERSION', '@PROJECT_VERSION_PATCH@')
+                    ],
+                    include_dirs=['@ANN_INCLUDE_DIR@'],
+                    libraries=['@PROJECT_NAME@'],
+                    library_dirs=['@ANN_DIR@'],
+                    sources=src_list,
+                    )
+
+setup(name='@PROJECT_NAME@',
+      version='@PROJECT_VERSION@',
+      description='AdaptativeNeuralNetwork',
+      author='Cédric FARINAZZO',
+      author_email='cedric.farinazzo@gmail.com',
+      url='https://adaptativeneuralnetwork.ml',
+      long_description='''
+A static library containing multiple neural network models written in C
+''',
+      ext_modules=[module1]
+      )

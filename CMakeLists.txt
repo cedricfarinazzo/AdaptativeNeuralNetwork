@@ -9,11 +9,14 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/.cmake" ${CMAKE_MODULE_PATH})
 INCLUDE(BuildType)
 INCLUDE(ConfigChecks)
 INCLUDE(FindGraphviz)
-include(GNUInstallDirs)
-include(Doxygen)
+INCLUDE(GNUInstallDirs)
+INCLUDE(Doxygen)
+INCLUDE(FindPythonModule)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage")
     INCLUDE(CodeCoverage)
 endif()
+find_package (Python3 COMPONENTS Interpreter Development)
+find_python_module(distutils)
 
 ### FLAGS
 add_definitions(-Wall -Wextra -pedantic -Wformat=2 -std=c99)
@@ -54,6 +57,7 @@ add_subdirectory(src/)
 target_include_directories("${PROJECT_NAME}" PUBLIC
     "${PROJECT_BINARY_DIR}/include/"
 )
+set(ANN_INCLUDE_DIR "${PROJECT_BINARY_DIR}/include/")
 
 
 ### TEST AND MAIN
@@ -63,6 +67,42 @@ add_subdirectory(Main/)
 target_link_libraries(ANNTest ANN)
 target_link_libraries(ANNMain ANN)
 
+
+### PYTHON MODULE
+if (Python3_FOUND AND PY_DISTUTILS_FOUND)
+    add_subdirectory(python/)
+    set(ANN_DIR "${PROJECT_BINARY_DIR}/src/")
+    MESSAGE(STATUS "PYTHON MODULE FILE LIST: ${PYTHON_MODULE_SOURCE}")
+    configure_file (
+        "${PROJECT_SOURCE_DIR}/setup.py.in"
+        "${PROJECT_BINARY_DIR}/setup.py"
+        @ONLY
+    )
+    add_custom_target(py_build
+        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_BINARY_DIR}/setup.py" build
+        DEPENDS ANN
+    )
+    add_custom_target(py_install
+        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_BINARY_DIR}/setup.py" install
+        DEPENDS ANN
+    )
+    add_custom_target(py_sdist
+        COMMAND "${PYTHON3_EXECUTABLE}" "${CMAKE_BINARY_DIR}/setup.py" build
+        DEPENDS ANN
+    )
+    add_custom_target(py_bdist_wininst
+        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_BINARY_DIR}/setup.py" bdist_wininst
+        DEPENDS ANN
+    )
+    add_custom_target(py_bdist_rpm
+        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_BINARY_DIR}/setup.py" bdist_rpm
+        DEPENDS ANN
+    )
+    add_custom_target(py_bdist_dumb
+        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_BINARY_DIR}/setup.py" bdist_dumb
+        DEPENDS ANN
+    )
+endif()
 
 ##### TARGETS
 add_custom_target(check
