@@ -151,12 +151,10 @@ job_deploy_doc:
 # AUR
 job_deploy_aur:
   stage: deploy
-#  only:
-#    - tags
-#  except:
-#    - master
   only:
-    - develop
+    - tags
+  except:
+    - master
   before_script:
     - pacman -S openssh --noconfirm
   script:

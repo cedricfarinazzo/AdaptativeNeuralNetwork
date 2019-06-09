@@ -22,5 +22,5 @@ cp PKGBUILD ~/ann-aur/
 cp .SRCINFO ~/ann-aur/
 cd ~/ann-aur
 git add .
-git commit -m"ANN: $CI_COMMIT_TAG"
+git commit -s -m"ANN: $CI_COMMIT_TAG"
 git push -q 
