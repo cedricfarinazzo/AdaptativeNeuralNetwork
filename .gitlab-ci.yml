@@ -133,10 +133,13 @@ job_doc:
     - make doc
 
 #############
-# DOC STAGE
+# DEPLOY STAGE
+# DOC
 job_deploy_doc:
   stage: deploy
   only:
+    - tags
+  except:
     - master
   dependencies:
     - job_doc
@@ -144,6 +147,21 @@ job_deploy_doc:
     - pacman -S openssh --noconfirm
   script:
     - ./.gitlab-ci/deploy_doc.sh &>/dev/null
+
+# AUR
+job_deploy_aur:
+  stage: deploy
+#  only:
+#    - tags
+#  except:
+#    - master
+  only:
+    - develop
+  before_script:
+    - pacman -S openssh --noconfirm
+  script:
+    - ./.gitlab-ci/deploy_aur.sh
+#&>/dev/null
 
 
 #############

@@ -20,5 +20,5 @@ git clone -q "$DOC_DEPLOY_USER@$DOC_DEPLOY_HOST":"$DOC_DEPLOY_PATH" ~/ann-doc
 cp -r build/doc/html/* ~/ann-doc/
 cd ~/ann-doc
 git add .
-git commit -m"ANN: doc: auto deploy"
+git commit -m"ANN: doc: $CI_COMMIT_TAG"
 git push -q 
