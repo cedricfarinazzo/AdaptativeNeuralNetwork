@@ -66,6 +66,9 @@ job_coverage_gcov:
   script:
     - cd build
     - make coverage
+  only:
+      variables:
+          - $COVERAGE_ENABLE == "true"
 
 
 ################
