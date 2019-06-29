@@ -54,6 +54,8 @@ int PCFNN_GRAPH_create_graph_to_dot_file(struct PCFNN_NETWORK *net, char *graph_
  * \param[in] format (char*) name of the renderer to use (ex: png, ps, dot, ...)
  * \param[in] fout (FILE*) stream to file with written permission
  * \return 0 if ok otherwise -1
+ * \bug GvContext internal memleak
+ * \deprecated reason: GvContent internal memleak
  */
 int PCFNN_GRAPH_render_graph_to_stream(struct PCFNN_NETWORK *net, char *graph_name, char *format, FILE *fout) __attribute__((deprecated));
 
@@ -66,6 +68,8 @@ int PCFNN_GRAPH_render_graph_to_stream(struct PCFNN_NETWORK *net, char *graph_na
  * \param[in] format (char*) name of the renderer to use (ex: png, ps, dot, ...)
  * \param[in] fout (char*) path to file (will be created if not already exist)
  * \return 0 if ok otherwise -1
+ * \bug GvContext internal memleak
+ * \deprecated reason: GvContent internal memleak
  */
 int PCFNN_GRAPH_render_graph_to_file(struct PCFNN_NETWORK *net, char *graph_name, char *format, char *fout) __attribute__((deprecated));
 

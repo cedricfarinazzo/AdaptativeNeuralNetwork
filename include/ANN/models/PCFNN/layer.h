@@ -50,7 +50,7 @@ struct PCFNN_LAYER_LINK {
  *
  * PCFNN_LAYER: Layer unit: It contains an array of PCFNN_NEURON pointer and some metadata.
  */
-struct PCFNN_LAYER {
+typedef struct PCFNN_LAYER {
     size_t index;
     size_t size;
     struct PCFNN_NEURON **neurons;
@@ -60,7 +60,7 @@ struct PCFNN_LAYER {
     double(*f_act)(double);
     double(*f_act_de)(double);
     enum PCFNN_LAYER_TYPE type;
-};
+} PCFNN_LAYER;
 
 
 /**
