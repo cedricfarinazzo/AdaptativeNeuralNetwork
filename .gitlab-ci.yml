@@ -65,7 +65,9 @@ job_build_python_api:
     - cmake -DCMAKE_BUILD_TYPE=Release ..
     - make CC=${CC}
     - cd python
-    - python3 setup.py build
+    - make pyann_sdist
+    - make pyann_bdist
+    - make pyann_install
     
 
 ################
