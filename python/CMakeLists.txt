@@ -1,2 +1,7 @@
-FILE(GLOB_RECURSE PYTHON_MODULE_SOURCE *.c)
-set(PYTHON_MODULE_SOURCE "${PYTHON_MODULE_SOURCE}" PARENT_SCOPE)
+add_subdirectory(pyann/)
+
+configure_file (
+    "${CMAKE_CURRENT_SOURCE_DIR}/setup.py.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/setup.py"
+    @ONLY
+)

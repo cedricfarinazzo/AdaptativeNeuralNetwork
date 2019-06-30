@@ -17,6 +17,8 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage")
 endif()
 find_package (Python3 COMPONENTS Interpreter Development)
 find_python_module(distutils)
+FIND_PACKAGE(SWIG)
+FIND_PACKAGE(PythonLibs)
 
 ### FLAGS
 add_definitions(-Wall -Wextra -pedantic -Wformat=2 -std=c99)
@@ -58,7 +60,7 @@ target_include_directories("${PROJECT_NAME}" PUBLIC
     "${PROJECT_BINARY_DIR}/include/"
 )
 set(ANN_INCLUDE_DIR "${PROJECT_BINARY_DIR}/include/")
-
+include_directories(${ANN_INCLUDE_DIR})
 
 ### TEST AND MAIN
 add_subdirectory(Test/)
@@ -69,39 +71,15 @@ target_link_libraries(ANNMain ANN)
 
 
 ### PYTHON MODULE
-if (Python3_FOUND AND PY_DISTUTILS_FOUND)
+if (Python3_FOUND AND PY_DISTUTILS_FOUND AND SWIG_FOUND)
+    string(TOLOWER "${PROJECT_NAME}" PYANN)
+    set(PYANN "py${PYANN}")
+    set(PYANN_LOW "${PYANN}_low")
+    include(${SWIG_USE_FILE})
+    include_directories(${PYTHON_INCLUDE_DIRS})
+
+    SET(CMAKE_SWIG_FLAGS "-Wall")
     add_subdirectory(python/)
-    set(ANN_DIR "${PROJECT_BINARY_DIR}/src/")
-    MESSAGE(STATUS "PYTHON MODULE FILE LIST: ${PYTHON_MODULE_SOURCE}")
-    configure_file (
-        "${PROJECT_SOURCE_DIR}/setup.py.in"
-        "${PROJECT_BINARY_DIR}/setup.py"
-        @ONLY
-    )
-    add_custom_target(py_build
-        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_BINARY_DIR}/setup.py" build
-        DEPENDS ANN
-    )
-    add_custom_target(py_install
-        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_BINARY_DIR}/setup.py" install
-        DEPENDS ANN
-    )
-    add_custom_target(py_sdist
-        COMMAND "${PYTHON3_EXECUTABLE}" "${CMAKE_BINARY_DIR}/setup.py" build
-        DEPENDS ANN
-    )
-    add_custom_target(py_bdist_wininst
-        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_BINARY_DIR}/setup.py" bdist_wininst
-        DEPENDS ANN
-    )
-    add_custom_target(py_bdist_rpm
-        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_BINARY_DIR}/setup.py" bdist_rpm
-        DEPENDS ANN
-    )
-    add_custom_target(py_bdist_dumb
-        COMMAND "${Python3_EXECUTABLE}" "${CMAKE_BINARY_DIR}/setup.py" bdist_dumb
-        DEPENDS ANN
-    )
 endif()
 
 ##### TARGETS
