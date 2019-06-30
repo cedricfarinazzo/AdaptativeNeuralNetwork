@@ -53,11 +53,12 @@ job_build_scan-build:
     - scan-build -analyze-headers -stats -maxloop 8 -o ../report make -j4
 
 job_build_python_api:
-  stage: buildi
+  stage: build
   variables:
       CC: gcc
   before_script:
-    - pip3 install setuptools
+    - pacman --noconfirm -S python-pip swig
+    - python3 -m pip install setuptools
   script:
     - mkdir build
     - cd build
