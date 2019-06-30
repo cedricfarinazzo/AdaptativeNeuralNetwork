@@ -52,6 +52,20 @@ job_build_scan-build:
     - scan-build cmake -DCMAKE_C_COMPILER=clang ..
     - scan-build -analyze-headers -stats -maxloop 8 -o ../report make -j4
 
+job_build_python_api:
+  stage: buildi
+  variables:
+      CC: gcc
+  before_script:
+    - pip3 install setuptools
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_BUILD_TYPE=Release ..
+    - make CC=${CC}
+    - cd python
+    - python3 setup.py build
+    
 
 ################
 # COVERAGE STAGE
