@@ -137,7 +137,7 @@ IF(GCOV_PATH AND LCOV_PATH AND GENHTML_PATH)
             COMMAND ${test_command} ${ARGV3}
             # Capturing lcov counters and generating report
             COMMAND ${LCOV_PATH} --directory . --capture --output-file ${coverage_info}
-            COMMAND ${LCOV_PATH} --remove ${coverage_info} '*/tests/*' '*gtest*' '*gmock*' '/usr/*' --output-file ${coverage_cleaned}
+            COMMAND ${LCOV_PATH} --remove ${coverage_info} '*/tests/*' '*gtest*' '*gmock*' --output-file ${coverage_cleaned}
             COMMAND ${GENHTML_PATH} -o ${_outputname} ${coverage_cleaned}
             COMMAND ${CMAKE_COMMAND} -E remove ${coverage_cleaned}
             COMMAND ${LCOV_PATH} --list ${coverage_info}

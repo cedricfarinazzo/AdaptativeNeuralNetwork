@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(ANN LANGUAGES C VERSION 0.1.1.4)
+project(ANN LANGUAGES C VERSION 0.1.1.5)
 
 cmake_policy(SET CMP0079 NEW)
 
@@ -9,11 +9,16 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/.cmake" ${CMAKE_MODULE_PATH})
 INCLUDE(BuildType)
 INCLUDE(ConfigChecks)
 INCLUDE(FindGraphviz)
-include(GNUInstallDirs)
-include(Doxygen)
+INCLUDE(GNUInstallDirs)
+INCLUDE(Doxygen)
+INCLUDE(FindPythonModule)
 if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage")
     INCLUDE(CodeCoverage)
 endif()
+find_package (Python3 COMPONENTS Interpreter Development)
+find_python_module(setuptools)
+FIND_PACKAGE(SWIG)
+FIND_PACKAGE(PythonLibs)
 
 ### FLAGS
 add_definitions(-Wall -Wextra -pedantic -Wformat=2 -std=c99)
@@ -54,7 +59,8 @@ add_subdirectory(src/)
 target_include_directories("${PROJECT_NAME}" PUBLIC
     "${PROJECT_BINARY_DIR}/include/"
 )
-
+set(ANN_INCLUDE_DIR "${PROJECT_BINARY_DIR}/include/")
+include_directories(${ANN_INCLUDE_DIR})
 
 ### TEST AND MAIN
 add_subdirectory(Test/)
@@ -63,6 +69,18 @@ add_subdirectory(Main/)
 target_link_libraries(ANNTest ANN)
 target_link_libraries(ANNMain ANN)
 
+
+### PYTHON MODULE
+if ((CMAKE_BUILD_TYPE STREQUAL "Release" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo" OR CMAKE_BUILD_TYPE STREQUAL "MinSizeRel") AND Python3_FOUND AND PY_SETUPTOOLS_FOUND AND SWIG_FOUND)
+    string(TOLOWER "${PROJECT_NAME}" PYANN)
+    set(PYANN "py${PYANN}")
+    set(PYANN_LOW "${PYANN}_low")
+    include(${SWIG_USE_FILE})
+    include_directories(${PYTHON_INCLUDE_DIRS})
+
+    SET(CMAKE_SWIG_FLAGS "-Wall")
+    add_subdirectory(python/)
+endif()
 
 ##### TARGETS
 add_custom_target(check
@@ -110,21 +128,16 @@ install(
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/${PROJECT_NAME}/
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
-    PATTERN "*.h.in" EXCLUDE
-) # headers
-
 install(DIRECTORY ${CMAKE_BINARY_DIR}/include/${PROJECT_NAME}/
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}
-) # headers (.h.in)
+) # headers
 
 install(DIRECTORY "${PROJECT_BINARY_DIR}/pkgconf/"
     DESTINATION "${INSTALL_PKGCONFIG_DIR}"
 ) # pkg config file
 
 install(FILES "${PROJECT_SOURCE_DIR}/LICENSE"
-    DESTINATION "${INSTALL_LICENSE_DIR}/ANN/"
+    DESTINATION "${INSTALL_LICENSE_DIR}/${PROJECT_NAME}/"
 ) # LICENSE
 
 # uninstall

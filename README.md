@@ -1,25 +1,15 @@
-# AdaptativeNeuralNetwork ANN (0.1.1.4)
+# AdaptativeNeuralNetwork ANN (0.1.1.5)
 
 ![ANN logo](./.images/logo.medium.png "ANN logo")
 
-### Build status
+### Build status And Code coverage report
 
-| Branch | Status |
-|--------|--------|
-|        |        |
-| Master | [![pipeline status](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/master/pipeline.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/master)       |
-|        |        |
-| Develop| [![pipeline status](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/develop/pipeline.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/develop)       |
-
-
-### Coverage report
-
-| Branch | Status |
-|--------|--------|
-|        |        |
-| Master | [![coverage report](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/master/coverage.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/master)       |
-|        |        |
-| Develop| [![coverage report](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/develop/coverage.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/develop)       |
+| Branch | Build Status | Code Coverage |
+|--------|--------------|---------------|
+|        |              |               |
+| Master |  [![pipeline status](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/master/pipeline.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/master)  |  [![coverage report](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/master/coverage.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/master)  |
+|        |              |               |
+| Develop|  [![pipeline status](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/develop/pipeline.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/develop)  |  [![coverage report](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/badges/develop/coverage.svg)](https://gitlab.com/cedricfarinazzo/adaptativeneuralnetwork/commits/develop)  |
 
 
 ## Requirements
@@ -62,7 +52,6 @@ cd adaptativeneuralnetwork
 makepkg -sci
 ```
 
-
 ### Install from source
 
 - Clone this repo
@@ -74,6 +63,16 @@ cmake -DCMAKE_BUILD_TYPE=RELEASE \
     -DCMAKE_INSTALL_PREFIX=/usr \
     ..
 sudo make install
+```
+
+### PyANN
+
+A python API for ANN
+
+- build from source the c library
+- run the following command
+```
+sudo make pyann_install
 ```
 
 

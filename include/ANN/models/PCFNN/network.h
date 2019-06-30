@@ -24,11 +24,11 @@
  *
  * PCFNN_NETWORK: Network unit: It contains an array of PCFNN_LAYER pointer and some metadata.
  */
-struct PCFNN_NETWORK {
+typedef struct PCFNN_NETWORK {
     size_t size;
     struct PCFNN_LAYER **layers;
     struct PCFNN_LAYER *inputl, *outputl;
-};
+} PCFNN_NETWORK;
 
 
 /**

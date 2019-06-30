@@ -32,7 +32,7 @@ enum PCFNN_NEURON_LOCK_STATE {
  * PCFNN_NEURON: neuron unit. It contains the input size of the neuron, the bias, the weights array
  * and some internal data such as activation functon or the activation sum. 
  */
-struct PCFNN_NEURON {
+typedef struct PCFNN_NEURON {
     size_t size;
     double *weights;
     double bias, output; 
@@ -44,7 +44,7 @@ struct PCFNN_NEURON {
     double(*f_act)(double);
     double(*f_act_de)(double);
     enum PCFNN_NEURON_LOCK_STATE state;
-};
+} PCFNN_NEURON;
 
 
 /**
@@ -135,5 +135,6 @@ void PCFNN_NEURON_set_state_lock(struct PCFNN_NEURON *n, enum PCFNN_NEURON_LOCK_
  * \param[out] param (size_t) param[0] will be the number of unlocked parameters and param[1] the number of locked parameters
  */
 void PCFNN_NEURON_summary(struct PCFNN_NEURON *n, size_t param[2]);
+
 
 #endif /* _ANN_MODELS_PCFNN_NEURON_H_ */

@@ -6,6 +6,7 @@ stages:
   - test
   - install
   - doc
+  - deploy
   - webhook
 
 #before_script:
@@ -51,6 +52,23 @@ job_build_scan-build:
     - scan-build cmake -DCMAKE_C_COMPILER=clang ..
     - scan-build -analyze-headers -stats -maxloop 8 -o ../report make -j4
 
+job_build_python_api:
+  stage: build
+  variables:
+      CC: gcc
+  before_script:
+    - pacman --noconfirm -S python-pip swig
+    - python3 -m pip install setuptools
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_BUILD_TYPE=Release ..
+    - make CC=${CC}
+    - cd python
+    - make pyann_sdist
+    - make pyann_bdist
+    - make pyann_install
+    
 
 ################
 # COVERAGE STAGE
@@ -60,7 +78,8 @@ job_coverage_gcov:
   dependencies:
     - job_build_gcc
   artifacts:
-    untracked: true
+    paths:
+      - build/coverage/
   script:
     - cd build
     - make coverage
@@ -119,6 +138,7 @@ job_install_gcc:
     - make
     - sudo make install
 
+
 #############
 # DOC STAGE
 job_doc:
@@ -133,6 +153,36 @@ job_doc:
     - make doc
 
 #############
+# DEPLOY STAGE
+# DOC
+job_deploy_doc:
+  stage: deploy
+  only:
+    - tags
+  except:
+    - master
+  dependencies:
+    - job_doc
+  before_script:
+    - pacman -S openssh --noconfirm
+  script:
+    - ./.gitlab-ci/deploy_doc.sh &>/dev/null
+
+# AUR
+job_deploy_aur:
+  stage: deploy
+  only:
+    - tags
+  except:
+    - master
+  before_script:
+    - pacman -S openssh --noconfirm
+  script:
+    - ./.gitlab-ci/deploy_aur.sh
+#&>/dev/null
+
+
+#############
 # WEBHOOK STAGE
 job_success:
     stage: webhook
@@ -142,7 +192,6 @@ job_success:
         - ./send.sh success $WEBHOOK_URL
     when: on_success
     allow_failure: true
-
 
 job_failure:
     stage: webhook

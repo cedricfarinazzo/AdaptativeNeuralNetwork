@@ -1,0 +1,24 @@
+from setuptools import setup, find_packages
+
+package_list = find_packages(
+        exclude=["tests", "*.tests", "*.tests.*", "tests.*"])
+
+setup(
+        name='@PYANN@',
+        version='@PROJECT_VERSION@',
+        description='AdaptativeNeuralNetwork Python API',
+        keywords="NeuralNetwork ANN C API",
+        author='Cédric FARINAZZO',
+        author_email='cedric.farinazzo@gmail.com',
+        url='https://adaptativeneuralnetwork.ml',
+        project_urls={
+            "Documentation": "https://adaptativeneuralnetwork.ml",
+            "Source Code":
+                "https://github.com/cedricfarinazzo/AdaptativeNeuralNetwork",
+            },
+
+        packages=package_list,
+        include_package_data=True,
+        package_data={
+            '': ['*.so']},
+        )
