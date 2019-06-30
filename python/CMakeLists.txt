@@ -5,3 +5,9 @@ configure_file (
     "${CMAKE_CURRENT_BINARY_DIR}/setup.py"
     @ONLY
 )
+
+add_custom_target(${PYANN} ALL
+    COMMAND python3 "${CMAKE_CURRENT_BINARY_DIR}/setup.py" build
+    WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+    DEPENDS "${PYANN_LOW}"
+)

@@ -16,7 +16,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "Coverage")
     INCLUDE(CodeCoverage)
 endif()
 find_package (Python3 COMPONENTS Interpreter Development)
-find_python_module(distutils)
+find_python_module(setuptools)
 FIND_PACKAGE(SWIG)
 FIND_PACKAGE(PythonLibs)
 
@@ -71,7 +71,7 @@ target_link_libraries(ANNMain ANN)
 
 
 ### PYTHON MODULE
-if (Python3_FOUND AND PY_DISTUTILS_FOUND AND SWIG_FOUND)
+if (Python3_FOUND AND PY_SETUPTOOLS_FOUND AND SWIG_FOUND)
     string(TOLOWER "${PROJECT_NAME}" PYANN)
     set(PYANN "py${PYANN}")
     set(PYANN_LOW "${PYANN}_low")
