@@ -52,7 +52,6 @@ cd adaptativeneuralnetwork
 makepkg -sci
 ```
 
-
 ### Install from source
 
 - Clone this repo
@@ -64,6 +63,16 @@ cmake -DCMAKE_BUILD_TYPE=RELEASE \
     -DCMAKE_INSTALL_PREFIX=/usr \
     ..
 sudo make install
+```
+
+### PyANN
+
+A python API for ANN
+
+- build from source the c library
+- run the following command
+```
+sudo make pyann_install
 ```
 
 

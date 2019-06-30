@@ -52,6 +52,23 @@ job_build_scan-build:
     - scan-build cmake -DCMAKE_C_COMPILER=clang ..
     - scan-build -analyze-headers -stats -maxloop 8 -o ../report make -j4
 
+job_build_python_api:
+  stage: build
+  variables:
+      CC: gcc
+  before_script:
+    - pacman --noconfirm -S python-pip swig
+    - python3 -m pip install setuptools
+  script:
+    - mkdir build
+    - cd build
+    - cmake -DCMAKE_BUILD_TYPE=Release ..
+    - make CC=${CC}
+    - cd python
+    - make pyann_sdist
+    - make pyann_bdist
+    - make pyann_install
+    
 
 ################
 # COVERAGE STAGE
